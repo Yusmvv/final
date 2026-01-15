@@ -723,28 +723,41 @@ const CONFIG = {
                 const localSettings = localStorage.getItem(CONFIG.LOCAL_KEYS.SETTINGS);
                 const localApiKey = localStorage.getItem(CONFIG.LOCAL_KEYS.API_KEY);
                 
+                console.log('Загружаем данные из localStorage...');
+                
                 if (localOffers) {
                     const data = JSON.parse(localOffers);
+                    console.log('Данные из localStorage:', data);
+                    
                     // Поддержка старого формата {offers: []} и нового []
                     if (data && data.offers) {
                         offers = data.offers;
+                        console.log(`Загружено ${offers.length} офферов из поля "offers"`);
                     } else if (Array.isArray(data)) {
                         offers = data;
+                        console.log(`Загружено ${offers.length} офферов как массив`);
                     } else {
                         offers = [];
+                        console.log('Данные не найдены, создаем пустой массив');
                     }
+                } else {
+                    console.log('В localStorage нет данных об офферах');
+                    offers = [];
                 }
                 
                 if (localSettings) {
                     settings = { ...settings, ...JSON.parse(localSettings) };
+                    console.log('Настройки загружены:', settings);
                 }
                 
                 if (localApiKey) {
                     settings.api_key = localApiKey;
+                    console.log('API ключ загружен из localStorage');
                 }
                 
                 // Обновляем поле API ключа
                 document.getElementById('api-key').value = settings.api_key || 'ВАШ_API_КЛЮЧ';
+                console.log('API ключ в поле:', document.getElementById('api-key').value);
                 
                 updateSyncStatus('Данные загружены', 'success');
                 
@@ -761,16 +774,22 @@ const CONFIG = {
         // Сохранение в localStorage
         function saveToLocalStorage() {
             try {
+                console.log('Сохраняем данные в localStorage...');
+                console.log('Офферы для сохранения:', offers);
+                
                 // Сохраняем в формате, который понимают лендинги
-                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify({
+                const dataToSave = {
                     offers: offers,
                     last_updated: new Date().toISOString(),
                     version: '2.0',
                     api_key: settings.api_key
-                }));
+                };
                 
+                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(dataToSave));
                 localStorage.setItem(CONFIG.LOCAL_KEYS.SETTINGS, JSON.stringify(settings));
                 localStorage.setItem(CONFIG.LOCAL_KEYS.API_KEY, settings.api_key);
+                
+                console.log('Данные успешно сохранены в localStorage');
                 
                 // Создаем бэкап
                 const timestamp = new Date().toISOString().slice(0, 10);
@@ -839,11 +858,16 @@ const CONFIG = {
         
         // ===================== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====================
         function updateUI() {
+            console.log('Обновляем UI...');
+            console.log('Текущие офферы:', offers);
+            
             // Статистика
             const totalOffers = offers.length;
             const activeOffers = offers.filter(o => o.status === 'active').length;
             const landing1Offers = offers.filter(o => o.landing1 && o.status === 'active').length;
             const landing2Offers = offers.filter(o => o.landing2 && o.status === 'active').length;
+            
+            console.log(`Статистика: всего ${totalOffers}, активных ${activeOffers}, лендинг1 ${landing1Offers}, лендинг2 ${landing2Offers}`);
             
             document.getElementById('total-offers').textContent = totalOffers;
             document.getElementById('active-offers').textContent = activeOffers;
@@ -852,8 +876,21 @@ const CONFIG = {
             document.getElementById('sidebar-total').textContent = totalOffers;
             
             // Таблица
+            updateOffersTable();
+        }
+        
+        // Обновление таблицы офферов
+        function updateOffersTable() {
             const tbody = document.getElementById('offers-table');
+            
+            if (!tbody) {
+                console.error('Элемент offers-table не найден!');
+                return;
+            }
+            
             tbody.innerHTML = '';
+            
+            console.log(`Обновляем таблицу. Всего офферов: ${offers.length}`);
             
             if (offers.length === 0) {
                 tbody.innerHTML = `
@@ -877,32 +914,47 @@ const CONFIG = {
                 return new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at);
             });
             
+            console.log('Отсортированные офферы:', sortedOffers);
+            
             sortedOffers.forEach(offer => {
                 const tr = document.createElement('tr');
                 
+                // Проверяем, что все поля существуют
+                const offerName = offer.name || 'Без названия';
+                const description = offer.description || '';
+                const amountMin = offer.amount_min || 0;
+                const amountMax = offer.amount_max || 0;
+                const termMin = offer.term_min || 0;
+                const termMax = offer.term_max || 0;
+                const rateMin = offer.rate_min || 0;
+                const rateMax = offer.rate_max || 0;
+                const status = offer.status || 'inactive';
+                const landing1 = offer.landing1 !== false; // по умолчанию true
+                const landing2 = offer.landing2 !== false; // по умолчанию true
+                
                 tr.innerHTML = `
                     <td>
-                        <div style="font-weight: 600; color: #1e293b;">${offer.name}</div>
-                        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">${offer.description || ''}</div>
+                        <div style="font-weight: 600; color: #1e293b;">${offerName}</div>
+                        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">${description}</div>
                     </td>
                     <td>
-                        <div style="font-weight: 600;">${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
+                        <div style="font-weight: 600;">${formatNumber(amountMin)} - ${formatNumber(amountMax)} ₽</div>
                     </td>
                     <td>
-                        <div>${offer.term_min} - ${offer.term_max} дней</div>
+                        <div>${termMin} - ${termMax} дней</div>
                     </td>
                     <td>
-                        <div style="color: #059669; font-weight: 600;">${offer.rate_min} - ${offer.rate_max}%</div>
+                        <div style="color: #059669; font-weight: 600;">${rateMin} - ${rateMax}%</div>
                     </td>
                     <td>
-                        <span class="badge ${offer.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                            ${offer.status === 'active' ? 'Активный' : 'Неактивный'}
+                        <span class="badge ${status === 'active' ? 'badge-success' : 'badge-danger'}">
+                            ${status === 'active' ? 'Активный' : 'Неактивный'}
                         </span>
                     </td>
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            ${offer.landing1 ? '<span class="badge badge-info">Л1</span>' : ''}
-                            ${offer.landing2 ? '<span class="badge badge-info">Л2</span>' : ''}
+                            ${landing1 ? '<span class="badge badge-info">Л1</span>' : ''}
+                            ${landing2 ? '<span class="badge badge-info">Л2</span>' : ''}
                         </div>
                     </td>
                     <td>
@@ -919,6 +971,8 @@ const CONFIG = {
                 
                 tbody.appendChild(tr);
             });
+            
+            console.log('Таблица обновлена');
         }
         
         function updateLocalStorageInfo() {
@@ -962,6 +1016,7 @@ const CONFIG = {
         
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
         function showOfferModal(offer = null) {
+            console.log('Открываем модальное окно оффера:', offer);
             currentEditOffer = offer;
             const modal = document.getElementById('offer-modal');
             const title = document.getElementById('modal-title');
@@ -978,8 +1033,10 @@ const CONFIG = {
         }
         
         function populateForm(offer) {
-            document.getElementById('offer-id').value = offer.id;
-            document.getElementById('offer-name').value = offer.name;
+            console.log('Заполняем форму данными оффера:', offer);
+            
+            document.getElementById('offer-id').value = offer.id || '';
+            document.getElementById('offer-name').value = offer.name || '';
             document.getElementById('offer-description').value = offer.description || '';
             document.getElementById('offer-status').value = offer.status || 'active';
             document.getElementById('amount-min').value = offer.amount_min || 1000;
@@ -1040,12 +1097,14 @@ const CONFIG = {
         }
         
         function closeModal() {
+            console.log('Закрываем модальное окно');
             document.getElementById('offer-modal').classList.remove('active');
             currentEditOffer = null;
         }
         
         function saveOffer(e) {
             e.preventDefault();
+            console.log('Сохраняем оффер...');
             
             const id = document.getElementById('offer-id').value;
             const name = document.getElementById('offer-name').value.trim();
@@ -1070,7 +1129,7 @@ const CONFIG = {
             if (document.getElementById('history-bad').checked) historyTypes.push('bad');
             
             const offerData = {
-                id: id || 'offer_' + Date.now(),
+                id: id || 'offer_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
                 name: name,
                 description: document.getElementById('offer-description').value.trim(),
                 status: document.getElementById('offer-status').value,
@@ -1092,19 +1151,29 @@ const CONFIG = {
                 created_at: id ? offers.find(o => o.id === id)?.created_at || new Date().toISOString() : new Date().toISOString()
             };
             
+            console.log('Данные оффера для сохранения:', offerData);
+            
             if (id) {
                 // Редактирование
                 const index = offers.findIndex(o => o.id === id);
                 if (index !== -1) {
                     offers[index] = offerData;
+                    console.log(`Оффер с ID ${id} обновлен на позиции ${index}`);
+                } else {
+                    console.log(`Оффер с ID ${id} не найден, добавляем как новый`);
+                    offers.push(offerData);
                 }
             } else {
-                // Добавление
+                // Добавление нового оффера
                 offers.push(offerData);
+                console.log(`Добавлен новый оффер с ID ${offerData.id}`);
             }
+            
+            console.log('Текущие офферы после сохранения:', offers);
             
             const success = saveToLocalStorage();
             if (success) {
+                // ВАЖНО: Обновляем UI после сохранения
                 updateUI();
                 closeModal();
                 showNotification('Оффер сохранен', 'success');
@@ -1115,13 +1184,18 @@ const CONFIG = {
         
         // Глобальные функции для таблицы
         window.editOffer = function(id) {
+            console.log('Редактируем оффер с ID:', id);
             const offer = offers.find(o => o.id === id);
             if (offer) {
                 showOfferModal(offer);
+            } else {
+                console.error('Оффер с ID', id, 'не найден');
+                showNotification('Оффер не найден', 'error');
             }
         };
         
         window.deleteOffer = function(id) {
+            console.log('Удаляем оффер с ID:', id);
             Swal.fire({
                 title: 'Удалить оффер?',
                 text: 'Это действие нельзя отменить',
@@ -1131,11 +1205,20 @@ const CONFIG = {
                 cancelButtonText: 'Отмена'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const initialLength = offers.length;
                     offers = offers.filter(o => o.id !== id);
-                    const success = saveToLocalStorage();
-                    if (success) {
-                        updateUI();
-                        showNotification('Оффер удален', 'success');
+                    
+                    if (offers.length < initialLength) {
+                        console.log(`Оффер с ID ${id} удален. Осталось ${offers.length} офферов`);
+                        const success = saveToLocalStorage();
+                        if (success) {
+                            // ВАЖНО: Обновляем UI после удаления
+                            updateUI();
+                            showNotification('Оффер удален', 'success');
+                        }
+                    } else {
+                        console.error('Оффер с ID', id, 'не найден для удаления');
+                        showNotification('Оффер не найден', 'error');
                     }
                 }
             });
@@ -1221,6 +1304,7 @@ const CONFIG = {
                             
                             const success = saveToLocalStorage();
                             if (success) {
+                                // ВАЖНО: Обновляем UI после импорта
                                 updateUI();
                                 updateLocalStorageInfo();
                                 document.getElementById('api-key').value = settings.api_key;
@@ -1257,6 +1341,7 @@ const CONFIG = {
         }
         
         function loadDemoData() {
+            console.log('Загружаем демо-данные...');
             offers = [
                 {
                     id: 'offer_1',
@@ -1355,6 +1440,7 @@ const CONFIG = {
             
             const success = saveToLocalStorage();
             if (success) {
+                // ВАЖНО: Обновляем UI после загрузки демо-данных
                 updateUI();
                 updateLocalStorageInfo();
                 document.getElementById('api-key').value = settings.api_key;
@@ -1389,6 +1475,7 @@ const CONFIG = {
                     document.getElementById('api-key').value = settings.api_key;
                     const success = saveToLocalStorage();
                     if (success) {
+                        // ВАЖНО: Обновляем UI после сброса
                         updateUI();
                         updateLocalStorageInfo();
                         showNotification('Все данные сброшены', 'success');
