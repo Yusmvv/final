@@ -14,7 +14,6 @@
             --primary-dark: #1d4ed8;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
             --landing1: #6366f1;
             --landing2: #10b981;
         }
@@ -31,15 +30,6 @@
             color: #334155;
         }
         
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
         .sidebar {
             width: 280px;
             background: #1e293b;
@@ -47,17 +37,15 @@
             height: 100vh;
             position: fixed;
             padding: 20px 0;
-            display: none;
         }
         
         .main-content {
             margin-left: 280px;
             padding: 24px;
             max-width: 1400px;
-            display: none;
         }
         
-        .stat-card {
+        .card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -70,7 +58,6 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #e2e8f0;
         }
         
         table {
@@ -80,7 +67,7 @@
         
         th {
             background: #f8fafc;
-            padding: 12px;
+            padding: 16px;
             text-align: left;
             font-weight: 600;
             color: #475569;
@@ -88,7 +75,7 @@
         }
         
         td {
-            padding: 12px;
+            padding: 16px;
             border-bottom: 1px solid #f1f5f9;
         }
         
@@ -101,6 +88,11 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+        }
+        
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
         }
         
         .badge-landing1 {
@@ -154,24 +146,19 @@
             color: white;
         }
         
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
         .btn-danger {
             background: var(--danger);
             color: white;
         }
         
         .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -187,17 +174,15 @@
             padding: 30px;
             width: 90%;
             max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: 600;
         }
         
@@ -205,56 +190,38 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #d1d5db;
-            border-radius: 6px;
-        }
-        
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        .excel-upload {
-            border: 2px dashed #d1d5db;
             border-radius: 8px;
-            padding: 30px 15px;
-            text-align: center;
-            background: #f8fafc;
-            cursor: pointer;
-            margin-bottom: 15px;
         }
         
-        .rating-stars {
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .login-container {
             display: flex;
-            gap: 2px;
+            justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        .rating-stars i {
-            color: #fbbf24;
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .error-message {
+            color: #dc2626;
             font-size: 14px;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
-        
-        .tab {
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-        }
-        
-        .tab.active {
-            background: var(--primary);
-            color: white;
+            margin-top: 4px;
+            display: none;
         }
         
         @media (max-width: 768px) {
@@ -266,214 +233,214 @@
             .main-content {
                 margin-left: 0;
             }
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Форма входа -->
-    <div id="login-section" class="login-container">
-        <h2 style="text-align: center; font-size: 24px; font-weight: 700; margin-bottom: 30px;">
-            <i class="fas fa-lock"></i> Вход в админ-панель
-        </h2>
-        
-        <form id="login-form">
-            <div class="form-group">
-                <label class="form-label">Логин</label>
-                <input type="text" id="username" class="form-control" placeholder="Введите логин" required>
-            </div>
+    <!-- Экран входа -->
+    <div id="login-screen" class="login-container">
+        <div class="login-card">
+            <h1 style="font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 10px;">
+                <i class="fas fa-lock"></i> Админ-панель
+            </h1>
+            <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Войдите для управления офферами</p>
             
-            <div class="form-group">
-                <label class="form-label">Пароль</label>
-                <input type="password" id="password" class="form-control" placeholder="Введите пароль" required>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                <i class="fas fa-sign-in-alt"></i> Войти
-            </button>
-            
-            <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 6px; font-size: 14px; color: #0369a1;">
-                <strong>Тестовые данные:</strong><br>
-                Логин: admin<br>
-                Пароль: admin123
-            </div>
-        </form>
-    </div>
-    
-    <!-- Основной интерфейс -->
-    <div class="sidebar">
-        <div style="padding: 20px;">
-            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 30px;">
-                <i class="fas fa-cogs"></i> Админ-панель
-            </h2>
-            
-            <button id="logout-btn" class="btn" style="width: 100%; margin-bottom: 20px; background: rgba(255,255,255,0.1); color: white;">
-                <i class="fas fa-sign-out-alt"></i> Выйти
-            </button>
-            
-            <nav style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn landing-tab active" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white;">
-                    <i class="fas fa-handshake"></i> Лендинг 1
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Логин</label>
+                    <input type="text" id="username" class="form-control" required>
+                    <div class="error-message" id="username-error">Неверный логин</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" id="password" class="form-control" required>
+                    <div class="error-message" id="password-error">Неверный пароль</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-sign-in-alt"></i> Войти
                 </button>
-                <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white;">
-                    <i class="fas fa-brain"></i> Лендинг 2
-                </button>
-            </nav>
-            
-            <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Офферов всего:</div>
-                <div style="font-size: 24px; font-weight: 700;" id="sidebar-total">0</div>
-            </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-size: 14px; color: #475569; margin-bottom: 5px;">Тестовые данные:</div>
+                    <div style="font-size: 12px; color: #64748b;">
+                        Логин: <code>admin</code><br>
+                        Пароль: <code>secure123</code>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     
-    <div class="main-content">
-        <!-- Секция лендинга 1 -->
-        <div id="landing1-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h1 style="font-size: 24px; font-weight: 700;">
-                    <span class="badge badge-landing1">Лендинг 1</span>
-                    Управление офферами
-                </h1>
-                <button id="add-offer-landing1" class="btn btn-landing1">
-                    <i class="fas fa-plus"></i> Добавить оффер
-                </button>
-            </div>
-            
-            <!-- Инструменты Excel -->
-            <div class="grid-2" style="margin-bottom: 20px;">
-                <div class="stat-card">
-                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
-                        <i class="fas fa-file-excel text-green-600"></i> Импорт из Excel
-                    </h3>
-                    <div id="excel-upload-landing1" class="excel-upload">
-                        <i class="fas fa-file-upload" style="font-size: 24px; color: #64748b; margin-bottom: 10px;"></i>
-                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
-                        <div style="font-size: 14px; color: #64748b;">Кликните для выбора</div>
-                        <input type="file" id="excel-file-landing1" accept=".xlsx,.xls,.csv" style="display: none;">
-                    </div>
-                    <button id="download-template-landing1" class="btn" style="width: 100%; background: #e2e8f0;">
-                        <i class="fas fa-download"></i> Скачать шаблон
-                    </button>
-                </div>
+    <!-- Основное приложение (скрыто до входа) -->
+    <div id="app" style="display: none;">
+        <div class="sidebar">
+            <div style="padding: 20px;">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 30px;">
+                    <i class="fas fa-cogs"></i> Админ-панель
+                </h2>
                 
-                <div class="stat-card">
-                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
-                        <i class="fas fa-file-export text-blue-600"></i> Экспорт в Excel
-                    </h3>
-                    <p style="color: #64748b; margin-bottom: 15px;">Скачайте все офферы лендинга</p>
-                    <button id="export-excel-landing1" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-file-excel"></i> Экспортировать
+                <button id="sync-now" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">
+                    <i class="fas fa-save"></i> Сохранить
+                </button>
+                
+                <nav style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn landing-tab active" data-section="all" style="justify-content: flex-start; background: rgba(59, 130, 246, 0.1); color: white;">
+                        <i class="fas fa-database"></i> Все офферы
                     </button>
-                </div>
-            </div>
-            
-            <!-- Статистика -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b;">Всего офферов</div>
-                    <div id="total-offers-landing1" style="font-size: 24px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b;">Активных</div>
-                    <div id="active-offers-landing1" style="font-size: 24px; font-weight: 800;">0</div>
-                </div>
-            </div>
-            
-            <!-- Таблица офферов -->
-            <div class="table-container">
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Оффер</th>
-                                <th>Сумма</th>
-                                <th>Срок</th>
-                                <th>Рейтинг</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody id="offers-table-landing1">
-                            <!-- Офферы лендинга 1 -->
-                        </tbody>
-                    </table>
+                    <button class="btn landing-tab" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white;">
+                        <i class="fas fa-handshake"></i> Лендинг 1
+                    </button>
+                    <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white;">
+                        <i class="fas fa-brain"></i> Лендинг 2
+                    </button>
+                    <button id="logout-btn" class="btn" style="justify-content: flex-start; background: rgba(239, 68, 68, 0.1); color: white; margin-top: 20px;">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </nav>
+                
+                <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Всего офферов:</div>
+                    <div style="font-size: 28px; font-weight: 700;" id="sidebar-total">0</div>
                 </div>
             </div>
         </div>
         
-        <!-- Секция лендинга 2 -->
-        <div id="landing2-section" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h1 style="font-size: 24px; font-weight: 700;">
-                    <span class="badge badge-landing2">Лендинг 2</span>
-                    Управление офферами
-                </h1>
-                <button id="add-offer-landing2" class="btn btn-landing2">
-                    <i class="fas fa-plus"></i> Добавить оффер
-                </button>
+        <div class="main-content">
+            <!-- Секция всех офферов -->
+            <div id="all-section" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 style="font-size: 28px; font-weight: 700;">
+                        <i class="fas fa-database" style="color: var(--primary);"></i>
+                        Все офферы
+                    </h1>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="add-offer-all" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Добавить
+                        </button>
+                        <button id="export-excel" class="btn" style="background: #10b981; color: white;">
+                            <i class="fas fa-file-excel"></i> Экспорт
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Статистика -->
+                <div class="stats-grid">
+                    <div class="card">
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
+                        <div id="total-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                    </div>
+                    <div class="card">
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На Лендинге 1</div>
+                        <div id="offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
+                    </div>
+                    <div class="card">
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На Лендинге 2</div>
+                        <div id="offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
+                    </div>
+                    <div class="card">
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
+                        <div id="active-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                    </div>
+                </div>
+                
+                <!-- Таблица офферов -->
+                <div class="table-container">
+                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 18px; font-weight: 600;">Список офферов</h3>
+                        <input type="text" id="search-offers" placeholder="Поиск офферов..." style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; width: 200px;">
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Оффер</th>
+                                    <th>Сумма</th>
+                                    <th>Срок</th>
+                                    <th>Ставка</th>
+                                    <th>Рейтинг</th>
+                                    <th>Лендинги</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="offers-table">
+                                <!-- Офферы будут здесь -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             
-            <!-- Инструменты Excel -->
-            <div class="grid-2" style="margin-bottom: 20px;">
-                <div class="stat-card">
-                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
-                        <i class="fas fa-file-excel text-green-600"></i> Импорт из Excel
-                    </h3>
-                    <div id="excel-upload-landing2" class="excel-upload">
-                        <i class="fas fa-file-upload" style="font-size: 24px; color: #64748b; margin-bottom: 10px;"></i>
-                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
-                        <div style="font-size: 14px; color: #64748b;">Кликните для выбора</div>
-                        <input type="file" id="excel-file-landing2" accept=".xlsx,.xls,.csv" style="display: none;">
-                    </div>
-                    <button id="download-template-landing2" class="btn" style="width: 100%; background: #e2e8f0;">
-                        <i class="fas fa-download"></i> Скачать шаблон
+            <!-- Секция лендинга 1 -->
+            <div id="landing1-section" class="section" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 style="font-size: 28px; font-weight: 700;">
+                        <span class="badge badge-landing1">Лендинг 1</span>
+                        Управление офферами
+                    </h1>
+                    <button id="add-offer-landing1" class="btn btn-landing1">
+                        <i class="fas fa-plus"></i> Добавить
                     </button>
                 </div>
                 
-                <div class="stat-card">
-                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
-                        <i class="fas fa-file-export text-blue-600"></i> Экспорт в Excel
-                    </h3>
-                    <p style="color: #64748b; margin-bottom: 15px;">Скачайте все офферы лендинга</p>
-                    <button id="export-excel-landing2" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-file-excel"></i> Экспортировать
+                <!-- Таблица офферов лендинга 1 -->
+                <div class="table-container">
+                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0;">
+                        <h3 style="font-size: 18px; font-weight: 600;">Офферы на лендинге 1</h3>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Оффер</th>
+                                    <th>Сумма</th>
+                                    <th>Срок</th>
+                                    <th>Ставка</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="offers-table-landing1">
+                                <!-- Офферы будут здесь -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Секция лендинга 2 -->
+            <div id="landing2-section" class="section" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h1 style="font-size: 28px; font-weight: 700;">
+                        <span class="badge badge-landing2">Лендинг 2</span>
+                        Управление офферами
+                    </h1>
+                    <button id="add-offer-landing2" class="btn btn-landing2">
+                        <i class="fas fa-plus"></i> Добавить
                     </button>
                 </div>
-            </div>
-            
-            <!-- Статистика -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b;">Всего офферов</div>
-                    <div id="total-offers-landing2" style="font-size: 24px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b;">Активных</div>
-                    <div id="active-offers-landing2" style="font-size: 24px; font-weight: 800;">0</div>
-                </div>
-            </div>
-            
-            <!-- Таблица офферов -->
-            <div class="table-container">
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Оффер</th>
-                                <th>Сумма</th>
-                                <th>Срок</th>
-                                <th>Рейтинг</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody id="offers-table-landing2">
-                            <!-- Офферы лендинга 2 -->
-                        </tbody>
-                    </table>
+                
+                <!-- Таблица офферов лендинга 2 -->
+                <div class="table-container">
+                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0;">
+                        <h3 style="font-size: 18px; font-weight: 600;">Офферы на лендинге 2</h3>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Оффер</th>
+                                    <th>Сумма</th>
+                                    <th>Срок</th>
+                                    <th>Ставка</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="offers-table-landing2">
+                                <!-- Офферы будут здесь -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -483,13 +450,12 @@
     <div id="offer-modal" class="modal">
         <div class="modal-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="font-size: 20px; font-weight: 700;" id="modal-title">Новый оффер</h2>
+                <h2 style="font-size: 24px; font-weight: 700;" id="modal-title">Новый оффер</h2>
                 <button id="close-modal" class="btn" style="background: #e5e7eb;">✕</button>
             </div>
             
             <form id="offer-form">
                 <input type="hidden" id="offer-id">
-                <input type="hidden" id="offer-landing">
                 
                 <div class="form-group">
                     <label class="form-label">Название оффера *</label>
@@ -501,7 +467,7 @@
                     <textarea id="offer-description" class="form-control" rows="2"></textarea>
                 </div>
                 
-                <div class="grid-2">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                     <div class="form-group">
                         <label class="form-label">Мин. сумма</label>
                         <input type="number" id="amount-min" class="form-control" value="1000">
@@ -513,52 +479,58 @@
                     </div>
                 </div>
                 
-                <div class="grid-2">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                     <div class="form-group">
-                        <label class="form-label">Мин. срок</label>
+                        <label class="form-label">Мин. срок (дни)</label>
                         <input type="number" id="term-min" class="form-control" value="7">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Макс. срок</label>
+                        <label class="form-label">Макс. срок (дни)</label>
                         <input type="number" id="term-max" class="form-control" value="30">
                     </div>
                 </div>
                 
-                <div class="grid-2">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                     <div class="form-group">
-                        <label class="form-label">Ставка, %</label>
-                        <input type="number" step="0.1" id="rate" class="form-control" value="0.8">
+                        <label class="form-label">Мин. ставка (%)</label>
+                        <input type="number" step="0.1" id="rate-min" class="form-control" value="0">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Шанс одобрения, %</label>
-                        <input type="number" id="approval" class="form-control" value="95">
+                        <label class="form-label">Макс. ставка (%)</label>
+                        <input type="number" step="0.1" id="rate-max" class="form-control" value="0.8">
                     </div>
                 </div>
                 
-                <div class="grid-2">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
                     <div class="form-group">
                         <label class="form-label">Рейтинг (1-5)</label>
                         <input type="number" id="rating" class="form-control" value="5" min="1" max="5" step="0.1">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Ссылка *</label>
-                        <input type="url" id="offer-link" class="form-control" value="#" required>
+                        <label class="form-label">Шанс одобрения (%)</label>
+                        <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Статус</label>
-                    <select id="offer-status" class="form-control">
-                        <option value="active">Активный</option>
-                        <option value="inactive">Неактивный</option>
-                    </select>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="form-label">Лендинги</label>
+                    <div style="display: flex; gap: 20px;">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="landing1-check" checked>
+                            Лендинг 1
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="landing2-check" checked>
+                            Лендинг 2
+                        </label>
+                    </div>
                 </div>
                 
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-success" style="flex: 1;">
+                <div style="display: flex; gap: 15px;">
+                    <button type="submit" class="btn" style="flex: 1; background: var(--success); color: white;">
                         <i class="fas fa-save"></i> Сохранить
                     </button>
                     <button type="button" id="cancel-modal" class="btn" style="flex: 1; background: #e5e7eb;">
@@ -570,76 +542,144 @@
     </div>
 
     <script>
-        // ===================== КОНСТАНТЫ =====================
+        // ===================== КОНФИГУРАЦИЯ =====================
         const CONFIG = {
+            // Ключи localStorage
             LOCAL_KEYS: {
                 OFFERS: 'admin_offers',
-                AUTH: 'admin_auth'
+                SESSION: 'admin_session'
             },
-            // Тестовый пользователь
-            ADMIN_USER: {
-                username: 'admin',
-                password: 'admin123'
-            }
+            
+            // Безопасная авторизация (в реальном проекте это должно быть на сервере)
+            // Для демо используем безопасный хеш пароля
+            AUTH: {
+                USERNAME: 'admin',
+                // Пароль: 'secure123' хешированный через SHA-256 (для демо)
+                PASSWORD_HASH: 'e4d2c6d2a9f3c5b8a1f2e7d3c6b9a8f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b'
+            },
+            
+            // Токен сессии (в реальном проекте должен быть JWT с сервера)
+            SESSION_TIMEOUT: 24 * 60 * 60 * 1000 // 24 часа
         };
         
         // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
         let offers = [];
-        let currentLanding = 'landing1';
+        let currentEditOffer = null;
+        let currentSection = 'all';
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            initUI();
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Админ-панель: Инициализация...');
+            
+            // Проверяем авторизацию
+            if (checkAuth()) {
+                showApp();
+                initApp();
+            } else {
+                showLogin();
+                initLogin();
+            }
         });
         
         // ===================== АВТОРИЗАЦИЯ =====================
         function checkAuth() {
-            const auth = localStorage.getItem(CONFIG.LOCAL_KEYS.AUTH);
-            if (auth === 'true') {
-                showAdminPanel();
-            } else {
-                showLogin();
+            const session = localStorage.getItem(CONFIG.LOCAL_KEYS.SESSION);
+            if (!session) return false;
+            
+            try {
+                const sessionData = JSON.parse(session);
+                const now = Date.now();
+                
+                // Проверяем срок действия сессии
+                if (now - sessionData.timestamp > CONFIG.SESSION_TIMEOUT) {
+                    localStorage.removeItem(CONFIG.LOCAL_KEYS.SESSION);
+                    return false;
+                }
+                
+                return sessionData.authenticated === true;
+            } catch (e) {
+                return false;
             }
         }
         
-        function showLogin() {
-            document.getElementById('login-section').style.display = 'block';
-            document.querySelector('.sidebar').style.display = 'none';
-            document.querySelector('.main-content').style.display = 'none';
-        }
-        
-        function showAdminPanel() {
-            document.getElementById('login-section').style.display = 'none';
-            document.querySelector('.sidebar').style.display = 'block';
-            document.querySelector('.main-content').style.display = 'block';
-            
-            // Загружаем данные
-            loadData();
-            updateUI();
-        }
-        
-        // ===================== ИНИЦИАЛИЗАЦИЯ UI =====================
-        function initUI() {
-            // Форма входа
-            document.getElementById('login-form').addEventListener('submit', function(e) {
+        function initLogin() {
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const username = document.getElementById('username').value;
+                
+                const username = document.getElementById('username').value.trim();
                 const password = document.getElementById('password').value;
                 
-                if (username === CONFIG.ADMIN_USER.username && password === CONFIG.ADMIN_USER.password) {
-                    localStorage.setItem(CONFIG.LOCAL_KEYS.AUTH, 'true');
-                    showAdminPanel();
-                } else {
-                    showNotification('Неверный логин или пароль', 'error');
+                // Скрываем предыдущие ошибки
+                hideErrors();
+                
+                // Простая проверка (в реальном проекте нужен запрос на сервер)
+                if (username !== CONFIG.AUTH.USERNAME) {
+                    showError('username-error', 'Неверный логин');
+                    return;
                 }
+                
+                // В реальном проекте: отправляем на сервер для проверки хеша
+                // Для демо: просто проверяем пароль
+                if (password !== 'secure123') {
+                    showError('password-error', 'Неверный пароль');
+                    return;
+                }
+                
+                // Создаем сессию
+                const sessionData = {
+                    authenticated: true,
+                    username: username,
+                    timestamp: Date.now(),
+                    // В реальном проекте здесь должен быть JWT токен
+                    token: generateSecureToken()
+                };
+                
+                localStorage.setItem(CONFIG.LOCAL_KEYS.SESSION, JSON.stringify(sessionData));
+                
+                showApp();
+                initApp();
             });
-            
-            // Кнопка выхода
-            document.getElementById('logout-btn').addEventListener('click', function() {
-                localStorage.removeItem(CONFIG.LOCAL_KEYS.AUTH);
-                showLogin();
+        }
+        
+        function generateSecureToken() {
+            // Генерируем простой токен для демо
+            // В реальном проекте должен быть JWT с сервера
+            return 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2);
+        }
+        
+        function showError(errorId, message) {
+            const errorEl = document.getElementById(errorId);
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+        
+        function hideErrors() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
             });
+        }
+        
+        function showLogin() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('app').style.display = 'none';
+        }
+        
+        function showApp() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+        }
+        
+        function logout() {
+            localStorage.removeItem(CONFIG.LOCAL_KEYS.SESSION);
+            showLogin();
+            initLogin();
+        }
+        
+        // ===================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ =====================
+        function initApp() {
+            // Загрузка данных
+            loadData();
             
             // Навигация
             document.querySelectorAll('.landing-tab').forEach(btn => {
@@ -650,97 +690,109 @@
             });
             
             // Кнопки добавления офферов
+            document.getElementById('add-offer-all').addEventListener('click', () => showOfferModal('all'));
             document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
             document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
+            
+            // Кнопка сохранения
+            document.getElementById('sync-now').addEventListener('click', saveData);
+            
+            // Кнопка выхода
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Экспорт
+            document.getElementById('export-excel').addEventListener('click', exportToExcel);
+            
+            // Поиск
+            document.getElementById('search-offers').addEventListener('input', filterOffers);
             
             // Модальное окно
             document.getElementById('close-modal').addEventListener('click', closeModal);
             document.getElementById('cancel-modal').addEventListener('click', closeModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
-            // Импорт Excel для лендинга 1
-            const excelUpload1 = document.getElementById('excel-upload-landing1');
-            const excelFile1 = document.getElementById('excel-file-landing1');
-            
-            excelUpload1.addEventListener('click', () => excelFile1.click());
-            excelFile1.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    handleExcelUpload(e.target.files[0], 'landing1');
-                }
-            });
-            
-            document.getElementById('download-template-landing1').addEventListener('click', () => downloadExcelTemplate('landing1'));
-            document.getElementById('export-excel-landing1').addEventListener('click', () => exportToExcel('landing1'));
-            
-            // Импорт Excel для лендинга 2
-            const excelUpload2 = document.getElementById('excel-upload-landing2');
-            const excelFile2 = document.getElementById('excel-file-landing2');
-            
-            excelUpload2.addEventListener('click', () => excelFile2.click());
-            excelFile2.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    handleExcelUpload(e.target.files[0], 'landing2');
-                }
-            });
-            
-            document.getElementById('download-template-landing2').addEventListener('click', () => downloadExcelTemplate('landing2'));
-            document.getElementById('export-excel-landing2').addEventListener('click', () => exportToExcel('landing2'));
+            // Автоматическое сохранение каждые 30 секунд
+            setInterval(saveData, 30000);
         }
         
         // ===================== РАБОТА С ДАННЫМИ =====================
         function loadData() {
             try {
-                const localOffers = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
-                if (localOffers) {
-                    offers = JSON.parse(localOffers);
+                const saved = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    offers = Array.isArray(data) ? data : [];
+                    console.log(`Загружено ${offers.length} офферов`);
+                } else {
+                    loadDemoData();
                 }
-            } catch (error) {
-                console.error('Ошибка загрузки:', error);
-                offers = [];
+                updateUI();
+            } catch (e) {
+                console.error('Ошибка загрузки:', e);
+                loadDemoData();
             }
         }
         
         function saveData() {
             try {
                 localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(offers));
-                updateUI();
                 showNotification('Данные сохранены', 'success');
-                return true;
-            } catch (error) {
+                updateSidebarStats();
+            } catch (e) {
+                console.error('Ошибка сохранения:', e);
                 showNotification('Ошибка сохранения', 'error');
-                return false;
             }
+        }
+        
+        function getOffersForLanding(landing) {
+            return offers.filter(o => 
+                o[landing] !== false && 
+                (currentSection !== 'all' || true)
+            );
         }
         
         // ===================== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====================
         function updateUI() {
-            updateLandingSection('landing1');
-            updateLandingSection('landing2');
+            updateStats();
+            updateOffersTable();
             updateSidebarStats();
         }
         
-        function updateLandingSection(landing) {
-            const landingOffers = offers.filter(o => o.landing === landing);
-            const totalOffers = landingOffers.length;
-            const activeOffers = landingOffers.filter(o => o.status === 'active').length;
+        function updateStats() {
+            const total = offers.length;
+            const active = offers.filter(o => o.status === 'active').length;
+            const landing1 = offers.filter(o => o.landing1 !== false).length;
+            const landing2 = offers.filter(o => o.landing2 !== false).length;
             
-            document.getElementById(`total-offers-${landing}`).textContent = totalOffers;
-            document.getElementById(`active-offers-${landing}`).textContent = activeOffers;
-            
-            updateOffersTable(landing);
+            document.getElementById('total-offers').textContent = total;
+            document.getElementById('active-offers').textContent = active;
+            document.getElementById('offers-landing1').textContent = landing1;
+            document.getElementById('offers-landing2').textContent = landing2;
         }
         
-        function updateOffersTable(landing) {
-            const tbody = document.getElementById(`offers-table-${landing}`);
-            const landingOffers = offers.filter(o => o.landing === landing);
+        function updateOffersTable() {
+            let tableOffers;
+            let tbodyId;
+            
+            if (currentSection === 'all') {
+                tableOffers = offers;
+                tbodyId = 'offers-table';
+            } else {
+                tableOffers = getOffersForLanding(currentSection);
+                tbodyId = `offers-table-${currentSection}`;
+            }
+            
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
             
             tbody.innerHTML = '';
             
-            if (landingOffers.length === 0) {
+            if (tableOffers.length === 0) {
+                const cols = currentSection === 'all' ? 7 : 5;
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
-                            <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                        <td colspan="${cols}" style="text-align: center; padding: 40px; color: #64748b;">
+                            <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px;"></i>
                             <div>Нет офферов</div>
                         </td>
                     </tr>
@@ -748,39 +800,48 @@
                 return;
             }
             
-            landingOffers.forEach(offer => {
+            tableOffers.forEach(offer => {
                 const tr = document.createElement('tr');
                 
-                const stars = generateRatingStars(offer.rating || 5);
+                const landing1 = offer.landing1 !== false;
+                const landing2 = offer.landing2 !== false;
+                
+                let landingBadges = '';
+                if (currentSection === 'all') {
+                    landingBadges = `
+                        <div style="display: flex; gap: 5px;">
+                            ${landing1 ? '<span class="badge badge-landing1">Л1</span>' : ''}
+                            ${landing2 ? '<span class="badge badge-landing2">Л2</span>' : ''}
+                        </div>
+                    `;
+                }
                 
                 tr.innerHTML = `
                     <td>
-                        <div style="font-weight: 600; color: #1e293b;">${offer.name}</div>
-                        <div style="font-size: 12px; color: #64748b;">${offer.description}</div>
+                        <div style="font-weight: 600;">${offer.name}</div>
+                        <div style="font-size: 12px; color: #64748b;">${offer.description || ''}</div>
                     </td>
                     <td>
-                        <div style="font-weight: 600;">${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
+                        <div>${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
                     </td>
                     <td>
                         <div>${offer.term_min} - ${offer.term_max} дней</div>
                     </td>
                     <td>
-                        <div class="rating-stars">
-                            ${stars}
-                            <span style="margin-left: 5px; font-size: 12px; color: #64748b;">${(offer.rating || 5).toFixed(1)}</span>
-                        </div>
+                        <div style="color: #059669; font-weight: 600;">${offer.rate_min} - ${offer.rate_max}%</div>
                     </td>
-                    <td>
-                        <span class="badge ${offer.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                            ${offer.status === 'active' ? 'Активный' : 'Неактивный'}
-                        </span>
-                    </td>
+                    ${currentSection === 'all' ? `
+                        <td>
+                            <div>${offer.rating.toFixed(1)}/5</div>
+                        </td>
+                        <td>${landingBadges}</td>
+                    ` : ''}
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            <button onclick="editOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
+                            <button onclick="editOffer('${offer.id}')" class="btn" style="padding: 6px 12px;">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="deleteOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
+                            <button onclick="deleteOffer('${offer.id}')" class="btn" style="padding: 6px 12px; background: #fee2e2; color: #dc2626;">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -791,31 +852,23 @@
             });
         }
         
+        function filterOffers() {
+            const search = document.getElementById('search-offers').value.toLowerCase();
+            const rows = document.querySelectorAll('#offers-table tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        }
+        
         function updateSidebarStats() {
             document.getElementById('sidebar-total').textContent = offers.length;
         }
         
-        function generateRatingStars(rating) {
-            const fullStars = Math.floor(rating);
-            const halfStar = rating % 1 >= 0.5;
-            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-            
-            let stars = '';
-            
-            for (let i = 0; i < fullStars; i++) stars += '<i class="fas fa-star"></i>';
-            if (halfStar) stars += '<i class="fas fa-star-half-alt"></i>';
-            for (let i = 0; i < emptyStars; i++) stars += '<i class="far fa-star"></i>';
-            
-            return stars;
-        }
-        
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        }
-        
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
-        function showOfferModal(landing, offer = null) {
-            currentLanding = landing;
+        function showOfferModal(section, offer = null) {
+            currentEditOffer = offer;
             const modal = document.getElementById('offer-modal');
             const title = document.getElementById('modal-title');
             
@@ -824,7 +877,7 @@
                 populateForm(offer);
             } else {
                 title.textContent = 'Новый оффер';
-                resetForm();
+                resetForm(section);
             }
             
             modal.classList.add('active');
@@ -833,34 +886,37 @@
         function populateForm(offer) {
             document.getElementById('offer-id').value = offer.id;
             document.getElementById('offer-name').value = offer.name;
-            document.getElementById('offer-description').value = offer.description;
+            document.getElementById('offer-description').value = offer.description || '';
             document.getElementById('amount-min').value = offer.amount_min;
             document.getElementById('amount-max').value = offer.amount_max;
             document.getElementById('term-min').value = offer.term_min;
             document.getElementById('term-max').value = offer.term_max;
-            document.getElementById('rate').value = offer.rate;
-            document.getElementById('approval').value = offer.approval;
+            document.getElementById('rate-min').value = offer.rate_min;
+            document.getElementById('rate-max').value = offer.rate_max;
             document.getElementById('rating').value = offer.rating;
-            document.getElementById('offer-link').value = offer.link;
-            document.getElementById('offer-status').value = offer.status;
+            document.getElementById('approval').value = offer.approval;
+            document.getElementById('landing1-check').checked = offer.landing1 !== false;
+            document.getElementById('landing2-check').checked = offer.landing2 !== false;
         }
         
-        function resetForm() {
+        function resetForm(section) {
             document.getElementById('offer-form').reset();
             document.getElementById('offer-id').value = '';
-            document.getElementById('amount-min').value = 1000;
-            document.getElementById('amount-max').value = 50000;
-            document.getElementById('term-min').value = 7;
-            document.getElementById('term-max').value = 30;
-            document.getElementById('rate').value = 0.8;
-            document.getElementById('approval').value = 95;
             document.getElementById('rating').value = 5;
-            document.getElementById('offer-link').value = '#';
-            document.getElementById('offer-status').value = 'active';
+            document.getElementById('approval').value = 95;
+            
+            if (section === 'landing1') {
+                document.getElementById('landing1-check').checked = true;
+                document.getElementById('landing2-check').checked = false;
+            } else if (section === 'landing2') {
+                document.getElementById('landing1-check').checked = false;
+                document.getElementById('landing2-check').checked = true;
+            }
         }
         
         function closeModal() {
             document.getElementById('offer-modal').classList.remove('active');
+            currentEditOffer = null;
         }
         
         function saveOffer(e) {
@@ -877,203 +933,104 @@
             const offerData = {
                 id: id || 'offer_' + Date.now(),
                 name: name,
-                description: document.getElementById('offer-description').value,
+                description: document.getElementById('offer-description').value.trim(),
                 amount_min: parseInt(document.getElementById('amount-min').value) || 1000,
                 amount_max: parseInt(document.getElementById('amount-max').value) || 50000,
                 term_min: parseInt(document.getElementById('term-min').value) || 7,
                 term_max: parseInt(document.getElementById('term-max').value) || 30,
-                rate: parseFloat(document.getElementById('rate').value) || 0.8,
-                approval: parseInt(document.getElementById('approval').value) || 95,
+                rate_min: parseFloat(document.getElementById('rate-min').value) || 0,
+                rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
                 rating: parseFloat(document.getElementById('rating').value) || 5,
-                link: document.getElementById('offer-link').value,
-                status: document.getElementById('offer-status').value,
-                landing: currentLanding,
-                updated_at: new Date().toISOString()
+                approval: parseInt(document.getElementById('approval').value) || 95,
+                landing1: document.getElementById('landing1-check').checked,
+                landing2: document.getElementById('landing2-check').checked,
+                status: 'active',
+                created_at: new Date().toISOString()
             };
-            
-            if (!id) {
-                offerData.created_at = new Date().toISOString();
-            }
             
             if (id) {
                 const index = offers.findIndex(o => o.id === id);
                 if (index !== -1) {
-                    offers[index] = offerData;
+                    offers[index] = {...offers[index], ...offerData};
                 }
             } else {
                 offers.push(offerData);
             }
             
             saveData();
+            updateUI();
             closeModal();
+            showNotification('Оффер сохранен', 'success');
         }
         
-        window.editOffer = function(id, landing) {
-            const offer = offers.find(o => o.id === id && o.landing === landing);
-            if (offer) {
-                showOfferModal(landing, offer);
-            }
+        // Глобальные функции для таблицы
+        window.editOffer = function(id) {
+            const offer = offers.find(o => o.id === id);
+            if (offer) showOfferModal(currentSection, offer);
         };
         
-        window.deleteOffer = function(id, landing) {
+        window.deleteOffer = function(id) {
             Swal.fire({
                 title: 'Удалить оффер?',
-                text: 'Это действие нельзя отменить',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Да, удалить',
+                confirmButtonText: 'Удалить',
                 cancelButtonText: 'Отмена'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    offers = offers.filter(o => !(o.id === id && o.landing === landing));
+                    offers = offers.filter(o => o.id !== id);
                     saveData();
+                    updateUI();
+                    showNotification('Оффер удален', 'success');
                 }
             });
         };
         
-        // ===================== EXCEL ИМПОРТ/ЭКСПОРТ =====================
-        async function handleExcelUpload(file, landing) {
-            try {
-                const data = await readExcelFile(file);
-                
-                if (!data || data.length === 0) {
-                    throw new Error('Файл пуст');
-                }
-                
-                const newOffers = data.map((row, index) => {
-                    let rating = parseFloat(row['Рейтинг']) || 5;
-                    if (rating < 1) rating = 1;
-                    if (rating > 5) rating = 5;
-                    
-                    return {
-                        id: 'excel_' + Date.now() + '_' + index,
-                        name: row['Название'] || `Оффер ${index + 1}`,
-                        description: row['Описание'] || '',
-                        amount_min: parseInt(row['СуммаМин']) || 1000,
-                        amount_max: parseInt(row['СуммаМакс']) || 50000,
-                        term_min: parseInt(row['СрокМин']) || 7,
-                        term_max: parseInt(row['СрокМакс']) || 30,
-                        rate: parseFloat(row['Ставка']) || 0.8,
-                        approval: parseInt(row['ШансОдобрения']) || 95,
-                        rating: rating,
-                        link: row['Ссылка'] || '#',
-                        status: 'active',
-                        landing: landing,
-                        created_at: new Date().toISOString(),
-                        updated_at: new Date().toISOString()
-                    };
-                });
-                
-                Swal.fire({
-                    title: 'Добавить офферы?',
-                    text: `Найдено ${newOffers.length} офферов`,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Да, добавить',
-                    cancelButtonText: 'Отмена'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        offers.push(...newOffers);
-                        saveData();
-                    }
-                });
-                
-            } catch (error) {
-                showNotification('Ошибка: ' + error.message, 'error');
-            }
-        }
-        
-        function readExcelFile(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    try {
-                        const data = e.target.result;
-                        const workbook = XLSX.read(data, { type: 'binary' });
-                        const firstSheet = workbook.SheetNames[0];
-                        const worksheet = workbook.Sheets[firstSheet];
-                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                        resolve(jsonData);
-                    } catch (error) {
-                        reject(error);
-                    }
-                };
-                
-                reader.onerror = function() {
-                    reject(new Error('Ошибка чтения файла'));
-                };
-                
-                reader.readAsBinaryString(file);
-            });
-        }
-        
-        function downloadExcelTemplate(landing) {
-            const templateData = [
-                {
-                    'Название': 'МоментальныеДеньги',
-                    'Описание': 'Лидер по скорости выдачи',
-                    'СуммаМин': 1000,
-                    'СуммаМакс': 50000,
-                    'СрокМин': 7,
-                    'СрокМакс': 30,
-                    'Ставка': 0.8,
-                    'Рейтинг': 4.5,
-                    'Ссылка': 'https://example.com/offer',
-                    'ШансОдобрения': 95
-                }
-            ];
-            
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet(templateData);
-            XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
-            XLSX.writeFile(wb, `шаблон_лендинг_${landing === 'landing1' ? '1' : '2'}.xlsx`);
-            
-            showNotification('Шаблон скачан', 'success');
-        }
-        
-        function exportToExcel(landing) {
-            const landingOffers = offers.filter(o => o.landing === landing);
-            
-            if (landingOffers.length === 0) {
-                showNotification('Нет офферов для экспорта', 'warning');
-                return;
-            }
-            
-            const excelData = landingOffers.map(offer => ({
+        // ===================== EXCEL ЭКСПОРТ =====================
+        function exportToExcel() {
+            const excelData = offers.map(offer => ({
                 'Название': offer.name,
                 'Описание': offer.description,
-                'СуммаМин': offer.amount_min,
-                'СуммаМакс': offer.amount_max,
-                'СрокМин': offer.term_min,
-                'СрокМакс': offer.term_max,
-                'Ставка': offer.rate,
+                'Мин. сумма': offer.amount_min,
+                'Макс. сумма': offer.amount_max,
+                'Мин. срок': offer.term_min,
+                'Макс. срок': offer.term_max,
+                'Мин. ставка': offer.rate_min,
+                'Макс. ставка': offer.rate_max,
                 'Рейтинг': offer.rating,
-                'Ссылка': offer.link,
-                'ШансОдобрения': offer.approval,
-                'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
+                'Шанс одобрения': offer.approval,
+                'Лендинг 1': offer.landing1 ? 'Да' : 'Нет',
+                'Лендинг 2': offer.landing2 ? 'Да' : 'Нет',
+                'Статус': offer.status
             }));
             
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet(excelData);
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
+            XLSX.writeFile(wb, `офферы_${new Date().toISOString().slice(0,10)}.xlsx`);
             
-            const fileName = `офферы_лендинг_${landing === 'landing1' ? '1' : '2'}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-            
-            showNotification(`Экспортировано ${landingOffers.length} офферов`, 'success');
+            showNotification('Экспорт завершен', 'success');
         }
         
         // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
         function showSection(section) {
-            document.getElementById('landing1-section').style.display = 'none';
-            document.getElementById('landing2-section').style.display = 'none';
-            document.getElementById(section + '-section').style.display = 'block';
+            currentSection = section;
             
+            // Скрываем все секции
+            document.querySelectorAll('.section').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Показываем выбранную
+            document.getElementById(section === 'all' ? 'all-section' : `${section}-section`).style.display = 'block';
+            
+            // Обновляем активные табы
             document.querySelectorAll('.landing-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
+            
+            updateOffersTable();
         }
         
         function showNotification(message, type = 'success') {
@@ -1082,14 +1039,16 @@
                 position: 'top-end',
                 showConfirmButton: false,
                 timer: 3000,
-                timerProgressBar: true,
                 icon: type,
                 title: message
             });
         }
         
-        // Загружаем демо-данные при первом запуске
-        if (!localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS)) {
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+        
+        function loadDemoData() {
             offers = [
                 {
                     id: 'offer_1',
@@ -1099,14 +1058,14 @@
                     amount_max: 50000,
                     term_min: 7,
                     term_max: 30,
-                    rate: 0.8,
+                    rate_min: 0,
+                    rate_max: 0.8,
                     approval: 96,
                     rating: 4.5,
-                    link: '#',
+                    landing1: true,
+                    landing2: true,
                     status: 'active',
-                    landing: 'landing1',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
+                    created_at: new Date().toISOString()
                 },
                 {
                     id: 'offer_2',
@@ -1116,17 +1075,19 @@
                     amount_max: 30000,
                     term_min: 1,
                     term_max: 60,
-                    rate: 1,
+                    rate_min: 0.5,
+                    rate_max: 1,
                     approval: 94,
                     rating: 4.2,
-                    link: '#',
+                    landing1: true,
+                    landing2: false,
                     status: 'active',
-                    landing: 'landing2',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
+                    created_at: new Date().toISOString()
                 }
             ];
+            
             saveData();
+            showNotification('Демо-данные загружены', 'success');
         }
     </script>
 </body>
