@@ -50,7 +50,6 @@
             padding: 0 20px;
         }
 
-        /* КЛАССНЫЙ ПЕРВЫЙ ЭКРАН */
         .hero-section {
             background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
             padding: 60px 0;
@@ -131,7 +130,6 @@
             line-height: 1.6;
         }
 
-        /* Преимущества на главной */
         .hero-features {
             margin-top: 40px;
             display: flex;
@@ -163,7 +161,6 @@
             color: var(--text-primary);
         }
 
-        /* Форма на главной */
         .main-form {
             background: white;
             padding: 35px;
@@ -241,7 +238,6 @@
             cursor: not-allowed;
         }
 
-        /* УМЕНЬШЕННЫЙ БЛОК "КАК ЭТО РАБОТАЕТ" */
         .how-it-works {
             padding: 50px 0;
             background: var(--surface);
@@ -303,7 +299,6 @@
             line-height: 1.5;
         }
 
-        /* Результаты */
         .results-section {
             padding: 60px 0;
             display: none;
@@ -359,7 +354,6 @@
             color: white;
         }
 
-        /* КАРТОЧКИ С ОДИНАКОВОЙ ВЫСОТОЙ КНОПОК */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -372,7 +366,6 @@
             }
         }
 
-        /* Карточка МФО с фиксированной структурой */
         .mfo-card {
             background: white;
             border-radius: var(--radius);
@@ -502,7 +495,6 @@
             transition: width 1s ease;
         }
 
-        /* Фиксированный футер карточки */
         .mfo-footer {
             padding: 0 25px 25px;
             flex-shrink: 0;
@@ -522,7 +514,7 @@
             transition: var(--transition);
             border: none;
             cursor: pointer;
-            height: 58px; /* Фиксированная высота кнопки */
+            height: 58px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -535,7 +527,6 @@
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
         }
 
-        /* Теги условий */
         .mfo-conditions {
             margin-top: 15px;
             flex: 1;
@@ -567,7 +558,6 @@
             white-space: nowrap;
         }
 
-        /* Футер */
         .footer {
             background: var(--surface);
             padding: 40px 0;
@@ -588,12 +578,10 @@
             margin-bottom: 15px;
         }
 
-        /* Скрытые/видимые элементы */
         .hidden {
             display: none;
         }
 
-        /* Загрузка */
         .loading {
             text-align: center;
             padding: 50px 0;
@@ -611,7 +599,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Ошибка */
         .error-message {
             background: #fee2e2;
             border: 1px solid #ef4444;
@@ -627,16 +614,6 @@
             margin-bottom: 10px;
         }
 
-        /* Иконки для типов дохода и истории */
-        .income-icon {
-            color: #10b981;
-        }
-        
-        .history-icon {
-            color: #6366f1;
-        }
-        
-        /* Предупреждение о данных из админки */
         .admin-data-notice {
             background: #f0f9ff;
             border: 1px solid #dbeafe;
@@ -650,7 +627,6 @@
     </style>
 </head>
 <body>
-    <!-- ПЕРВЫЙ ЭКРАН -->
     <section class="hero-section" id="mainSection">
         <div class="container">
             <div class="hero-content">
@@ -666,7 +642,6 @@
                         и предложит только те, где вероятность одобрения для вас — выше 90%.
                     </p>
                     
-                    <!-- ПРЕИМУЩЕСТВА С ГАЛОЧКАМИ -->
                     <div class="hero-features">
                         <div class="feature-item">
                             <div class="feature-icon">
@@ -725,9 +700,9 @@
                         <label class="form-label">Есть ли просрочки?</label>
                         <select class="form-select" id="mainOverdue">
                             <option value="none" selected>Нет просрочек</option>
-                            <option value="short">До 7 дней</option>
-                            <option value="medium">До 30 дней</option>
-                            <option value="long">Более 30 дней</option>
+                            <option value="small">До 7 дней</option>
+                            <option value="current">До 30 дней</option>
+                            <option value="bad">Более 30 дней</option>
                         </select>
                     </div>
                     
@@ -746,19 +721,18 @@
                     </button>
                     
                     <div class="admin-data-notice" id="adminNotice">
-                        <i class="fas fa-sync-alt"></i> Данные загружаются из админ-панели
+                        <i class="fas fa-sync-alt"></i> Данные загружаются из файла offers.json
                     </div>
                     
                     <div class="error-message hidden" id="apiError">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <p>Ошибка загрузки данных. Проверьте подключение к админ-панели.</p>
+                        <p>Ошибка загрузки данных. Проверьте файл offers.json.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- КАК ЭТО РАБОТАЕТ - УМЕНЬШЕННЫЙ БЛОК -->
     <section class="how-it-works">
         <div class="container">
             <h2 class="section-title">Как это работает</h2>
@@ -796,7 +770,6 @@
         </div>
     </section>
 
-    <!-- РЕЗУЛЬТАТЫ -->
     <section class="results-section" id="resultsSection">
         <div class="container">
             <div class="results-header">
@@ -820,14 +793,14 @@
             
             <div class="error-message hidden" id="resultsError">
                 <i class="fas fa-exclamation-triangle"></i>
-                <p>Не удалось загрузить офферы. Попробуйте обновить страницу.</p>
+                <p>Не удалось загрузить офферы. Проверьте файл offers.json.</p>
             </div>
             
             <div class="cards-grid" id="mfoCards">
                 <!-- Офферы будут здесь -->
             </div>
             
-            <div class="empty-state hidden" id="emptyState" style="text-align: center; padding: 40px 0; color: #64748b;">
+            <div class="hidden" id="emptyState" style="text-align: center; padding: 40px 0; color: #64748b;">
                 <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 20px;"></i>
                 <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Нет подходящих офферов</h3>
                 <p>Попробуйте изменить параметры поиска</p>
@@ -835,7 +808,6 @@
         </div>
     </section>
 
-    <!-- ФУТЕР -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -845,7 +817,7 @@
                     Работаем с 2021 года. Помогли более 50 000 человек.
                 </p>
                 <div style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">
-                    Данные загружаются из админ-панели
+                    Данные загружаются из файла offers.json
                 </div>
             </div>
         </div>
@@ -854,126 +826,94 @@
     <script>
         // ===================== КОНФИГУРАЦИЯ =====================
         const CONFIG = {
-            // API ключ из админ-панели
-            API_KEY: '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',
-            
-            // Лендинг 1 (FinAI)
+            DATA_FILE: 'data/offers.json',
             LANDING_NUMBER: 1,
-            
-            // Ключи localStorage
-            LOCAL_KEYS: {
-                OFFERS_CACHE: 'landing1_offers_cache',
-                LAST_SYNC: 'landing1_last_sync',
-                CACHE_TTL: 5 * 60 * 1000 // 5 минут кэширования
-            }
+            CACHE_TTL: 5 * 60 * 1000
         };
 
-        // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
-        let offersData = []; // Все офферы из админки для этого лендинга
+        let offersData = [];
         let filteredOffers = [];
 
-        // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('FinAI: Инициализация лендинга...');
-            
-            // Инициализация UI
+            await loadOffersFromFile();
             initUI();
-            
-            // Загрузка офферов из админки
-            await loadOffersFromAdmin();
-            
-            console.log(`FinAI: Готов к работе. Загружено ${offersData.length} офферов`);
         });
 
-        // ===================== ЗАГРУЗКА ОФФЕРОВ ИЗ АДМИНКИ =====================
-        async function loadOffersFromAdmin() {
+        async function loadOffersFromFile() {
             try {
-                // Проверяем кэш
-                const cachedData = getCachedOffers();
-                if (cachedData) {
-                    offersData = cachedData;
-                    console.log('Используем кэшированные офферы:', offersData.length);
-                    updateConnectionStatus(true);
-                    return true;
-                }
+                const response = await fetch(CONFIG.DATA_FILE);
+                if (!response.ok) throw new Error('Файл не найден');
                 
-                // Загружаем из localStorage админки
-                const adminData = localStorage.getItem('admin_offers');
+                const data = await response.json();
+                offersData = (data.offers || data).filter(offer => 
+                    offer.status === 'active' && 
+                    offer.landing1 === true
+                );
                 
-                if (adminData) {
-                    const data = JSON.parse(adminData);
-                    const allAdminOffers = data.offers || data || [];
-                    
-                    // Фильтруем только активные офферы для лендинга 1
-                    offersData = allAdminOffers.filter(offer => 
-                        offer.status === 'active' && 
-                        offer.landing1 === true
-                    );
-                    
-                    console.log('Загружено из админки:', offersData.length);
-                    updateConnectionStatus(true);
-                } else {
-                    // Если в админке нет данных, используем демо
-                    offersData = getDemoOffers();
-                    console.log('Используем демо-данные:', offersData.length);
-                    updateConnectionStatus(false);
-                }
-                
-                // Кэшируем
-                cacheOffers(offersData);
-                
-                return true;
+                updateConnectionStatus(true);
                 
             } catch (error) {
-                console.error('Ошибка загрузки офферов:', error);
+                console.error('Ошибка загрузки:', error);
                 offersData = getDemoOffers();
                 updateConnectionStatus(false);
-                return false;
             }
         }
 
-        // ===================== КЭШИРОВАНИЕ =====================
-        function getCachedOffers() {
-            try {
-                const cache = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS_CACHE);
-                const lastSync = localStorage.getItem(CONFIG.LOCAL_KEYS.LAST_SYNC);
-                
-                if (!cache || !lastSync) return null;
-                
-                const cacheAge = Date.now() - parseInt(lastSync);
-                if (cacheAge > CONFIG.LOCAL_KEYS.CACHE_TTL) {
-                    localStorage.removeItem(CONFIG.LOCAL_KEYS.OFFERS_CACHE);
-                    localStorage.removeItem(CONFIG.LOCAL_KEYS.LAST_SYNC);
-                    return null;
+        function getDemoOffers() {
+            return [
+                {
+                    id: 'offer_1',
+                    name: 'МоментальныеДеньги',
+                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
+                    amount_min: 1000,
+                    amount_max: 50000,
+                    term_min: 7,
+                    term_max: 30,
+                    rate_min: 0,
+                    rate_max: 0.8,
+                    approval: 96,
+                    link: '#',
+                    landing1: true,
+                    icon: 'bolt',
+                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad']
                 }
-                
-                return JSON.parse(cache);
-            } catch (error) {
-                return null;
+            ];
+        }
+
+        function updateConnectionStatus(connected) {
+            const adminNotice = document.getElementById('adminNotice');
+            const apiError = document.getElementById('apiError');
+            
+            if (connected) {
+                adminNotice.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    Актуализировано и собрано (${offersData.length} предложений)
+                `;
+                adminNotice.style.background = '#f0fdf4';
+                adminNotice.style.borderColor = '#dcfce7';
+                adminNotice.style.color = '#065f46';
+                apiError.classList.add('hidden');
+            } else {
+                adminNotice.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Файл offers.json не найден. Используются демо-данные
+                `;
+                adminNotice.style.background = '#fef3c7';
+                adminNotice.style.borderColor = '#fbbf24';
+                adminNotice.style.color = '#92400e';
+                apiError.classList.remove('hidden');
             }
         }
 
-        function cacheOffers(offers) {
-            try {
-                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS_CACHE, JSON.stringify(offers));
-                localStorage.setItem(CONFIG.LOCAL_KEYS.LAST_SYNC, Date.now().toString());
-            } catch (error) {
-                console.error('Ошибка кэширования:', error);
-            }
-        }
-
-        // ===================== ИНИЦИАЛИЗАЦИЯ UI =====================
         function initUI() {
-            const mainSection = document.getElementById('mainSection');
-            const resultsSection = document.getElementById('resultsSection');
             const mainFindButton = document.getElementById('mainFindButton');
             const backButton = document.getElementById('backButton');
+            const mainSection = document.getElementById('mainSection');
+            const resultsSection = document.getElementById('resultsSection');
             const loading = document.getElementById('loading');
-            const apiError = document.getElementById('apiError');
 
-            // Поиск лучших вариантов
             async function findBestOffers() {
-                // Собираем данные пользователя
                 const userData = {
                     amount: parseInt(document.getElementById('mainAmount').value),
                     term: parseInt(document.getElementById('mainTerm').value),
@@ -981,24 +921,19 @@
                     income: document.getElementById('mainIncome').value
                 };
 
-                // Показываем загрузку
                 loading.classList.remove('hidden');
-                apiError.classList.add('hidden');
                 document.getElementById('resultsError').classList.add('hidden');
                 document.getElementById('emptyState').classList.add('hidden');
                 mainFindButton.disabled = true;
 
                 try {
-                    // Фильтруем офферы по параметрам пользователя
                     filteredOffers = filterOffersByUserData(offersData, userData);
                     
-                    // Обновляем счетчик
                     document.getElementById('resultsCount').innerHTML = `
                         <i class="fas fa-check-circle"></i>
                         <span>Найдено вариантов: ${filteredOffers.length}</span>
                     `;
 
-                    // Генерируем карточки
                     document.getElementById('mfoCards').innerHTML = '';
                     if (filteredOffers.length > 0) {
                         filteredOffers.forEach((offer, index) => {
@@ -1010,15 +945,12 @@
                         document.getElementById('emptyState').classList.remove('hidden');
                     }
 
-                    // Скрываем загрузку
                     loading.classList.add('hidden');
                     mainFindButton.disabled = false;
 
-                    // Показываем секцию с результатами
                     mainSection.style.display = 'none';
                     resultsSection.classList.add('active');
 
-                    // Анимируем прогресс-бары
                     setTimeout(() => {
                         document.querySelectorAll('.progress-fill').forEach(fill => {
                             const width = fill.style.width;
@@ -1037,52 +969,31 @@
                 }
             }
 
-            // Возврат к форме
             function backToForm() {
                 mainSection.style.display = 'block';
                 resultsSection.classList.remove('active');
-                
-                // Прокрутка к форме
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            // Обработчики событий
             mainFindButton.addEventListener('click', findBestOffers);
             backButton.addEventListener('click', backToForm);
-
-            // Поиск по Enter в селектах
-            document.querySelectorAll('.form-select').forEach(select => {
-                select.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        findBestOffers();
-                    }
-                });
-            });
         }
 
-        // ===================== ФИЛЬТРАЦИЯ И РАСЧЕТЫ =====================
         function filterOffersByUserData(offers, userData) {
             return offers.filter(offer => {
-                // Проверка суммы
                 if (userData.amount < offer.amount_min || userData.amount > offer.amount_max) {
                     return false;
                 }
                 
-                // Проверка срока
                 if (userData.term < offer.term_min || userData.term > offer.term_max) {
                     return false;
                 }
                 
-                // Проверка типа дохода
                 const userIncomeType = mapUserIncomeToType(userData.income);
                 if (!offer.incomeTypes || !offer.incomeTypes.includes(userIncomeType)) {
                     return false;
                 }
                 
-                // Проверка кредитной истории
                 const userHistoryType = mapUserOverdueToType(userData.overdue);
                 if (!offer.historyTypes || !offer.historyTypes.includes(userHistoryType)) {
                     return false;
@@ -1105,9 +1016,9 @@
         function mapUserOverdueToType(userOverdue) {
             const map = {
                 'none': 'none',
-                'short': 'small',
-                'medium': 'current',
-                'long': 'bad'
+                'small': 'small',
+                'current': 'current',
+                'bad': 'bad'
             };
             return map[userOverdue] || 'none';
         }
@@ -1115,19 +1026,16 @@
         function calculateProbability(offer, userData) {
             let probability = offer.approval || 90;
             
-            // Корректировка на основе суммы
             const amountRange = offer.amount_max - offer.amount_min;
             const amountPosition = (userData.amount - offer.amount_min) / amountRange;
             if (amountPosition < 0.3) probability -= 5;
             if (amountPosition > 0.7) probability -= 5;
             
-            // Корректировка на основе срока
             const termRange = offer.term_max - offer.term_min;
             const termPosition = (userData.term - offer.term_min) / termRange;
             if (termPosition < 0.3) probability -= 3;
             if (termPosition > 0.7) probability -= 3;
             
-            // Корректировка на основе кредитной истории
             const historyMap = {
                 'none': 0,
                 'small': -10,
@@ -1140,7 +1048,6 @@
             return Math.max(60, Math.min(99, probability));
         }
 
-        // ===================== ГЕНЕРАЦИЯ КАРТОЧЕК =====================
         function formatAmount(amount) {
             return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
@@ -1181,7 +1088,6 @@
         }
 
         function generateOfferCard(offer, probability, index) {
-            // Генерация тегов условий
             const conditions = [];
             if (offer.incomeTypes && offer.incomeTypes.includes('official')) {
                 conditions.push('Официальный доход');
@@ -1199,13 +1105,7 @@
                 conditions.push('Первый займ 0%');
             }
             
-            // Генерация ссылки в зависимости от номера лендинга
-            const offerLink = CONFIG.LANDING_NUMBER === 1 ? 
-                (offer.link_landing1 || '#') : 
-                (offer.link_landing2 || '#');
-            
-            // Генерация звезд рейтинга на основе approval
-            const ratingValue = 4 + (offer.approval / 100) * 1.5; // От 4 до 5.5
+            const ratingValue = 4 + (offer.approval / 100) * 1.5;
             const formattedRating = ratingValue.toFixed(1);
             
             return `
@@ -1283,7 +1183,7 @@
                     </div>
                     
                     <div class="mfo-footer">
-                        <a href="${offerLink}" target="_blank" class="mfo-button">
+                        <a href="${offer.link || '#'}" target="_blank" class="mfo-button">
                             <i class="fas fa-external-link-alt"></i>
                             Получить деньги
                         </a>
@@ -1291,124 +1191,6 @@
                 </div>
             `;
         }
-
-        // ===================== ДЕМО-ДАННЫЕ =====================
-        function getDemoOffers() {
-            return [
-                {
-                    id: 'offer_1',
-                    name: 'МоментальныеДеньги',
-                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
-                    amount_min: 1000,
-                    amount_max: 50000,
-                    term_min: 7,
-                    term_max: 30,
-                    rate_min: 0,
-                    rate_max: 0.8,
-                    approval: 96,
-                    link_landing1: '#',
-                    link_landing2: '#',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'bolt',
-                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
-                    status: 'active'
-                },
-                {
-                    id: 'offer_2',
-                    name: 'ДеньгиОнлайн',
-                    description: 'Самый высокий шанс одобрения при плохой кредитной истории',
-                    amount_min: 2000,
-                    amount_max: 30000,
-                    term_min: 1,
-                    term_max: 60,
-                    rate_min: 0.5,
-                    rate_max: 1,
-                    approval: 94,
-                    link_landing1: '#',
-                    link_landing2: '#',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'shield-alt',
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['small', 'current', 'bad'],
-                    status: 'active'
-                },
-                {
-                    id: 'offer_3',
-                    name: 'ЗаймЭкспресс',
-                    description: 'Лучшие условия для новых клиентов. Первый займ под 0% до 30 000 ₽',
-                    amount_min: 3000,
-                    amount_max: 100000,
-                    term_min: 15,
-                    term_max: 90,
-                    rate_min: 0,
-                    rate_max: 0.5,
-                    approval: 92,
-                    link_landing1: '#',
-                    link_landing2: '#',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'star',
-                    incomeTypes: ['official', 'unofficial'],
-                    historyTypes: ['none', 'small'],
-                    status: 'active'
-                },
-                {
-                    id: 'offer_4',
-                    name: 'СрочноДеньги',
-                    description: 'Для срочных нужд. Минимальные требования к документам',
-                    amount_min: 500,
-                    amount_max: 15000,
-                    term_min: 5,
-                    term_max: 20,
-                    rate_min: 0.8,
-                    rate_max: 1.5,
-                    approval: 98,
-                    link_landing1: '#',
-                    link_landing2: '#',
-                    landing1: true,
-                    landing2: false,
-                    icon: 'rocket',
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
-                    status: 'active'
-                }
-            ];
-        }
-
-        // ===================== ОБНОВЛЕНИЕ СТАТУСА ПОДКЛЮЧЕНИЯ =====================
-        function updateConnectionStatus(connected) {
-            const adminNotice = document.getElementById('adminNotice');
-            const apiError = document.getElementById('apiError');
-            
-            if (connected) {
-                adminNotice.innerHTML = `
-                    <i class="fas fa-check-circle"></i>
-                    Актуализировано и собрано (${offersData.length} предложений)
-                `;
-                adminNotice.style.background = '#f0fdf4';
-                adminNotice.style.borderColor = '#dcfce7';
-                adminNotice.style.color = '#065f46';
-                apiError.classList.add('hidden');
-            } else {
-                adminNotice.innerHTML = `
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Админ-панель не подключена. Используются демо-данные
-                `;
-                adminNotice.style.background = '#fef3c7';
-                adminNotice.style.borderColor = '#fbbf24';
-                adminNotice.style.color = '#92400e';
-                apiError.classList.remove('hidden');
-            }
-        }
-
-        // Проверяем подключение при загрузке
-        setTimeout(() => {
-            const adminData = localStorage.getItem('admin_offers');
-            updateConnectionStatus(!!adminData);
-        }, 1000);
     </script>
 </body>
 </html>
