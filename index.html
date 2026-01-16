@@ -114,6 +114,16 @@
             color: #991b1b;
         }
         
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
         .btn {
             padding: 10px 20px;
             border-radius: 8px;
@@ -280,6 +290,73 @@
             font-size: 14px;
         }
         
+        .landing-distribution {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .landing-distribution-item {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .landing-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -291,6 +368,9 @@
             }
             .grid-2, .grid-4 {
                 grid-template-columns: 1fr;
+            }
+            .landing-distribution {
+                flex-direction: column;
             }
         }
     </style>
@@ -316,7 +396,10 @@
             
             <!-- Навигация -->
             <nav style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn landing-tab active" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white; border-left: 4px solid var(--landing1);">
+                <button class="btn landing-tab active" data-section="all-offers" style="justify-content: flex-start; background: rgba(59, 130, 246, 0.1); color: white; border-left: 4px solid var(--primary);">
+                    <i class="fas fa-database"></i> Все офферы
+                </button>
+                <button class="btn landing-tab" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white; border-left: 4px solid var(--landing1);">
                     <i class="fas fa-handshake"></i> Лендинг 1 (FinAI)
                 </button>
                 <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white; border-left: 4px solid var(--landing2);">
@@ -343,8 +426,128 @@
     </div>
     
     <div class="main-content">
+        <!-- Секция всех офферов -->
+        <div id="all-offers-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-database" style="color: var(--primary);"></i>
+                        <span>Все офферы - Общая база данных</span>
+                    </h1>
+                    <p style="color: #64748b; margin-top: 5px;">Единая база данных для обоих лендингов. Здесь можно загружать офферы из Excel и распределять их по лендингам</p>
+                </div>
+                <button id="add-offer-all" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Добавить оффер
+                </button>
+            </div>
+            
+            <!-- Инструменты Excel -->
+            <div class="grid-2" style="margin-bottom: 30px;">
+                <div class="stat-card">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-excel text-green-600"></i>
+                        Импорт из Excel
+                    </h3>
+                    <div id="excel-upload-all" class="excel-upload">
+                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
+                        <div class="btn" style="background: #e2e8f0;">
+                            <i class="fas fa-upload"></i> Выбрать файл
+                        </div>
+                        <input type="file" id="excel-file-all" accept=".xlsx,.xls,.csv" style="display: none;">
+                    </div>
+                    <div class="excel-template">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
+                            Обязательные колонки:<br>
+                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, СсылкаЛендинг1, СсылкаЛендинг2, ШансОдобрения
+                        </div>
+                        <button id="download-template-all" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
+                            <i class="fas fa-download"></i> Скачать шаблон
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-export text-blue-600"></i>
+                        Экспорт в Excel
+                    </h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы из базы данных в Excel файл для редактирования или бэкапа.</p>
+                    <button id="export-excel-all" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
+                    </button>
+                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
+                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
+                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются ВСЕ офферы из базы данных</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Статистика -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
+                    <div id="total-offers-all" style="font-size: 32px; font-weight: 800;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
+                    <div id="active-offers-all" style="font-size: 32px; font-weight: 800;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
+                    <div id="avg-rating-all" style="font-size: 32px; font-weight: 800;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
+                    <div id="avg-approval-all" style="font-size: 32px; font-weight: 800;">0%</div>
+                </div>
+            </div>
+            
+            <!-- Таблица всех офферов -->
+            <div class="table-container">
+                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 18px; font-weight: 600;">Все офферы в базе данных</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="mass-assign-landing1" class="btn" style="background: #e0e7ff; color: var(--landing1);">
+                            <i class="fas fa-handshake"></i> Назначить Л1
+                        </button>
+                        <button id="mass-assign-landing2" class="btn" style="background: #d1fae5; color: var(--landing2);">
+                            <i class="fas fa-brain"></i> Назначить Л2
+                        </button>
+                        <button id="delete-all-offers" class="btn" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-trash"></i> Удалить все
+                        </button>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" id="select-all-offers">
+                                </th>
+                                <th>Оффер</th>
+                                <th>Сумма</th>
+                                <th>Срок</th>
+                                <th>Ставка</th>
+                                <th>Рейтинг</th>
+                                <th>Лендинги</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offers-table-all">
+                            <!-- Все офферы будут здесь -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
         <!-- Секция лендинга 1 -->
-        <div id="landing1-section">
+        <div id="landing1-section" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div>
                     <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
@@ -358,48 +561,16 @@
                 </button>
             </div>
             
-            <!-- Инструменты Excel -->
-            <div class="grid-2" style="margin-bottom: 30px;">
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-excel text-green-600"></i>
-                        Импорт из Excel
-                    </h3>
-                    <div id="excel-upload-landing1" class="excel-upload">
-                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
-                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
-                        <div class="btn" style="background: #e2e8f0;">
-                            <i class="fas fa-upload"></i> Выбрать файл
-                        </div>
-                        <input type="file" id="excel-file-landing1" accept=".xlsx,.xls,.csv" style="display: none;">
-                    </div>
-                    <div class="excel-template">
-                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
-                            Обязательные колонки:<br>
-                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, Ссылка, ШансОдобрения
-                        </div>
-                        <button id="download-template-landing1" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
-                            <i class="fas fa-download"></i> Скачать шаблон
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-export text-blue-600"></i>
-                        Экспорт в Excel
-                    </h3>
-                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга в Excel файл для редактирования или бэкапа.</p>
-                    <button id="export-excel-landing1" class="btn btn-primary">
-                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
-                    </button>
-                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
-                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
-                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются только офферы для этого лендинга</div>
-                    </div>
-                </div>
+            <!-- Инструменты Excel для лендинга 1 -->
+            <div class="stat-card" style="margin-bottom: 30px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-file-export text-blue-600"></i>
+                    Экспорт офферов лендинга 1
+                </h3>
+                <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга 1 в Excel файл.</p>
+                <button id="export-excel-landing1" class="btn btn-landing1">
+                    <i class="fas fa-file-excel"></i> Экспортировать в Excel
+                </button>
             </div>
             
             <!-- Статистика -->
@@ -422,11 +593,14 @@
                 </div>
             </div>
             
-            <!-- Таблица офферов -->
+            <!-- Таблица офферов лендинга 1 -->
             <div class="table-container">
                 <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 1</h3>
                     <div style="display: flex; gap: 10px;">
+                        <button id="remove-from-landing1" class="btn" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-times"></i> Убрать с лендинга
+                        </button>
                         <button id="delete-all-landing1" class="btn" style="background: #fee2e2; color: #dc2626;">
                             <i class="fas fa-trash"></i> Удалить все
                         </button>
@@ -436,6 +610,9 @@
                     <table>
                         <thead>
                             <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" id="select-all-landing1">
+                                </th>
                                 <th>Оффер</th>
                                 <th>Сумма</th>
                                 <th>Срок</th>
@@ -454,7 +631,7 @@
             
             <!-- Карточки офферов -->
             <div style="margin-top: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга</h3>
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга 1</h3>
                 <div id="offer-cards-landing1" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
                     <!-- Карточки будут здесь -->
                 </div>
@@ -476,48 +653,16 @@
                 </button>
             </div>
             
-            <!-- Инструменты Excel -->
-            <div class="grid-2" style="margin-bottom: 30px;">
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-excel text-green-600"></i>
-                        Импорт из Excel
-                    </h3>
-                    <div id="excel-upload-landing2" class="excel-upload">
-                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
-                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
-                        <div class="btn" style="background: #e2e8f0;">
-                            <i class="fas fa-upload"></i> Выбрать файл
-                        </div>
-                        <input type="file" id="excel-file-landing2" accept=".xlsx,.xls,.csv" style="display: none;">
-                    </div>
-                    <div class="excel-template">
-                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
-                            Обязательные колонки:<br>
-                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, Ссылка, ШансОдобрения
-                        </div>
-                        <button id="download-template-landing2" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
-                            <i class="fas fa-download"></i> Скачать шаблон
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-export text-blue-600"></i>
-                        Экспорт в Excel
-                    </h3>
-                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга в Excel файл для редактирования или бэкапа.</p>
-                    <button id="export-excel-landing2" class="btn btn-primary">
-                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
-                    </button>
-                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
-                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
-                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются только офферы для этого лендинга</div>
-                    </div>
-                </div>
+            <!-- Инструменты Excel для лендинга 2 -->
+            <div class="stat-card" style="margin-bottom: 30px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-file-export text-blue-600"></i>
+                    Экспорт офферов лендинга 2
+                </h3>
+                <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга 2 в Excel файл.</p>
+                <button id="export-excel-landing2" class="btn btn-landing2">
+                    <i class="fas fa-file-excel"></i> Экспортировать в Excel
+                </button>
             </div>
             
             <!-- Статистика -->
@@ -540,11 +685,14 @@
                 </div>
             </div>
             
-            <!-- Таблица офферов -->
+            <!-- Таблица офферов лендинга 2 -->
             <div class="table-container">
                 <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
                     <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 2</h3>
                     <div style="display: flex; gap: 10px;">
+                        <button id="remove-from-landing2" class="btn" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-times"></i> Убрать с лендинга
+                        </button>
                         <button id="delete-all-landing2" class="btn" style="background: #fee2e2; color: #dc2626;">
                             <i class="fas fa-trash"></i> Удалить все
                         </button>
@@ -554,6 +702,9 @@
                     <table>
                         <thead>
                             <tr>
+                                <th style="width: 40px;">
+                                    <input type="checkbox" id="select-all-landing2">
+                                </th>
                                 <th>Оффер</th>
                                 <th>Сумма</th>
                                 <th>Срок</th>
@@ -572,7 +723,7 @@
             
             <!-- Карточки офферов -->
             <div style="margin-top: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга</h3>
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга 2</h3>
                 <div id="offer-cards-landing2" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
                     <!-- Карточки будут здесь -->
                 </div>
@@ -658,9 +809,54 @@
                     </div>
                 </div>
                 
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Ссылка для лендинга 1</label>
+                        <input type="url" id="link-landing1" class="form-control" value="#">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ссылка для лендинга 2</label>
+                        <input type="url" id="link-landing2" class="form-control" value="#">
+                    </div>
+                </div>
+                
+                <!-- Распределение по лендингам -->
                 <div class="form-group">
-                    <label class="form-label">Ссылка на оффер *</label>
-                    <input type="url" id="offer-link" class="form-control" value="#" required>
+                    <label class="form-label">Лендинги</label>
+                    <div class="landing-distribution">
+                        <div class="landing-distribution-item">
+                            <div class="landing-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="landing1-check" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--landing1);">Лендинг 1 (FinAI)</div>
+                                    <div style="font-size: 12px; color: #64748b;">Отображать на лендинге 1</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px; color: #64748b;">
+                                Этот оффер будет доступен на лендинге FinAI
+                            </div>
+                        </div>
+                        
+                        <div class="landing-distribution-item">
+                            <div class="landing-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="landing2-check" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--landing2);">Лендинг 2 (ДеньгиСразу)</div>
+                                    <div style="font-size: 12px; color: #64748b;">Отображать на лендинге 2</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px; color: #64748b;">
+                                Этот оффер будет доступен на лендинге ДеньгиСразу
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -732,8 +928,9 @@
         let offers = [];
         let settings = {};
         let currentEditOffer = null;
-        let currentLanding = 'landing1';
+        let currentLanding = 'all';
         let syncInProgress = false;
+        let selectedOffers = new Set();
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         document.addEventListener('DOMContentLoaded', async function() {
@@ -753,15 +950,16 @@
         
         // ===================== ИНИЦИАЛИЗАЦИЯ UI =====================
         function initUI() {
-            // Навигация между лендингами
+            // Навигация
             document.querySelectorAll('.landing-tab').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const section = this.getAttribute('data-section');
-                    showLandingSection(section);
+                    showSection(section);
                 });
             });
             
             // Кнопки добавления офферов
+            document.getElementById('add-offer-all').addEventListener('click', () => showOfferModal('all'));
             document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
             document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
             
@@ -773,74 +971,59 @@
             document.getElementById('cancel-modal').addEventListener('click', closeModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
-            // Кнопки удаления всех офферов
+            // Кнопки массовых действий для всех офферов
+            document.getElementById('select-all-offers').addEventListener('change', toggleSelectAllOffers);
+            document.getElementById('mass-assign-landing1').addEventListener('click', () => massAssignLanding('landing1'));
+            document.getElementById('mass-assign-landing2').addEventListener('click', () => massAssignLanding('landing2'));
+            document.getElementById('delete-all-offers').addEventListener('click', () => deleteAllOffers('all'));
+            
+            // Кнопки для лендинга 1
+            document.getElementById('select-all-landing1').addEventListener('change', () => toggleSelectAllForLanding('landing1'));
+            document.getElementById('remove-from-landing1').addEventListener('click', () => massRemoveFromLanding('landing1'));
             document.getElementById('delete-all-landing1').addEventListener('click', () => deleteAllOffers('landing1'));
+            
+            // Кнопки для лендинга 2
+            document.getElementById('select-all-landing2').addEventListener('change', () => toggleSelectAllForLanding('landing2'));
+            document.getElementById('remove-from-landing2').addEventListener('click', () => massRemoveFromLanding('landing2'));
             document.getElementById('delete-all-landing2').addEventListener('click', () => deleteAllOffers('landing2'));
             
-            // Импорт/экспорт Excel для лендинга 1
-            const excelUpload1 = document.getElementById('excel-upload-landing1');
-            const excelFile1 = document.getElementById('excel-file-landing1');
-            const excelTemplate1 = document.getElementById('download-template-landing1');
-            const exportExcel1 = document.getElementById('export-excel-landing1');
+            // Импорт/экспорт Excel для общей базы
+            const excelUploadAll = document.getElementById('excel-upload-all');
+            const excelFileAll = document.getElementById('excel-file-all');
+            const excelTemplateAll = document.getElementById('download-template-all');
+            const exportExcelAll = document.getElementById('export-excel-all');
             
-            excelUpload1.addEventListener('click', () => excelFile1.click());
-            excelUpload1.addEventListener('dragover', (e) => {
+            excelUploadAll.addEventListener('click', () => excelFileAll.click());
+            excelUploadAll.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                excelUpload1.classList.add('dragover');
+                excelUploadAll.classList.add('dragover');
             });
-            excelUpload1.addEventListener('dragleave', () => {
-                excelUpload1.classList.remove('dragover');
+            excelUploadAll.addEventListener('dragleave', () => {
+                excelUploadAll.classList.remove('dragover');
             });
-            excelUpload1.addEventListener('drop', (e) => {
+            excelUploadAll.addEventListener('drop', (e) => {
                 e.preventDefault();
-                excelUpload1.classList.remove('dragover');
+                excelUploadAll.classList.remove('dragover');
                 if (e.dataTransfer.files.length) {
-                    handleExcelUpload(e.dataTransfer.files[0], 'landing1');
+                    handleExcelUpload(e.dataTransfer.files[0], 'all');
                 }
             });
             
-            excelFile1.addEventListener('change', (e) => {
+            excelFileAll.addEventListener('change', (e) => {
                 if (e.target.files.length) {
-                    handleExcelUpload(e.target.files[0], 'landing1');
+                    handleExcelUpload(e.target.files[0], 'all');
                 }
             });
             
-            excelTemplate1.addEventListener('click', () => downloadExcelTemplate('landing1'));
-            exportExcel1.addEventListener('click', () => exportToExcel('landing1'));
+            excelTemplateAll.addEventListener('click', () => downloadExcelTemplate('all'));
+            exportExcelAll.addEventListener('click', () => exportToExcel('all'));
             
-            // Импорт/экспорт Excel для лендинга 2
-            const excelUpload2 = document.getElementById('excel-upload-landing2');
-            const excelFile2 = document.getElementById('excel-file-landing2');
-            const excelTemplate2 = document.getElementById('download-template-landing2');
-            const exportExcel2 = document.getElementById('export-excel-landing2');
+            // Экспорт для лендингов
+            document.getElementById('export-excel-landing1').addEventListener('click', () => exportToExcel('landing1'));
+            document.getElementById('export-excel-landing2').addEventListener('click', () => exportToExcel('landing2'));
             
-            excelUpload2.addEventListener('click', () => excelFile2.click());
-            excelUpload2.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                excelUpload2.classList.add('dragover');
-            });
-            excelUpload2.addEventListener('dragleave', () => {
-                excelUpload2.classList.remove('dragover');
-            });
-            excelUpload2.addEventListener('drop', (e) => {
-                e.preventDefault();
-                excelUpload2.classList.remove('dragover');
-                if (e.dataTransfer.files.length) {
-                    handleExcelUpload(e.dataTransfer.files[0], 'landing2');
-                }
-            });
-            
-            excelFile2.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    handleExcelUpload(e.target.files[0], 'landing2');
-                }
-            });
-            
-            excelTemplate2.addEventListener('click', () => downloadExcelTemplate('landing2'));
-            exportExcel2.addEventListener('click', () => exportToExcel('landing2'));
-            
-            // Показываем лендинг 1 по умолчанию
-            showLandingSection('landing1');
+            // Показываем все офферы по умолчанию
+            showSection('all-offers');
         }
         
         // ===================== РАБОТА С ДАННЫМИ =====================
@@ -925,7 +1108,7 @@
             } else if (landing === 'landing2') {
                 return offers.filter(o => o.landing2 !== false);
             }
-            return [];
+            return offers;
         }
         
         // ===================== СИНХРОНИЗАЦИЯ =====================
@@ -961,12 +1144,41 @@
         function updateUI() {
             console.log('Обновляем UI...');
             
-            // Обновляем оба лендинга
+            // Обновляем все секции
+            updateAllOffersSection();
             updateLandingSection('landing1');
             updateLandingSection('landing2');
             
             // Обновляем сайдбар
             updateSidebarStats();
+            
+            // Сбрасываем выбранные офферы
+            selectedOffers.clear();
+        }
+        
+        function updateAllOffersSection() {
+            const totalOffers = offers.length;
+            const activeOffers = offers.filter(o => o.status === 'active').length;
+            
+            // Обновляем статистику
+            document.getElementById('total-offers-all').textContent = totalOffers;
+            document.getElementById('active-offers-all').textContent = activeOffers;
+            
+            if (totalOffers > 0) {
+                // Средний рейтинг
+                const avgRating = offers.reduce((sum, o) => sum + (o.rating || 0), 0) / totalOffers;
+                document.getElementById('avg-rating-all').textContent = avgRating.toFixed(1);
+                
+                // Средний шанс одобрения
+                const avgApproval = offers.reduce((sum, o) => sum + (o.approval || 0), 0) / totalOffers;
+                document.getElementById('avg-approval-all').textContent = avgApproval.toFixed(0) + '%';
+            } else {
+                document.getElementById('avg-rating-all').textContent = '0';
+                document.getElementById('avg-approval-all').textContent = '0%';
+            }
+            
+            // Обновляем таблицу
+            updateOffersTable('all');
         }
         
         function updateLandingSection(landing) {
@@ -998,27 +1210,37 @@
             updateOfferCards(landing);
         }
         
-        function updateOffersTable(landing) {
-            const tbody = document.getElementById(`offers-table-${landing}`);
-            const landingOffers = getOffersForLanding(landing);
+        function updateOffersTable(section) {
+            const tbody = document.getElementById(`offers-table-${section}`);
+            let tableOffers;
+            
+            if (section === 'all') {
+                tableOffers = offers;
+            } else {
+                tableOffers = getOffersForLanding(section);
+            }
             
             if (!tbody) {
-                console.error(`Элемент offers-table-${landing} не найден!`);
+                console.error(`Элемент offers-table-${section} не найден!`);
                 return;
             }
             
             tbody.innerHTML = '';
             
-            console.log(`Обновляем таблицу для ${landing}. Всего офферов: ${landingOffers.length}`);
+            console.log(`Обновляем таблицу для ${section}. Всего офферов: ${tableOffers.length}`);
             
-            if (landingOffers.length === 0) {
+            if (tableOffers.length === 0) {
+                const emptyMessage = section === 'all' 
+                    ? 'Нет офферов в базе данных'
+                    : `Нет офферов для лендинга ${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`;
+                
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
+                        <td colspan="${section === 'all' ? '9' : '8'}" style="text-align: center; padding: 40px; color: #64748b;">
                             <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                            <div>Нет офферов для этого лендинга</div>
-                            <button onclick="showOfferModal('${landing}')" class="btn ${landing === 'landing1' ? 'btn-landing1' : 'btn-landing2'}" style="margin-top: 15px;">
-                                <i class="fas fa-plus"></i> Добавить первый оффер
+                            <div>${emptyMessage}</div>
+                            <button onclick="showOfferModal('${section === 'all' ? 'all' : section}')" class="btn ${section === 'all' ? 'btn-primary' : section === 'landing1' ? 'btn-landing1' : 'btn-landing2'}" style="margin-top: 15px;">
+                                <i class="fas fa-plus"></i> Добавить оффер
                             </button>
                         </td>
                     </tr>
@@ -1027,7 +1249,7 @@
             }
             
             // Сортируем: активные первые, затем по дате обновления
-            const sortedOffers = [...landingOffers].sort((a, b) => {
+            const sortedOffers = [...tableOffers].sort((a, b) => {
                 if (a.status === 'active' && b.status !== 'active') return -1;
                 if (a.status !== 'active' && b.status === 'active') return 1;
                 return new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at);
@@ -1046,11 +1268,36 @@
                 const rateMax = offer.rate_max || 0;
                 const rating = offer.rating || 5;
                 const status = offer.status || 'inactive';
+                const landing1 = offer.landing1 !== false;
+                const landing2 = offer.landing2 !== false;
                 
                 // Генерируем звезды рейтинга
                 const stars = generateRatingStars(rating);
                 
+                let landingBadges = '';
+                if (section === 'all') {
+                    if (landing1 && landing2) {
+                        landingBadges = `
+                            <div style="display: flex; gap: 5px;">
+                                <span class="badge badge-landing1">Л1</span>
+                                <span class="badge badge-landing2">Л2</span>
+                            </div>
+                        `;
+                    } else if (landing1) {
+                        landingBadges = '<span class="badge badge-landing1">Лендинг 1</span>';
+                    } else if (landing2) {
+                        landingBadges = '<span class="badge badge-landing2">Лендинг 2</span>';
+                    } else {
+                        landingBadges = '<span class="badge badge-warning">Не назначен</span>';
+                    }
+                }
+                
+                const isSelected = selectedOffers.has(offer.id);
+                
                 tr.innerHTML = `
+                    <td>
+                        <input type="checkbox" class="offer-checkbox" data-id="${offer.id}" ${isSelected ? 'checked' : ''}>
+                    </td>
                     <td>
                         <div style="font-weight: 600; color: #1e293b;">${offerName}</div>
                         <div style="font-size: 12px; color: #64748b; margin-top: 4px;">${description}</div>
@@ -1070,6 +1317,7 @@
                             <span style="margin-left: 5px; font-size: 12px; color: #64748b;">(${rating.toFixed(1)})</span>
                         </div>
                     </td>
+                    ${section === 'all' ? `<td>${landingBadges}</td>` : ''}
                     <td>
                         <span class="badge ${status === 'active' ? 'badge-success' : 'badge-danger'}">
                             ${status === 'active' ? 'Активный' : 'Неактивный'}
@@ -1077,10 +1325,10 @@
                     </td>
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            <button onclick="editOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
+                            <button onclick="editOffer('${offer.id}', '${section === 'all' ? 'all' : section}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="deleteOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
+                            <button onclick="deleteOffer('${offer.id}', '${section === 'all' ? 'all' : section}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1088,6 +1336,20 @@
                 `;
                 
                 tbody.appendChild(tr);
+            });
+            
+            // Добавляем обработчики для чекбоксов
+            tbody.querySelectorAll('.offer-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const offerId = this.getAttribute('data-id');
+                    if (this.checked) {
+                        selectedOffers.add(offerId);
+                    } else {
+                        selectedOffers.delete(offerId);
+                        document.getElementById(`select-all-${section === 'all' ? 'offers' : section}`).checked = false;
+                    }
+                    console.log('Выбранные офферы:', Array.from(selectedOffers));
+                });
             });
         }
         
@@ -1234,29 +1496,35 @@
         }
         
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
-        function showOfferModal(landing, offer = null) {
-            console.log('Открываем модальное окно оффера:', offer, 'для лендинга:', landing);
+        function showOfferModal(section, offer = null) {
+            console.log('Открываем модальное окно оффера:', offer, 'для секции:', section);
             currentEditOffer = offer;
-            currentLanding = landing;
+            currentLanding = section;
             const modal = document.getElementById('offer-modal');
             const title = document.getElementById('modal-title');
             
             if (offer) {
                 title.textContent = 'Редактировать оффер';
-                populateForm(offer, landing);
+                populateForm(offer, section);
             } else {
-                title.textContent = 'Новый оффер для ' + (landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу');
-                resetForm(landing);
+                if (section === 'all') {
+                    title.textContent = 'Новый оффер';
+                } else if (section === 'landing1') {
+                    title.textContent = 'Новый оффер для лендинга FinAI';
+                } else {
+                    title.textContent = 'Новый оффер для лендинга ДеньгиСразу';
+                }
+                resetForm(section);
             }
             
             modal.classList.add('active');
         }
         
-        function populateForm(offer, landing) {
+        function populateForm(offer, section) {
             console.log('Заполняем форму данными оффера:', offer);
             
             document.getElementById('offer-id').value = offer.id || '';
-            document.getElementById('offer-landing').value = landing;
+            document.getElementById('offer-landing').value = section;
             document.getElementById('offer-name').value = offer.name || '';
             document.getElementById('offer-description').value = offer.description || '';
             document.getElementById('offer-status').value = offer.status || 'active';
@@ -1268,7 +1536,19 @@
             document.getElementById('rate-max').value = offer.rate_max || 0.8;
             document.getElementById('approval').value = offer.approval || 95;
             document.getElementById('rating').value = offer.rating || 5;
-            document.getElementById('offer-link').value = landing === 'landing1' ? (offer.link_landing1 || '#') : (offer.link_landing2 || '#');
+            document.getElementById('link-landing1').value = offer.link_landing1 || '#';
+            document.getElementById('link-landing2').value = offer.link_landing2 || '#';
+            document.getElementById('landing1-check').checked = offer.landing1 !== false;
+            document.getElementById('landing2-check').checked = offer.landing2 !== false;
+            
+            // Если создаем оффер для конкретного лендинга, включаем только его
+            if (section === 'landing1') {
+                document.getElementById('landing1-check').checked = true;
+                document.getElementById('landing2-check').checked = false;
+            } else if (section === 'landing2') {
+                document.getElementById('landing1-check').checked = false;
+                document.getElementById('landing2-check').checked = true;
+            }
             
             // Типы дохода
             const incomeTypes = offer.incomeTypes || [];
@@ -1285,10 +1565,10 @@
             document.getElementById('history-bad').checked = historyTypes.includes('bad');
         }
         
-        function resetForm(landing) {
+        function resetForm(section) {
             document.getElementById('offer-form').reset();
             document.getElementById('offer-id').value = '';
-            document.getElementById('offer-landing').value = landing;
+            document.getElementById('offer-landing').value = section;
             document.getElementById('offer-status').value = 'active';
             document.getElementById('amount-min').value = 1000;
             document.getElementById('amount-max').value = 50000;
@@ -1298,7 +1578,20 @@
             document.getElementById('rate-max').value = 0.8;
             document.getElementById('approval').value = 95;
             document.getElementById('rating').value = 5;
-            document.getElementById('offer-link').value = '#';
+            document.getElementById('link-landing1').value = '#';
+            document.getElementById('link-landing2').value = '#';
+            
+            // Настройка лендингов в зависимости от секции
+            if (section === 'all') {
+                document.getElementById('landing1-check').checked = true;
+                document.getElementById('landing2-check').checked = true;
+            } else if (section === 'landing1') {
+                document.getElementById('landing1-check').checked = true;
+                document.getElementById('landing2-check').checked = false;
+            } else if (section === 'landing2') {
+                document.getElementById('landing1-check').checked = false;
+                document.getElementById('landing2-check').checked = true;
+            }
             
             // Все чекбоксы по умолчанию включены
             document.getElementById('income-official').checked = true;
@@ -1316,7 +1609,7 @@
             console.log('Закрываем модальное окно');
             document.getElementById('offer-modal').classList.remove('active');
             currentEditOffer = null;
-            currentLanding = 'landing1';
+            currentLanding = 'all';
         }
         
         function saveOffer(e) {
@@ -1324,7 +1617,7 @@
             console.log('Сохраняем оффер...');
             
             const id = document.getElementById('offer-id').value;
-            const landing = document.getElementById('offer-landing').value;
+            const section = document.getElementById('offer-landing').value;
             const name = document.getElementById('offer-name').value.trim();
             
             if (!name) {
@@ -1359,22 +1652,15 @@
                 rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
                 approval: parseInt(document.getElementById('approval').value) || 95,
                 rating: parseFloat(document.getElementById('rating').value) || 5,
+                link_landing1: document.getElementById('link-landing1').value.trim(),
+                link_landing2: document.getElementById('link-landing2').value.trim(),
+                landing1: document.getElementById('landing1-check').checked,
+                landing2: document.getElementById('landing2-check').checked,
                 incomeTypes: incomeTypes,
                 historyTypes: historyTypes,
                 updated_at: new Date().toISOString(),
                 created_at: id ? offers.find(o => o.id === id)?.created_at || new Date().toISOString() : new Date().toISOString()
             };
-            
-            // Добавляем ссылку для соответствующего лендинга
-            if (landing === 'landing1') {
-                offerData.link_landing1 = document.getElementById('offer-link').value.trim();
-                offerData.landing1 = true;
-                offerData.landing2 = false;
-            } else {
-                offerData.link_landing2 = document.getElementById('offer-link').value.trim();
-                offerData.landing1 = false;
-                offerData.landing2 = true;
-            }
             
             console.log('Данные оффера для сохранения:', offerData);
             
@@ -1408,19 +1694,19 @@
         }
         
         // Глобальные функции для таблицы
-        window.editOffer = function(id, landing) {
-            console.log('Редактируем оффер с ID:', id, 'для лендинга:', landing);
+        window.editOffer = function(id, section) {
+            console.log('Редактируем оффер с ID:', id, 'для секции:', section);
             const offer = offers.find(o => o.id === id);
             if (offer) {
-                showOfferModal(landing, offer);
+                showOfferModal(section, offer);
             } else {
                 console.error('Оффер с ID', id, 'не найден');
                 showNotification('Оффер не найден', 'error');
             }
         };
         
-        window.deleteOffer = function(id, landing) {
-            console.log('Удаляем оффер с ID:', id, 'с лендинга:', landing);
+        window.deleteOffer = function(id, section) {
+            console.log('Удаляем оффер с ID:', id, 'из секции:', section);
             Swal.fire({
                 title: 'Удалить оффер?',
                 text: 'Это действие нельзя отменить',
@@ -1448,11 +1734,133 @@
             });
         };
         
-        function deleteAllOffers(landing) {
+        // ===================== МАССОВЫЕ ДЕЙСТВИЯ =====================
+        function toggleSelectAllOffers() {
+            const selectAll = document.getElementById('select-all-offers').checked;
+            const checkboxes = document.querySelectorAll('#offers-table-all .offer-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll;
+                const offerId = checkbox.getAttribute('data-id');
+                if (selectAll) {
+                    selectedOffers.add(offerId);
+                } else {
+                    selectedOffers.delete(offerId);
+                }
+            });
+            
+            console.log('Выбраны все офферы:', selectAll);
+            console.log('Выбранные офферы:', Array.from(selectedOffers));
+        }
+        
+        function toggleSelectAllForLanding(landing) {
+            const selectAll = document.getElementById(`select-all-${landing}`).checked;
+            const checkboxes = document.querySelectorAll(`#offers-table-${landing} .offer-checkbox`);
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll;
+                const offerId = checkbox.getAttribute('data-id');
+                if (selectAll) {
+                    selectedOffers.add(offerId);
+                } else {
+                    selectedOffers.delete(offerId);
+                }
+            });
+            
+            console.log(`Выбраны все офферы для лендинга ${landing}:`, selectAll);
+        }
+        
+        function massAssignLanding(landing) {
+            if (selectedOffers.size === 0) {
+                showNotification('Выберите офферы для назначения', 'warning');
+                return;
+            }
+            
             Swal.fire({
-                title: 'Удалить ВСЕ офферы?',
-                html: `Будут удалены все офферы для лендинга <strong>${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}</strong><br>
-                      <span style="color: #dc2626; font-weight: bold;">Это действие нельзя отменить!</span>`,
+                title: `Назначить лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}?`,
+                html: `Вы собираетесь назначить <strong>${selectedOffers.size}</strong> офферов на лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.<br>
+                      Это действие добавит офферы на выбранный лендинг, не удаляя их с других.`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Да, назначить',
+                cancelButtonText: 'Отмена'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    selectedOffers.forEach(offerId => {
+                        const offer = offers.find(o => o.id === offerId);
+                        if (offer) {
+                            if (landing === 'landing1') {
+                                offer.landing1 = true;
+                            } else {
+                                offer.landing2 = true;
+                            }
+                            offer.updated_at = new Date().toISOString();
+                        }
+                    });
+                    
+                    const success = saveToLocalStorage();
+                    if (success) {
+                        updateUI();
+                        showNotification(`${selectedOffers.size} офферов назначено на лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`, 'success');
+                        selectedOffers.clear();
+                    }
+                }
+            });
+        }
+        
+        function massRemoveFromLanding(landing) {
+            if (selectedOffers.size === 0) {
+                showNotification('Выберите офферы для удаления с лендинга', 'warning');
+                return;
+            }
+            
+            Swal.fire({
+                title: `Убрать с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}?`,
+                html: `Вы собираетесь убрать <strong>${selectedOffers.size}</strong> офферов с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.<br>
+                      Офферы останутся в базе данных, но не будут отображаться на этом лендинге.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Да, убрать',
+                cancelButtonText: 'Отмена'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    selectedOffers.forEach(offerId => {
+                        const offer = offers.find(o => o.id === offerId);
+                        if (offer) {
+                            if (landing === 'landing1') {
+                                offer.landing1 = false;
+                            } else {
+                                offer.landing2 = false;
+                            }
+                            offer.updated_at = new Date().toISOString();
+                        }
+                    });
+                    
+                    const success = saveToLocalStorage();
+                    if (success) {
+                        updateUI();
+                        showNotification(`${selectedOffers.size} офферов убрано с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`, 'success');
+                        selectedOffers.clear();
+                    }
+                }
+            });
+        }
+        
+        function deleteAllOffers(section) {
+            let message, affectedOffers;
+            
+            if (section === 'all') {
+                message = 'Вы собираетесь удалить ВСЕ офферы из базы данных. Это действие нельзя отменить!';
+                affectedOffers = offers.length;
+            } else {
+                const landingName = section === 'landing1' ? 'FinAI' : 'ДеньгиСразу';
+                message = `Вы собираетесь удалить ВСЕ офферы с лендинга <strong>${landingName}</strong>. Это действие нельзя отменить!`;
+                affectedOffers = getOffersForLanding(section).length;
+            }
+            
+            Swal.fire({
+                title: 'Удалить ВСЕ?',
+                html: `${message}<br><br>Будет удалено: <strong>${affectedOffers}</strong> офферов`,
                 icon: 'error',
                 showCancelButton: true,
                 confirmButtonText: 'Да, удалить всё',
@@ -1460,28 +1868,31 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Для лендинга 1 удаляем офферы с landing1 = true
-                    // Для лендинга 2 удаляем офферы с landing2 = true
-                    offers = offers.filter(offer => {
-                        if (landing === 'landing1') {
-                            return offer.landing1 === false;
-                        } else {
-                            return offer.landing2 === false;
-                        }
-                    });
+                    if (section === 'all') {
+                        offers = [];
+                    } else {
+                        // Для лендинга удаляем офферы только с этого лендинга
+                        offers.forEach(offer => {
+                            if (section === 'landing1') {
+                                offer.landing1 = false;
+                            } else {
+                                offer.landing2 = false;
+                            }
+                        });
+                    }
                     
                     const success = saveToLocalStorage();
                     if (success) {
                         updateUI();
-                        showNotification(`Все офферы для лендинга удалены`, 'success');
+                        showNotification(`Все офферы ${section === 'all' ? 'удалены из базы данных' : 'убраны с лендинга'}`, 'success');
                     }
                 }
             });
         }
         
         // ===================== EXCEL ИМПОРТ/ЭКСПОРТ =====================
-        async function handleExcelUpload(file, landing) {
-            console.log('Загружаем Excel файл:', file.name, 'для лендинга:', landing);
+        async function handleExcelUpload(file, section) {
+            console.log('Загружаем Excel файл:', file.name, 'для секции:', section);
             
             try {
                 const data = await readExcelFile(file);
@@ -1492,7 +1903,7 @@
                 }
                 
                 // Проверяем наличие обязательных колонок
-                const requiredColumns = ['Название', 'Описание', 'СуммаМин', 'СуммаМакс', 'СрокМин', 'СрокМакс', 'СтавкаМин', 'СтавкаМакс', 'Рейтинг', 'Ссылка', 'ШансОдобрения'];
+                const requiredColumns = ['Название', 'Описание', 'СуммаМин', 'СуммаМакс', 'СрокМин', 'СрокМакс', 'СтавкаМин', 'СтавкаМакс', 'Рейтинг', 'СсылкаЛендинг1', 'СсылкаЛендинг2', 'ШансОдобрения'];
                 const firstRow = data[0];
                 const missingColumns = requiredColumns.filter(col => !(col in firstRow));
                 
@@ -1508,7 +1919,7 @@
                     if (rating > 5) rating = 5;
                     
                     return {
-                        id: 'excel_' + landing + '_' + Date.now() + '_' + index,
+                        id: 'excel_import_' + Date.now() + '_' + index,
                         name: row['Название'] || `Оффер ${index + 1}`,
                         description: row['Описание'] || '',
                         status: 'active',
@@ -1520,10 +1931,10 @@
                         rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
                         approval: parseInt(row['ШансОдобрения']) || 95,
                         rating: rating,
-                        link_landing1: landing === 'landing1' ? (row['Ссылка'] || '#') : '#',
-                        link_landing2: landing === 'landing2' ? (row['Ссылка'] || '#') : '#',
-                        landing1: landing === 'landing1',
-                        landing2: landing === 'landing2',
+                        link_landing1: row['СсылкаЛендинг1'] || '#',
+                        link_landing2: row['СсылкаЛендинг2'] || '#',
+                        landing1: true, // По умолчанию добавляем на оба лендинга
+                        landing2: true,
                         incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
                         historyTypes: ['none', 'small', 'current', 'bad'],
                         created_at: new Date().toISOString(),
@@ -1536,16 +1947,18 @@
                     title: 'Подтвердите импорт',
                     html: `Найдено <strong>${newOffers.length}</strong> офферов в файле.<br>
                           <div style="text-align: left; margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
-                          <strong>Пример карточки:</strong><br>
+                          <strong>Пример оффера:</strong><br>
                           Название: ${newOffers[0].name}<br>
                           Рейтинг: ${newOffers[0].rating} звёзд<br>
                           Шанс одобрения: ${newOffers[0].approval}%<br>
-                          Сумма: ${formatNumber(newOffers[0].amount_min)} - ${formatNumber(newOffers[0].amount_max)} ₽
+                          Ссылка Л1: ${newOffers[0].link_landing1}<br>
+                          Ссылка Л2: ${newOffers[0].link_landing2}
                           </div>
-                          Добавить их в лендинг <strong>${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}</strong>?`,
+                          Офферы будут добавлены в общую базу данных и назначены на ОБА лендинга.<br>
+                          Позже вы можете распределить их по лендингам индивидуально.`,
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'Да, добавить',
+                    confirmButtonText: 'Да, импортировать',
                     cancelButtonText: 'Отмена'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -1555,7 +1968,7 @@
                         
                         if (success) {
                             updateUI();
-                            showNotification(`Добавлено ${newOffers.length} офферов из Excel. Рейтинг будет отображаться в карточках!`, 'success');
+                            showNotification(`Добавлено ${newOffers.length} офферов из Excel. Офферы добавлены на оба лендинга!`, 'success');
                         }
                     }
                 });
@@ -1595,8 +2008,8 @@
             });
         }
         
-        function downloadExcelTemplate(landing) {
-            // Создаем шаблон данных с новыми колонками
+        function downloadExcelTemplate(section) {
+            // Создаем шаблон данных с раздельными ссылками для лендингов
             const templateData = [
                 {
                     'Название': 'МоментальныеДеньги',
@@ -1608,7 +2021,8 @@
                     'СтавкаМин': 0,
                     'СтавкаМакс': 0.8,
                     'Рейтинг': 4.5,
-                    'Ссылка': 'https://example.com/offer1',
+                    'СсылкаЛендинг1': 'https://example.com/offer1-landing1',
+                    'СсылкаЛендинг2': 'https://example.com/offer1-landing2',
                     'ШансОдобрения': 95
                 },
                 {
@@ -1621,7 +2035,8 @@
                     'СтавкаМин': 0.5,
                     'СтавкаМакс': 1,
                     'Рейтинг': 4.2,
-                    'Ссылка': 'https://example.com/offer2',
+                    'СсылкаЛендинг1': 'https://example.com/offer2-landing1',
+                    'СсылкаЛендинг2': 'https://example.com/offer2-landing2',
                     'ШансОдобрения': 94
                 }
             ];
@@ -1634,34 +2049,61 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
             
             // Генерируем файл и скачиваем
-            XLSX.writeFile(wb, `шаблон_офферов_${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.xlsx`);
+            let fileName;
+            if (section === 'all') {
+                fileName = 'шаблон_офферов_для_обоих_лендингов.xlsx';
+            } else {
+                fileName = `шаблон_офферов_${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.xlsx`;
+            }
+            
+            XLSX.writeFile(wb, fileName);
             
             showNotification('Шаблон скачан', 'success');
         }
         
-        function exportToExcel(landing) {
-            const landingOffers = getOffersForLanding(landing);
+        function exportToExcel(section) {
+            let exportData, fileName;
             
-            if (landingOffers.length === 0) {
+            if (section === 'all') {
+                exportData = offers;
+                fileName = `все_офферы_${new Date().toISOString().slice(0,10)}.xlsx`;
+            } else {
+                exportData = getOffersForLanding(section);
+                fileName = `офферы_${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}_${new Date().toISOString().slice(0,10)}.xlsx`;
+            }
+            
+            if (exportData.length === 0) {
                 showNotification('Нет офферов для экспорта', 'warning');
                 return;
             }
             
-            // Преобразуем офферы в формат Excel с новыми колонками
-            const excelData = landingOffers.map(offer => ({
-                'Название': offer.name,
-                'Описание': offer.description,
-                'СуммаМин': offer.amount_min,
-                'СуммаМакс': offer.amount_max,
-                'СрокМин': offer.term_min,
-                'СрокМакс': offer.term_max,
-                'СтавкаМин': offer.rate_min,
-                'СтавкаМакс': offer.rate_max,
-                'Рейтинг': offer.rating || 5,
-                'Ссылка': landing === 'landing1' ? offer.link_landing1 : offer.link_landing2,
-                'ШансОдобрения': offer.approval,
-                'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
-            }));
+            // Преобразуем офферы в формат Excel
+            const excelData = exportData.map(offer => {
+                const data = {
+                    'Название': offer.name,
+                    'Описание': offer.description,
+                    'СуммаМин': offer.amount_min,
+                    'СуммаМакс': offer.amount_max,
+                    'СрокМин': offer.term_min,
+                    'СрокМакс': offer.term_max,
+                    'СтавкаМин': offer.rate_min,
+                    'СтавкаМакс': offer.rate_max,
+                    'Рейтинг': offer.rating || 5,
+                    'ШансОдобрения': offer.approval,
+                    'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
+                };
+                
+                if (section === 'all') {
+                    data['СсылкаЛендинг1'] = offer.link_landing1;
+                    data['СсылкаЛендинг2'] = offer.link_landing2;
+                    data['Лендинг1'] = offer.landing1 ? 'Да' : 'Нет';
+                    data['Лендинг2'] = offer.landing2 ? 'Да' : 'Нет';
+                } else {
+                    data['Ссылка'] = section === 'landing1' ? offer.link_landing1 : offer.link_landing2;
+                }
+                
+                return data;
+            });
             
             // Создаем новую рабочую книгу
             const wb = XLSX.utils.book_new();
@@ -1671,26 +2113,38 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
             
             // Генерируем файл и скачиваем
-            const fileName = `офферы_${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}_${new Date().toISOString().slice(0,10)}.xlsx`;
             XLSX.writeFile(wb, fileName);
             
-            showNotification(`Экспортировано ${landingOffers.length} офферов`, 'success');
+            showNotification(`Экспортировано ${exportData.length} офферов`, 'success');
         }
         
         // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
-        function showLandingSection(section) {
+        function showSection(section) {
             // Скрываем все секции
+            document.getElementById('all-offers-section').style.display = 'none';
             document.getElementById('landing1-section').style.display = 'none';
             document.getElementById('landing2-section').style.display = 'none';
             
             // Показываем выбранную
-            document.getElementById(section + '-section').style.display = 'block';
+            let sectionId = section;
+            if (section === 'all-offers') {
+                sectionId = 'all-offers-section';
+            } else if (section === 'landing1') {
+                sectionId = 'landing1-section';
+            } else if (section === 'landing2') {
+                sectionId = 'landing2-section';
+            }
+            
+            document.getElementById(sectionId).style.display = 'block';
             
             // Обновляем активные табы
             document.querySelectorAll('.landing-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
+            
+            // Сбрасываем выбранные офферы
+            selectedOffers.clear();
             
             // Обновляем сайдбар
             updateSidebarStats();
@@ -1741,7 +2195,7 @@
                     link_landing1: 'https://mfo1.com/?ref=landing1',
                     link_landing2: 'https://mfo1.com/?ref=landing2',
                     landing1: true,
-                    landing2: false,
+                    landing2: true,
                     incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
                     historyTypes: ['none', 'small', 'current', 'bad'],
                     status: 'active',
@@ -1761,7 +2215,7 @@
                     approval: 94,
                     rating: 4.2,
                     link_landing1: 'https://mfo2.com/?ref=landing1',
-                    link_landing2: '#',
+                    link_landing2: 'https://mfo2.com/?ref=landing2',
                     landing1: true,
                     landing2: false,
                     incomeTypes: ['unofficial', 'benefits', 'noincome'],
@@ -1782,7 +2236,7 @@
                     rate_max: 0.5,
                     approval: 92,
                     rating: 4.8,
-                    link_landing1: '#',
+                    link_landing1: 'https://mfo3.com/?ref=landing1',
                     link_landing2: 'https://mfo3.com/?ref=landing2',
                     landing1: false,
                     landing2: true,
@@ -1804,9 +2258,9 @@
                     rate_max: 1.5,
                     approval: 98,
                     rating: 4.0,
-                    link_landing1: '#',
+                    link_landing1: 'https://mfo4.com/?ref=landing1',
                     link_landing2: 'https://mfo4.com/?ref=landing2',
-                    landing1: false,
+                    landing1: true,
                     landing2: true,
                     incomeTypes: ['unofficial', 'benefits', 'noincome'],
                     historyTypes: ['none', 'small', 'current', 'bad'],
