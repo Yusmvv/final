@@ -451,6 +451,14 @@
                     </table>
                 </div>
             </div>
+            
+            <!-- Карточки офферов -->
+            <div style="margin-top: 30px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга</h3>
+                <div id="offer-cards-landing1" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Карточки будут здесь -->
+                </div>
+            </div>
         </div>
         
         <!-- Секция лендинга 2 -->
@@ -559,6 +567,14 @@
                             <!-- Офферы лендинга 2 будут здесь -->
                         </tbody>
                     </table>
+                </div>
+            </div>
+            
+            <!-- Карточки офферов -->
+            <div style="margin-top: 30px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга</h3>
+                <div id="offer-cards-landing2" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                    <!-- Карточки будут здесь -->
                 </div>
             </div>
         </div>
@@ -977,6 +993,9 @@
             
             // Обновляем таблицу
             updateOffersTable(landing);
+            
+            // Обновляем карточки
+            updateOfferCards(landing);
         }
         
         function updateOffersTable(landing) {
@@ -1069,6 +1088,108 @@
                 `;
                 
                 tbody.appendChild(tr);
+            });
+        }
+        
+        function updateOfferCards(landing) {
+            const container = document.getElementById(`offer-cards-${landing}`);
+            const landingOffers = getOffersForLanding(landing);
+            
+            if (!container) {
+                console.error(`Элемент offer-cards-${landing} не найден!`);
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            console.log(`Обновляем карточки для ${landing}. Всего офферов: ${landingOffers.length}`);
+            
+            if (landingOffers.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #64748b; grid-column: 1 / -1;">
+                        <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
+                        <div>Нет офферов для отображения в карточках</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Сортируем: активные первые, затем по рейтингу (по убыванию)
+            const sortedOffers = [...landingOffers]
+                .filter(o => o.status === 'active')
+                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+                .slice(0, 6); // Показываем только 6 лучших карточек
+            
+            sortedOffers.forEach(offer => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.style.padding = '15px';
+                
+                const offerName = offer.name || 'Без названия';
+                const description = offer.description || '';
+                const amountMin = offer.amount_min || 0;
+                const amountMax = offer.amount_max || 0;
+                const termMin = offer.term_min || 0;
+                const termMax = offer.term_max || 0;
+                const rateMin = offer.rate_min || 0;
+                const rateMax = offer.rate_max || 0;
+                const rating = offer.rating || 5;
+                const approval = offer.approval || 95;
+                
+                // Генерируем звезды рейтинга
+                const stars = generateRatingStars(rating);
+                
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div>
+                            <div style="font-weight: 700; font-size: 16px; color: #1e293b; margin-bottom: 5px;">${offerName}</div>
+                            <div class="rating-stars">
+                                ${stars}
+                                <span style="margin-left: 5px; font-size: 12px; color: #64748b;">${rating.toFixed(1)}</span>
+                            </div>
+                        </div>
+                        <div style="background: #f0f9ff; color: #0369a1; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                            ${approval}% одобрения
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4; min-height: 40px;">
+                        ${description}
+                    </div>
+                    
+                    <div style="background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Сумма</div>
+                                <div style="font-weight: 700; font-size: 14px;">${formatNumber(amountMin)} - ${formatNumber(amountMax)} ₽</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Срок</div>
+                                <div style="font-weight: 700; font-size: 14px;">${termMin} - ${termMax} дней</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Ставка</div>
+                                <div style="font-weight: 700; font-size: 14px; color: #059669;">${rateMin} - ${rateMax}%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Рейтинг</div>
+                                <div style="font-weight: 700; font-size: 14px; color: #f59e0b;">${rating.toFixed(1)}/5</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button style="width: 100%; background: ${landing === 'landing1' ? 'var(--landing1)' : 'var(--landing2)'}; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Получить деньги
+                    </button>
+                    
+                    <div style="margin-top: 10px; font-size: 10px; color: #94a3b8; text-align: center;">
+                        Рейтинг ${rating.toFixed(1)} из 5 звёзд
+                    </div>
+                `;
+                
+                container.appendChild(card);
             });
         }
         
@@ -1414,6 +1535,13 @@
                 Swal.fire({
                     title: 'Подтвердите импорт',
                     html: `Найдено <strong>${newOffers.length}</strong> офферов в файле.<br>
+                          <div style="text-align: left; margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
+                          <strong>Пример карточки:</strong><br>
+                          Название: ${newOffers[0].name}<br>
+                          Рейтинг: ${newOffers[0].rating} звёзд<br>
+                          Шанс одобрения: ${newOffers[0].approval}%<br>
+                          Сумма: ${formatNumber(newOffers[0].amount_min)} - ${formatNumber(newOffers[0].amount_max)} ₽
+                          </div>
                           Добавить их в лендинг <strong>${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}</strong>?`,
                     icon: 'question',
                     showCancelButton: true,
@@ -1427,7 +1555,7 @@
                         
                         if (success) {
                             updateUI();
-                            showNotification(`Добавлено ${newOffers.length} офферов из Excel`, 'success');
+                            showNotification(`Добавлено ${newOffers.length} офферов из Excel. Рейтинг будет отображаться в карточках!`, 'success');
                         }
                     }
                 });
