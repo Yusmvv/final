@@ -97,6 +97,11 @@
             color: #991b1b;
         }
         
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
         .login-container {
             display: flex;
             justify-content: center;
@@ -178,6 +183,29 @@
         
         .file-upload:hover {
             border-color: var(--primary);
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .filter-tag {
+            background: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #475569;
+        }
+        
+        .preview-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
         }
         
         @media (max-width: 768px) {
@@ -327,7 +355,8 @@
                                     <th>Сумма</th>
                                     <th>Срок</th>
                                     <th>Ставка</th>
-                                    <th>Статус</th>
+                                    <th>Фильтры</th>
+                                    <th>Лендинги</th>
                                     <th>Действия</th>
                                 </tr>
                             </thead>
@@ -350,6 +379,14 @@
                     </button>
                 </div>
                 
+                <!-- Превью карточек -->
+                <div style="margin-bottom: 20px;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Превью карточек</h3>
+                    <div id="preview-cards-landing1">
+                        <!-- Превью будут здесь -->
+                    </div>
+                </div>
+                
                 <!-- Таблица офферов FinAI -->
                 <div class="card" style="overflow: hidden;">
                     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Офферы на лендинге FinAI</h3>
@@ -361,6 +398,7 @@
                                     <th>Сумма</th>
                                     <th>Срок</th>
                                     <th>Ставка</th>
+                                    <th>Фильтры</th>
                                     <th>Действия</th>
                                 </tr>
                             </thead>
@@ -383,6 +421,14 @@
                     </button>
                 </div>
                 
+                <!-- Превью карточек -->
+                <div style="margin-bottom: 20px;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Превью карточек</h3>
+                    <div id="preview-cards-landing2">
+                        <!-- Превью будут здесь -->
+                    </div>
+                </div>
+                
                 <!-- Таблица офферов ДеньгиСразу -->
                 <div class="card" style="overflow: hidden;">
                     <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Офферы на лендинге ДеньгиСразу</h3>
@@ -394,6 +440,7 @@
                                     <th>Сумма</th>
                                     <th>Срок</th>
                                     <th>Ставка</th>
+                                    <th>Фильтры</th>
                                     <th>Действия</th>
                                 </tr>
                             </thead>
@@ -426,10 +473,10 @@
             </div>
             
             <div style="margin-top: 15px; padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
-                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Требования к файлу:</div>
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Обязательные колонки:</div>
                 <div style="font-size: 12px; color: #64748b;">
-                    Обязательные колонки:<br>
-                    Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг
+                    Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс,<br>
+                    СтавкаМин, СтавкаМакс, Рейтинг, Ссылка, ШансОдобрения
                 </div>
             </div>
         </div>
@@ -437,7 +484,7 @@
     
     <!-- Модальное окно оффера -->
     <div id="offer-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
-        <div class="card" style="width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
+        <div class="card" style="width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-size: 20px; font-weight: 700;" id="modal-title">Новый оффер</h2>
                 <button id="close-modal" class="btn" style="background: #e5e7eb;">✕</button>
@@ -446,65 +493,82 @@
             <form id="offer-form">
                 <input type="hidden" id="offer-id">
                 
-                <div class="form-group">
-                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Название оффера *</label>
-                    <input type="text" id="offer-name" class="form-control" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Название оффера *</label>
+                        <input type="text" id="offer-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Статус</label>
+                        <select id="offer-status" class="form-control">
+                            <option value="active">Активный</option>
+                            <option value="inactive">Неактивный</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label style="display: block; margin-bottom: 6px; font-weight: 600;">Описание</label>
-                    <textarea id="offer-description" class="form-control" rows="2"></textarea>
+                    <textarea id="offer-description" class="form-control" rows="3" placeholder="Краткое описание оффера для пользователей"></textarea>
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. сумма</label>
-                        <input type="number" id="amount-min" class="form-control" value="1000">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. сумма, ₽</label>
+                        <input type="number" id="amount-min" class="form-control" value="1000" min="0">
                     </div>
                     
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. сумма</label>
-                        <input type="number" id="amount-max" class="form-control" value="50000">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. сумма, ₽</label>
+                        <input type="number" id="amount-max" class="form-control" value="50000" min="0">
                     </div>
                 </div>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. срок (дни)</label>
-                        <input type="number" id="term-min" class="form-control" value="7">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. срок, дней</label>
+                        <input type="number" id="term-min" class="form-control" value="7" min="1">
                     </div>
                     
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. срок (дни)</label>
-                        <input type="number" id="term-max" class="form-control" value="30">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. срок, дней</label>
+                        <input type="number" id="term-max" class="form-control" value="30" min="1">
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. ставка (%)</label>
-                        <input type="number" step="0.1" id="rate-min" class="form-control" value="0">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. ставка, %</label>
+                        <input type="number" step="0.1" id="rate-min" class="form-control" value="0" min="0">
                     </div>
                     
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. ставка (%)</label>
-                        <input type="number" step="0.1" id="rate-max" class="form-control" value="0.8">
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. ставка, %</label>
+                        <input type="number" step="0.1" id="rate-max" class="form-control" value="0.8" min="0">
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
                         <label style="display: block; margin-bottom: 6px; font-weight: 600;">Рейтинг (1-5)</label>
                         <input type="number" id="rating" class="form-control" value="5" min="1" max="5" step="0.1">
+                        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Отображается в виде звёзд на лендинге</div>
                     </div>
                     
                     <div class="form-group">
-                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Шанс одобрения (%)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Шанс одобрения, %</label>
                         <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
                     </div>
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 20px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Ссылка на оффер *</label>
+                    <input type="url" id="offer-link" class="form-control" required placeholder="https://example.com/offer">
+                    <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Ссылка, по которой перейдет пользователь при клике</div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 8px; font-weight: 600;">Лендинги</label>
                     <div style="display: flex; gap: 20px;">
                         <label style="display: flex; align-items: center; gap: 8px;">
@@ -515,6 +579,110 @@
                             <input type="checkbox" id="landing2-check" checked>
                             ДеньгиСразу
                         </label>
+                    </div>
+                </div>
+                
+                <!-- Типы дохода -->
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Типы дохода</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="income-official" checked>
+                            Официальный
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="income-unofficial" checked>
+                            Неофициальный
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="income-benefits" checked>
+                            Пособие/пенсия
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="income-noincome" checked>
+                            Без дохода
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Типы кредитной истории -->
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Типы кредитной истории</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="history-none" checked>
+                            Нет просрочек
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="history-small" checked>
+                            Были небольшие
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="history-current" checked>
+                            Есть текущие
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8fafc; border-radius: 6px;">
+                            <input type="checkbox" id="history-bad" checked>
+                            Плохая история
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Превью карточки -->
+                <div style="margin: 20px 0; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px dashed #d1d5db;">
+                    <div style="font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #64748b;">Превью карточки на лендинге:</div>
+                    <div id="offer-preview" class="preview-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: 700; font-size: 16px; color: #1e293b; margin-bottom: 5px;" id="preview-name">Название оффера</div>
+                                <div style="display: flex; align-items: center; gap: 3px;">
+                                    <i class="fas fa-star" style="color: #fbbf24; font-size: 12px;"></i>
+                                    <span style="font-size: 12px; color: #64748b;" id="preview-rating">5.0</span>
+                                </div>
+                            </div>
+                            <div style="background: #dbeafe; color: #1e40af; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;" id="preview-approval">
+                                95% одобрения
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4;" id="preview-description">
+                            Описание оффера будет здесь
+                        </div>
+                        
+                        <div style="background: white; border-radius: 8px; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Сумма</div>
+                                    <div style="font-weight: 700; font-size: 13px;" id="preview-amount">1 000 - 50 000 ₽</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Срок</div>
+                                    <div style="font-weight: 700; font-size: 13px;" id="preview-term">7 - 30 дней</div>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Ставка</div>
+                                    <div style="font-weight: 700; font-size: 13px; color: #059669;" id="preview-rate">0 - 0.8%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Рейтинг</div>
+                                    <div style="font-weight: 700; font-size: 13px; color: #f59e0b;" id="preview-rating-value">5.0/5</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 5px;">Фильтры:</div>
+                            <div class="filter-tags" id="preview-filters">
+                                <span class="filter-tag">Официальный</span>
+                                <span class="filter-tag">Нет просрочек</span>
+                            </div>
+                        </div>
+                        
+                        <button style="width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;">
+                            Получить деньги
+                        </button>
                     </div>
                 </div>
                 
@@ -533,23 +701,19 @@
     <script>
         // ===================== БЕЗОПАСНАЯ КОНФИГУРАЦИЯ =====================
         const CONFIG = {
-            // Хешированный пароль (SHA-256 от 'secure123')
-            // В реальном проекте это должно быть на сервере
             AUTH: {
                 USERNAME: 'admin',
                 PASSWORD_HASH: 'e4d2c6d2a9f3c5b8a1f2e7d3c6b9a8f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b'
             },
             
-            // Ключи для безопасного хранения
             STORAGE_KEYS: {
                 OFFERS: 'offers_data_' + btoa('secure_key_offers'),
                 SESSION: 'admin_session_' + btoa('secure_key_session')
             },
             
-            // Настройки сессии
-            SESSION_TIMEOUT: 2 * 60 * 60 * 1000, // 2 часа
+            SESSION_TIMEOUT: 2 * 60 * 60 * 1000,
             MAX_LOGIN_ATTEMPTS: 5,
-            LOCKOUT_TIME: 15 * 60 * 1000 // 15 минут
+            LOCKOUT_TIME: 15 * 60 * 1000
         };
         
         // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
@@ -559,16 +723,7 @@
         let loginAttempts = 0;
         let lockoutUntil = 0;
         
-        // ===================== БЕЗОПАСНАЯ АВТОРИЗАЦИЯ =====================
-        async function sha256(message) {
-            // Простая имитация хеширования для демо
-            // В реальном проекте используйте Web Crypto API
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-        
+        // ===================== АВТОРИЗАЦИЯ =====================
         function checkAuth() {
             try {
                 const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
@@ -577,21 +732,13 @@
                 const sessionData = JSON.parse(session);
                 const now = Date.now();
                 
-                // Проверяем блокировку
                 if (now < lockoutUntil) {
                     const remaining = Math.ceil((lockoutUntil - now) / 60000);
                     showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
                     return false;
                 }
                 
-                // Проверяем срок сессии
                 if (now - sessionData.timestamp > CONFIG.SESSION_TIMEOUT) {
-                    logout();
-                    return false;
-                }
-                
-                // Проверяем подпись сессии
-                if (sessionData.signature !== generateSessionSignature(sessionData)) {
                     logout();
                     return false;
                 }
@@ -602,30 +749,6 @@
             }
         }
         
-        function generateSessionSignature(data) {
-            // Генерируем подпись для проверки целостности сессии
-            const str = data.username + data.timestamp + data.ip + CONFIG.AUTH.USERNAME;
-            return btoa(str).substring(0, 32);
-        }
-        
-        function createSession(username) {
-            const sessionData = {
-                authenticated: true,
-                username: username,
-                timestamp: Date.now(),
-                ip: getClientIP(),
-                signature: ''
-            };
-            
-            sessionData.signature = generateSessionSignature(sessionData);
-            localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, JSON.stringify(sessionData));
-        }
-        
-        function getClientIP() {
-            // Упрощенный метод для демо
-            return 'local_' + Math.random().toString(36).substr(2, 9);
-        }
-        
         function logout() {
             localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
             showLogin();
@@ -634,7 +757,6 @@
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         document.addEventListener('DOMContentLoaded', async function() {
-            // Проверяем блокировку
             const lockout = localStorage.getItem('login_lockout');
             if (lockout) {
                 lockoutUntil = parseInt(lockout);
@@ -644,7 +766,6 @@
                 }
             }
             
-            // Проверяем авторизацию
             if (checkAuth()) {
                 showApp();
                 initApp();
@@ -664,14 +785,12 @@
                 
                 hideErrors();
                 
-                // Проверяем блокировку
                 if (Date.now() < lockoutUntil) {
                     const remaining = Math.ceil((lockoutUntil - Date.now()) / 60000);
                     showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
                     return;
                 }
                 
-                // Проверяем логин
                 if (username !== CONFIG.AUTH.USERNAME) {
                     loginAttempts++;
                     showError('username-error', 'Неверный логин');
@@ -679,7 +798,6 @@
                     return;
                 }
                 
-                // Проверяем пароль (в демо используем простую проверку)
                 if (password !== 'secure123') {
                     loginAttempts++;
                     showError('password-error', 'Неверный пароль');
@@ -687,14 +805,16 @@
                     return;
                 }
                 
-                // Сбрасываем счетчик попыток
                 loginAttempts = 0;
                 localStorage.removeItem('login_lockout');
                 
-                // Создаем сессию
-                createSession(username);
+                const sessionData = {
+                    authenticated: true,
+                    username: username,
+                    timestamp: Date.now()
+                };
                 
-                // Показываем приложение
+                localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, JSON.stringify(sessionData));
                 showApp();
                 initApp();
             });
@@ -737,10 +857,8 @@
         
         // ===================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ =====================
         function initApp() {
-            // Загружаем данные
             loadData();
             
-            // Навигация
             document.querySelectorAll('.landing-tab').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const section = this.getAttribute('data-section');
@@ -748,30 +866,24 @@
                 });
             });
             
-            // Кнопки добавления
             document.getElementById('add-offer').addEventListener('click', () => showOfferModal('all'));
             document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
             document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
             
-            // Импорт/Экспорт
             document.getElementById('import-excel').addEventListener('click', showImportModal);
             document.getElementById('export-excel').addEventListener('click', exportToExcel);
             document.getElementById('download-template').addEventListener('click', downloadTemplate);
             
-            // Поиск
             document.getElementById('search-offers').addEventListener('input', filterOffers);
             
-            // Выход
             document.getElementById('logout-btn').addEventListener('click', logout);
             
-            // Модальные окна
             document.getElementById('close-modal').addEventListener('click', closeOfferModal);
             document.getElementById('cancel-modal').addEventListener('click', closeOfferModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
             document.getElementById('close-import-modal').addEventListener('click', closeImportModal);
             
-            // Загрузка файла
             const fileUpload = document.getElementById('file-upload-area');
             const fileInput = document.getElementById('excel-file');
             
@@ -797,11 +909,18 @@
                 }
             });
             
-            // Автосохранение
-            setInterval(saveData, 60000); // Каждую минуту
-            
-            // Показываем все офферы по умолчанию
+            setInterval(saveData, 60000);
             showSection('all');
+            
+            // Обновление превью при изменении полей
+            document.querySelectorAll('#offer-form input, #offer-form textarea, #offer-form select').forEach(input => {
+                input.addEventListener('input', updateOfferPreview);
+                input.addEventListener('change', updateOfferPreview);
+            });
+            
+            document.querySelectorAll('#offer-form input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateOfferPreview);
+            });
         }
         
         // ===================== УПРАВЛЕНИЕ ДАННЫМИ =====================
@@ -809,7 +928,6 @@
             try {
                 const encrypted = localStorage.getItem(CONFIG.STORAGE_KEYS.OFFERS);
                 if (encrypted) {
-                    // В реальном проекте нужна расшифровка
                     offers = JSON.parse(encrypted);
                 }
                 updateUI();
@@ -820,7 +938,6 @@
         
         function saveData() {
             try {
-                // В реальном проекте нужна шифровка
                 localStorage.setItem(CONFIG.STORAGE_KEYS.OFFERS, JSON.stringify(offers));
                 updateStats();
             } catch (e) {
@@ -841,6 +958,8 @@
         function updateUI() {
             updateStats();
             updateOffersTable();
+            updatePreviewCards('landing1');
+            updatePreviewCards('landing2');
         }
         
         function updateStats() {
@@ -867,7 +986,7 @@
                 tbody.innerHTML = '';
                 
                 if (tableOffers.length === 0) {
-                    const cols = section === 'all' ? 6 : 5;
+                    const cols = section === 'all' ? 7 : 6;
                     tbody.innerHTML = `
                         <tr>
                             <td colspan="${cols}" style="text-align: center; padding: 30px; color: #64748b;">
@@ -881,6 +1000,40 @@
                 
                 tableOffers.forEach(offer => {
                     const tr = document.createElement('tr');
+                    
+                    const incomeLabels = {
+                        'official': 'Офиц.',
+                        'unofficial': 'Неофиц.',
+                        'benefits': 'Пособие',
+                        'noincome': 'Без дохода'
+                    };
+                    
+                    const historyLabels = {
+                        'none': 'Нет просрочек',
+                        'small': 'Были небольшие',
+                        'current': 'Есть текущие',
+                        'bad': 'Плохая история'
+                    };
+                    
+                    const incomeTags = (offer.incomeTypes || []).map(type => 
+                        `<span class="filter-tag">${incomeLabels[type] || type}</span>`
+                    ).join('');
+                    
+                    const historyTags = (offer.historyTypes || []).map(type => 
+                        `<span class="filter-tag">${historyLabels[type] || type}</span>`
+                    ).join('');
+                    
+                    const filterTags = incomeTags + historyTags;
+                    
+                    const landingBadges = section === 'all' ? `
+                        <td>
+                            <div style="display: flex; gap: 4px;">
+                                ${offer.landing1 ? '<span class="badge badge-info" style="font-size: 11px;">FinAI</span>' : ''}
+                                ${offer.landing2 ? '<span class="badge badge-info" style="font-size: 11px;">ДеньгиСразу</span>' : ''}
+                            </div>
+                        </td>
+                    ` : '';
+                    
                     tr.innerHTML = `
                         <td>
                             <div style="font-weight: 600;">${offer.name}</div>
@@ -895,13 +1048,12 @@
                         <td>
                             <div style="color: #059669; font-weight: 600;">${offer.rate_min} - ${offer.rate_max}%</div>
                         </td>
-                        ${section === 'all' ? `
-                            <td>
-                                <span class="badge ${offer.status === 'active' ? 'badge-success' : 'badge-danger'}">
-                                    ${offer.status === 'active' ? 'Активен' : 'Неактивен'}
-                                </span>
-                            </td>
-                        ` : ''}
+                        <td>
+                            <div class="filter-tags">
+                                ${filterTags || '<span style="font-size: 11px; color: #94a3b8;">Нет фильтров</span>'}
+                            </div>
+                        </td>
+                        ${landingBadges}
                         <td>
                             <div style="display: flex; gap: 6px;">
                                 <button onclick="editOffer('${offer.id}')" class="btn" style="padding: 5px 10px; font-size: 12px;">
@@ -916,6 +1068,138 @@
                     tbody.appendChild(tr);
                 });
             });
+        }
+        
+        function updatePreviewCards(landing) {
+            const container = document.getElementById(`preview-cards-${landing}`);
+            const landingOffers = getOffersForLanding(landing).filter(o => o.status === 'active');
+            
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (landingOffers.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #64748b; background: #f8fafc; border-radius: 8px; border: 1px dashed #d1d5db;">
+                        <i class="fas fa-eye-slash" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <div>Нет активных офферов для отображения</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            landingOffers.slice(0, 3).forEach(offer => {
+                const card = createOfferCardPreview(offer);
+                container.appendChild(card);
+            });
+        }
+        
+        function createOfferCardPreview(offer) {
+            const card = document.createElement('div');
+            card.className = 'preview-card';
+            
+            const stars = generateStars(offer.rating);
+            const incomeLabels = {
+                'official': 'Офиц.',
+                'unofficial': 'Неофиц.',
+                'benefits': 'Пособие',
+                'noincome': 'Без дохода'
+            };
+            
+            const historyLabels = {
+                'none': 'Нет просрочек',
+                'small': 'Были небольшие',
+                'current': 'Есть текущие',
+                'bad': 'Плохая история'
+            };
+            
+            const incomeTags = (offer.incomeTypes || []).map(type => 
+                `<span class="filter-tag">${incomeLabels[type] || type}</span>`
+            ).join('');
+            
+            const historyTags = (offer.historyTypes || []).map(type => 
+                `<span class="filter-tag">${historyLabels[type] || type}</span>`
+            ).join('');
+            
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px; color: #1e293b; margin-bottom: 5px;">${offer.name}</div>
+                        <div style="display: flex; align-items: center; gap: 3px;">
+                            ${stars}
+                            <span style="font-size: 12px; color: #64748b;">${offer.rating.toFixed(1)}</span>
+                        </div>
+                    </div>
+                    <div style="background: #dbeafe; color: #1e40af; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;">
+                        ${offer.approval}% одобрения
+                    </div>
+                </div>
+                
+                <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4;">
+                    ${offer.description || ''}
+                </div>
+                
+                <div style="background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Сумма</div>
+                            <div style="font-weight: 700; font-size: 13px;">
+                                ${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Срок</div>
+                            <div style="font-weight: 700; font-size: 13px;">
+                                ${offer.term_min} - ${offer.term_max} дней
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Ставка</div>
+                            <div style="font-weight: 700; font-size: 13px; color: #059669;">
+                                ${offer.rate_min} - ${offer.rate_max}%
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #64748b; margin-bottom: 2px;">Рейтинг</div>
+                            <div style="font-weight: 700; font-size: 13px; color: #f59e0b;">
+                                ${offer.rating.toFixed(1)}/5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <div style="font-size: 11px; color: #64748b; margin-bottom: 5px;">Фильтры:</div>
+                    <div class="filter-tags">
+                        ${incomeTags}
+                        ${historyTags}
+                    </div>
+                </div>
+                
+                <button style="width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;">
+                    Получить деньги
+                </button>
+                
+                <div style="margin-top: 10px; font-size: 10px; color: #94a3b8; text-align: center;">
+                    Оффер отображается на лендинге
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) stars += '<i class="fas fa-star" style="color: #fbbf24; font-size: 12px;"></i>';
+            if (halfStar) stars += '<i class="fas fa-star-half-alt" style="color: #fbbf24; font-size: 12px;"></i>';
+            for (let i = 0; i < emptyStars; i++) stars += '<i class="far fa-star" style="color: #fbbf24; font-size: 12px;"></i>';
+            return stars;
         }
         
         function filterOffers() {
@@ -960,12 +1244,14 @@
             }
             
             modal.style.display = 'flex';
+            updateOfferPreview();
         }
         
         function populateForm(offer) {
             document.getElementById('offer-id').value = offer.id;
             document.getElementById('offer-name').value = offer.name;
             document.getElementById('offer-description').value = offer.description || '';
+            document.getElementById('offer-status').value = offer.status || 'active';
             document.getElementById('amount-min').value = offer.amount_min;
             document.getElementById('amount-max').value = offer.amount_max;
             document.getElementById('term-min').value = offer.term_min;
@@ -974,15 +1260,32 @@
             document.getElementById('rate-max').value = offer.rate_max;
             document.getElementById('rating').value = offer.rating;
             document.getElementById('approval').value = offer.approval;
+            document.getElementById('offer-link').value = offer.link || '';
             document.getElementById('landing1-check').checked = offer.landing1 !== false;
             document.getElementById('landing2-check').checked = offer.landing2 !== false;
+            
+            // Типы дохода
+            const incomeTypes = offer.incomeTypes || [];
+            document.getElementById('income-official').checked = incomeTypes.includes('official');
+            document.getElementById('income-unofficial').checked = incomeTypes.includes('unofficial');
+            document.getElementById('income-benefits').checked = incomeTypes.includes('benefits');
+            document.getElementById('income-noincome').checked = incomeTypes.includes('noincome');
+            
+            // Типы кредитной истории
+            const historyTypes = offer.historyTypes || [];
+            document.getElementById('history-none').checked = historyTypes.includes('none');
+            document.getElementById('history-small').checked = historyTypes.includes('small');
+            document.getElementById('history-current').checked = historyTypes.includes('current');
+            document.getElementById('history-bad').checked = historyTypes.includes('bad');
         }
         
         function resetForm(section) {
             document.getElementById('offer-form').reset();
             document.getElementById('offer-id').value = '';
+            document.getElementById('offer-status').value = 'active';
             document.getElementById('rating').value = 5;
             document.getElementById('approval').value = 95;
+            document.getElementById('offer-link').value = 'https://';
             
             if (section === 'landing1') {
                 document.getElementById('landing1-check').checked = true;
@@ -990,6 +1293,58 @@
             } else if (section === 'landing2') {
                 document.getElementById('landing1-check').checked = false;
                 document.getElementById('landing2-check').checked = true;
+            }
+        }
+        
+        function updateOfferPreview() {
+            const name = document.getElementById('offer-name').value || 'Название оффера';
+            const description = document.getElementById('offer-description').value || 'Описание оффера будет здесь';
+            const amountMin = parseInt(document.getElementById('amount-min').value) || 1000;
+            const amountMax = parseInt(document.getElementById('amount-max').value) || 50000;
+            const termMin = parseInt(document.getElementById('term-min').value) || 7;
+            const termMax = parseInt(document.getElementById('term-max').value) || 30;
+            const rateMin = parseFloat(document.getElementById('rate-min').value) || 0;
+            const rateMax = parseFloat(document.getElementById('rate-max').value) || 0.8;
+            const rating = parseFloat(document.getElementById('rating').value) || 5;
+            const approval = parseInt(document.getElementById('approval').value) || 95;
+            
+            // Обновляем превью
+            document.getElementById('preview-name').textContent = name;
+            document.getElementById('preview-description').textContent = description;
+            document.getElementById('preview-amount').textContent = `${formatNumber(amountMin)} - ${formatNumber(amountMax)} ₽`;
+            document.getElementById('preview-term').textContent = `${termMin} - ${termMax} дней`;
+            document.getElementById('preview-rate').textContent = `${rateMin} - ${rateMax}%`;
+            document.getElementById('preview-rating').textContent = rating.toFixed(1);
+            document.getElementById('preview-rating-value').textContent = `${rating.toFixed(1)}/5`;
+            document.getElementById('preview-approval').textContent = `${approval}% одобрения`;
+            
+            // Обновляем звёзды
+            const stars = generateStars(rating);
+            const ratingElement = document.querySelector('#offer-preview .fa-star').parentElement;
+            ratingElement.innerHTML = stars + `<span style="font-size: 12px; color: #64748b;">${rating.toFixed(1)}</span>`;
+            
+            // Обновляем фильтры
+            const filtersContainer = document.getElementById('preview-filters');
+            const incomeTypes = [];
+            const historyTypes = [];
+            
+            if (document.getElementById('income-official').checked) incomeTypes.push('Официальный');
+            if (document.getElementById('income-unofficial').checked) incomeTypes.push('Неофициальный');
+            if (document.getElementById('income-benefits').checked) incomeTypes.push('Пособие/пенсия');
+            if (document.getElementById('income-noincome').checked) incomeTypes.push('Без дохода');
+            
+            if (document.getElementById('history-none').checked) historyTypes.push('Нет просрочек');
+            if (document.getElementById('history-small').checked) historyTypes.push('Были небольшие');
+            if (document.getElementById('history-current').checked) historyTypes.push('Есть текущие');
+            if (document.getElementById('history-bad').checked) historyTypes.push('Плохая история');
+            
+            const allFilters = [...incomeTypes, ...historyTypes];
+            filtersContainer.innerHTML = allFilters.map(filter => 
+                `<span class="filter-tag">${filter}</span>`
+            ).join('');
+            
+            if (allFilters.length === 0) {
+                filtersContainer.innerHTML = '<span style="font-size: 11px; color: #94a3b8;">Нет фильтров</span>';
             }
         }
         
@@ -1003,16 +1358,37 @@
             
             const id = document.getElementById('offer-id').value;
             const name = document.getElementById('offer-name').value.trim();
+            const link = document.getElementById('offer-link').value.trim();
             
             if (!name) {
                 showNotification('Введите название оффера', 'error');
                 return;
             }
             
+            if (!link) {
+                showNotification('Введите ссылку на оффер', 'error');
+                return;
+            }
+            
+            // Собираем типы дохода
+            const incomeTypes = [];
+            if (document.getElementById('income-official').checked) incomeTypes.push('official');
+            if (document.getElementById('income-unofficial').checked) incomeTypes.push('unofficial');
+            if (document.getElementById('income-benefits').checked) incomeTypes.push('benefits');
+            if (document.getElementById('income-noincome').checked) incomeTypes.push('noincome');
+            
+            // Собираем типы кредитной истории
+            const historyTypes = [];
+            if (document.getElementById('history-none').checked) historyTypes.push('none');
+            if (document.getElementById('history-small').checked) historyTypes.push('small');
+            if (document.getElementById('history-current').checked) historyTypes.push('current');
+            if (document.getElementById('history-bad').checked) historyTypes.push('bad');
+            
             const offerData = {
                 id: id || 'offer_' + Date.now(),
                 name: name,
                 description: document.getElementById('offer-description').value.trim(),
+                status: document.getElementById('offer-status').value,
                 amount_min: parseInt(document.getElementById('amount-min').value) || 1000,
                 amount_max: parseInt(document.getElementById('amount-max').value) || 50000,
                 term_min: parseInt(document.getElementById('term-min').value) || 7,
@@ -1021,9 +1397,11 @@
                 rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
                 rating: parseFloat(document.getElementById('rating').value) || 5,
                 approval: parseInt(document.getElementById('approval').value) || 95,
+                link: link,
                 landing1: document.getElementById('landing1-check').checked,
                 landing2: document.getElementById('landing2-check').checked,
-                status: 'active',
+                incomeTypes: incomeTypes,
+                historyTypes: historyTypes,
                 created_at: new Date().toISOString()
             };
             
@@ -1093,9 +1471,12 @@
                     rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
                     rating: Math.min(Math.max(parseFloat(row['Рейтинг']) || 5, 1), 5),
                     approval: parseInt(row['ШансОдобрения']) || 95,
+                    link: row['Ссылка'] || '#',
                     landing1: true,
                     landing2: true,
                     status: 'active',
+                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad'],
                     created_at: new Date().toISOString()
                 }));
                 
@@ -1162,7 +1543,21 @@
                     'СтавкаМин': 0,
                     'СтавкаМакс': 0.8,
                     'Рейтинг': 4.5,
+                    'Ссылка': 'https://example.com/offer1',
                     'ШансОдобрения': 95
+                },
+                {
+                    'Название': 'ДеньгиОнлайн',
+                    'Описание': 'Высокий шанс одобрения',
+                    'СуммаМин': 2000,
+                    'СуммаМакс': 30000,
+                    'СрокМин': 1,
+                    'СрокМакс': 60,
+                    'СтавкаМин': 0.5,
+                    'СтавкаМакс': 1,
+                    'Рейтинг': 4.2,
+                    'Ссылка': 'https://example.com/offer2',
+                    'ШансОдобрения': 94
                 }
             ];
             
@@ -1185,10 +1580,13 @@
                 'СтавкаМин': offer.rate_min,
                 'СтавкаМакс': offer.rate_max,
                 'Рейтинг': offer.rating,
+                'Ссылка': offer.link,
                 'ШансОдобрения': offer.approval,
+                'Статус': offer.status === 'active' ? 'Активен' : 'Неактивен',
                 'FinAI': offer.landing1 ? 'Да' : 'Нет',
                 'ДеньгиСразу': offer.landing2 ? 'Да' : 'Нет',
-                'Статус': offer.status === 'active' ? 'Активен' : 'Неактивен'
+                'Типы_дохода': (offer.incomeTypes || []).join(', '),
+                'Типы_истории': (offer.historyTypes || []).join(', ')
             }));
             
             const wb = XLSX.utils.book_new();
@@ -1220,7 +1618,7 @@
                 {
                     id: 'offer_1',
                     name: 'МоментальныеДеньги',
-                    description: 'Лидер по скорости выдачи',
+                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
                     amount_min: 1000,
                     amount_max: 50000,
                     term_min: 7,
@@ -1229,15 +1627,18 @@
                     rate_max: 0.8,
                     approval: 96,
                     rating: 4.5,
+                    link: 'https://mfo1.com/?ref=landing1',
                     landing1: true,
                     landing2: true,
                     status: 'active',
+                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad'],
                     created_at: new Date().toISOString()
                 },
                 {
                     id: 'offer_2',
                     name: 'ДеньгиОнлайн',
-                    description: 'Высокий шанс одобрения',
+                    description: 'Самый высокий шанс одобрения при плохой кредитной истории',
                     amount_min: 2000,
                     amount_max: 30000,
                     term_min: 1,
@@ -1246,9 +1647,12 @@
                     rate_max: 1,
                     approval: 94,
                     rating: 4.2,
+                    link: 'https://mfo2.com/?ref=landing2',
                     landing1: true,
                     landing2: false,
                     status: 'active',
+                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['small', 'current', 'bad'],
                     created_at: new Date().toISOString()
                 }
             ];
