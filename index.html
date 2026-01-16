@@ -7,6 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #3b82f6;
@@ -14,6 +15,8 @@
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
+            --landing1: #6366f1;
+            --landing2: #10b981;
         }
         
         * {
@@ -89,6 +92,18 @@
             font-weight: 600;
         }
         
+        .badge-landing1 {
+            background: #e0e7ff;
+            color: var(--landing1);
+            border: 1px solid var(--landing1);
+        }
+        
+        .badge-landing2 {
+            background: #d1fae5;
+            color: var(--landing2);
+            border: 1px solid var(--landing2);
+        }
+        
         .badge-success {
             background: #d1fae5;
             color: #065f46;
@@ -123,6 +138,24 @@
         
         .btn-primary:hover {
             background: var(--primary-dark);
+        }
+        
+        .btn-landing1 {
+            background: var(--landing1);
+            color: white;
+        }
+        
+        .btn-landing1:hover {
+            background: #4f46e5;
+        }
+        
+        .btn-landing2 {
+            background: var(--landing2);
+            color: white;
+        }
+        
+        .btn-landing2:hover {
+            background: #059669;
         }
         
         .btn-success {
@@ -213,6 +246,67 @@
             color: #92400e;
         }
         
+        .landing-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 4px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            width: fit-content;
+        }
+        
+        .landing-tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .landing-tab.active {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .landing-tab.landing1.active {
+            color: var(--landing1);
+        }
+        
+        .landing-tab.landing2.active {
+            color: var(--landing2);
+        }
+        
+        .excel-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .excel-upload:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+        
+        .excel-upload.dragover {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+        
+        .excel-template {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -244,62 +338,124 @@
             </div>
             
             <button id="sync-now" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">
-                <i class="fas fa-sync-alt"></i> Синхронизировать
+                <i class="fas fa-sync-alt"></i> Сохранить все
             </button>
             
             <!-- Навигация -->
             <nav style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn" data-section="offers" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
-                    <i class="fas fa-gem"></i> Офферы
+                <button class="btn landing-tab active" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white; border-left: 4px solid var(--landing1);">
+                    <i class="fas fa-handshake"></i> Лендинг 1 (FinAI)
                 </button>
-                <button class="btn" data-section="api" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
-                    <i class="fas fa-key"></i> API Ключ
-                </button>
-                <button class="btn" data-section="backup" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
-                    <i class="fas fa-database"></i> Бэкап
+                <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white; border-left: 4px solid var(--landing2);">
+                    <i class="fas fa-brain"></i> Лендинг 2 (ДеньгиСразу)
                 </button>
             </nav>
             
             <!-- Статистика в сайдбаре -->
             <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 5px;">Всего офферов:</div>
-                <div style="font-size: 24px; font-weight: 700;" id="sidebar-total">0</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <div>
+                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Лендинг 1:</div>
+                        <div style="font-size: 20px; font-weight: 700;" id="sidebar-landing1">0</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Лендинг 2:</div>
+                        <div style="font-size: 20px; font-weight: 700;" id="sidebar-landing2">0</div>
+                    </div>
+                </div>
+                <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 10px;">Всего офферов:</div>
+                <div style="font-size: 28px; font-weight: 700;" id="sidebar-total">0</div>
             </div>
         </div>
     </div>
     
     <div class="main-content">
-        <!-- Секция офферов -->
-        <div id="offers-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h1 style="font-size: 28px; font-weight: 700;">Управление офферами</h1>
-                <button id="add-offer" class="btn btn-primary">
+        <!-- Секция лендинга 1 -->
+        <div id="landing1-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
+                        <span class="badge badge-landing1">FinAI</span>
+                        <span>Лендинг 1 - Управление офферами</span>
+                    </h1>
+                    <p style="color: #64748b; margin-top: 5px;">Здесь вы управляете офферами для лендинга FinAI</p>
+                </div>
+                <button id="add-offer-landing1" class="btn btn-landing1">
                     <i class="fas fa-plus"></i> Добавить оффер
                 </button>
+            </div>
+            
+            <!-- Инструменты Excel -->
+            <div class="grid-2" style="margin-bottom: 30px;">
+                <div class="stat-card">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-excel text-green-600"></i>
+                        Импорт из Excel
+                    </h3>
+                    <div id="excel-upload-landing1" class="excel-upload">
+                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
+                        <div class="btn" style="background: #e2e8f0;">
+                            <i class="fas fa-upload"></i> Выбрать файл
+                        </div>
+                        <input type="file" id="excel-file-landing1" accept=".xlsx,.xls,.csv" style="display: none;">
+                    </div>
+                    <div class="excel-template">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">Файл должен содержать колонки: Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс</div>
+                        <button id="download-template-landing1" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
+                            <i class="fas fa-download"></i> Скачать шаблон
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-export text-blue-600"></i>
+                        Экспорт в Excel
+                    </h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга в Excel файл для редактирования или бэкапа.</p>
+                    <button id="export-excel-landing1" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
+                    </button>
+                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
+                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
+                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются только офферы для этого лендинга</div>
+                    </div>
+                </div>
             </div>
             
             <!-- Статистика -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
                 <div class="stat-card">
                     <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
-                    <div id="total-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div id="total-offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
                     <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
-                    <div id="active-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div id="active-offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На лендинге 1</div>
-                    <div id="landing1-count" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Минимальная сумма</div>
+                    <div id="min-amount-landing1" style="font-size: 32px; font-weight: 800;">0 ₽</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На лендинге 2</div>
-                    <div id="landing2-count" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Максимальная сумма</div>
+                    <div id="max-amount-landing1" style="font-size: 32px; font-weight: 800;">0 ₽</div>
                 </div>
             </div>
             
             <!-- Таблица офферов -->
             <div class="table-container">
+                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 1</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="delete-all-landing1" class="btn" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-trash"></i> Удалить все
+                        </button>
+                    </div>
+                </div>
                 <div style="overflow-x: auto;">
                     <table>
                         <thead>
@@ -309,164 +465,119 @@
                                 <th>Срок</th>
                                 <th>Ставка</th>
                                 <th>Статус</th>
-                                <th>Лендинги</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
-                        <tbody id="offers-table">
-                            <!-- Офферы будут здесь -->
+                        <tbody id="offers-table-landing1">
+                            <!-- Офферы лендинга 1 будут здесь -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         
-        <!-- Секция API ключа -->
-        <div id="api-section" style="display: none;">
-            <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 30px;">API Ключ для лендингов</h1>
-            
-            <div class="stat-card">
-                <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Текущий API ключ</h2>
-                
-                <div class="form-group">
-                    <label class="form-label">Ваш API ключ:</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="text" id="api-key" class="form-control" value="ВАШ_API_КЛЮЧ" readonly style="background: #f3f4f6; font-family: monospace;">
-                        <button id="copy-api-key" class="btn btn-primary">
-                            <i class="fas fa-copy"></i> Копировать
-                        </button>
-                        <button id="generate-api-key" class="btn btn-success">
-                            <i class="fas fa-sync-alt"></i> Сгенерировать новый
-                        </button>
-                    </div>
-                    <div class="text-sm text-gray-600 mt-2">
-                        Этот ключ нужно добавить в код лендингов в поле <code>API_KEY</code>
-                    </div>
+        <!-- Секция лендинга 2 -->
+        <div id="landing2-section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
+                        <span class="badge badge-landing2">ДеньгиСразу</span>
+                        <span>Лендинг 2 - Управление офферами</span>
+                    </h1>
+                    <p style="color: #64748b; margin-top: 5px;">Здесь вы управляете офферами для лендинга ДеньгиСразу</p>
                 </div>
-                
-                <div class="mt-8">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">Инструкция для лендингов:</h3>
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;">
-                        <p style="margin-bottom: 10px;">1. Откройте файлы лендингов и найдите строку с API ключом:</p>
-                        <pre style="background: #1e293b; color: #f1f5f9; padding: 10px; border-radius: 6px; overflow-x: auto; margin-bottom: 15px;">
-const CONFIG = {
-    // API ключ из админ-панели
-    API_KEY: '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',
-    // ...
-};</pre>
-                        
-                        <p style="margin-bottom: 10px;">2. Замените <code>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</code> на ваш ключ</p>
-                        
-                        <p style="margin-bottom: 10px;">3. Сохраните файлы и обновите лендинги</p>
-                        
-                        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
-                            <div class="font-semibold text-blue-800">Важно:</div>
-                            <div class="text-sm text-blue-700">В текущей версии лендинги загружают данные напрямую из localStorage браузера. API ключ нужен для будущих версий.</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">Лендинги</h3>
-                    <div class="grid-2">
-                        <div class="stat-card">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-handshake text-green-600"></i>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Лендинг 1</div>
-                                    <div class="text-sm text-gray-600">FinAI</div>
-                                </div>
-                            </div>
-                            <div class="text-sm text-gray-600 mb-2">URL:</div>
-                            <code class="text-xs bg-gray-100 p-2 rounded block">landing1/index.html</code>
-                            <div class="text-xs text-gray-500 mt-1">Использует LANDING_NUMBER: 1</div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-brain text-blue-600"></i>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Лендинг 2</div>
-                                    <div class="text-sm text-gray-600">ДеньгиСразу</div>
-                                </div>
-                            </div>
-                            <div class="text-sm text-gray-600 mb-2">URL:</div>
-                            <code class="text-xs bg-gray-100 p-2 rounded block">landing2/index.html</code>
-                            <div class="text-xs text-gray-500 mt-1">Использует LANDING_NUMBER: 2</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-8 pt-8 border-t border-gray-200">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">Как это работает</h3>
-                    <ol class="list-decimal pl-5 space-y-2 text-gray-700">
-                        <li>Создаете офферы в админ-панели</li>
-                        <li>Для каждого оффера указываете на каких лендингах он будет отображаться</li>
-                        <li>Данные сохраняются в localStorage браузера</li>
-                        <li>Лендинги загружают офферы из localStorage с помощью API ключа</li>
-                        <li>Каждый лендинг видит только свои офферы (по полям landing1, landing2)</li>
-                    </ol>
-                </div>
+                <button id="add-offer-landing2" class="btn btn-landing2">
+                    <i class="fas fa-plus"></i> Добавить оффер
+                </button>
             </div>
-        </div>
-        
-        <!-- Секция бэкапа -->
-        <div id="backup-section" style="display: none;">
-            <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 30px;">Бэкап и импорт</h1>
             
-            <div class="grid-2" style="gap: 30px;">
+            <!-- Инструменты Excel -->
+            <div class="grid-2" style="margin-bottom: 30px;">
                 <div class="stat-card">
-                    <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Экспорт данных</h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все данные в JSON файл для резервного копирования.</p>
-                    <button id="export-data" class="btn btn-primary">
-                        <i class="fas fa-download"></i> Экспортировать данные
-                    </button>
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-excel text-green-600"></i>
+                        Импорт из Excel
+                    </h3>
+                    <div id="excel-upload-landing2" class="excel-upload">
+                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
+                        <div class="btn" style="background: #e2e8f0;">
+                            <i class="fas fa-upload"></i> Выбрать файл
+                        </div>
+                        <input type="file" id="excel-file-landing2" accept=".xlsx,.xls,.csv" style="display: none;">
+                    </div>
+                    <div class="excel-template">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">Файл должен содержать колонки: Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс</div>
+                        <button id="download-template-landing2" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
+                            <i class="fas fa-download"></i> Скачать шаблон
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="stat-card">
-                    <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Импорт данных</h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">Загрузите данные из JSON файла. Существующие данные будут заменены.</p>
-                    <input type="file" id="import-file" accept=".json" class="form-control" style="margin-bottom: 15px;">
-                    <button id="import-data" class="btn btn-success">
-                        <i class="fas fa-upload"></i> Импортировать данные
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-file-export text-blue-600"></i>
+                        Экспорт в Excel
+                    </h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга в Excel файл для редактирования или бэкапа.</p>
+                    <button id="export-excel-landing2" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
                     </button>
+                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
+                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
+                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются только офферы для этого лендинга</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="stat-card" style="margin-top: 30px;">
-                <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Быстрые действия</h2>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <button id="clear-cache" class="btn">
-                        <i class="fas fa-trash"></i> Очистить кэш
-                    </button>
-                    <button id="load-demo" class="btn">
-                        <i class="fas fa-file-alt"></i> Загрузить пример
-                    </button>
-                    <button id="reset-all" class="btn btn-danger">
-                        <i class="fas fa-bomb"></i> Сбросить всё
-                    </button>
+            <!-- Статистика -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
+                    <div id="total-offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
+                    <div id="active-offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Минимальная сумма</div>
+                    <div id="min-amount-landing2" style="font-size: 32px; font-weight: 800;">0 ₽</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Максимальная сумма</div>
+                    <div id="max-amount-landing2" style="font-size: 32px; font-weight: 800;">0 ₽</div>
                 </div>
             </div>
             
-            <div class="stat-card" style="margin-top: 30px;">
-                <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Текущие настройки</h2>
-                <div style="background: #f8fafc; border-radius: 8px; padding: 15px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>API ключ:</span>
-                        <code id="current-api-key" class="text-xs bg-gray-200 px-2 py-1 rounded"></code>
+            <!-- Таблица офферов -->
+            <div class="table-container">
+                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 2</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="delete-all-landing2" class="btn" style="background: #fee2e2; color: #dc2626;">
+                            <i class="fas fa-trash"></i> Удалить все
+                        </button>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>Офферов в localStorage:</span>
-                        <span id="localstorage-count">0</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span>Размер localStorage:</span>
-                        <span id="localstorage-size">0 КБ</span>
-                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Оффер</th>
+                                <th>Сумма</th>
+                                <th>Срок</th>
+                                <th>Ставка</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offers-table-landing2">
+                            <!-- Офферы лендинга 2 будут здесь -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -482,6 +593,7 @@ const CONFIG = {
             
             <form id="offer-form">
                 <input type="hidden" id="offer-id">
+                <input type="hidden" id="offer-landing">
                 
                 <div class="grid-2">
                     <div class="form-group">
@@ -542,16 +654,9 @@ const CONFIG = {
                     <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
                 </div>
                 
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Ссылка для лендинга 1 *</label>
-                        <input type="url" id="link-landing1" class="form-control" value="#" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Ссылка для лендинга 2 *</label>
-                        <input type="url" id="link-landing2" class="form-control" value="#" required>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Ссылка на оффер *</label>
+                    <input type="url" id="offer-link" class="form-control" value="#" required>
                 </div>
                 
                 <div class="form-group">
@@ -612,20 +717,6 @@ const CONFIG = {
                     </select>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Лендинги</label>
-                    <div style="display: flex; gap: 20px;">
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="landing1-check" checked>
-                            Лендинг 1
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="landing2-check" checked>
-                            Лендинг 2
-                        </label>
-                    </div>
-                </div>
-                
                 <div style="display: flex; gap: 15px; margin-top: 30px;">
                     <button type="submit" class="btn btn-success" style="flex: 1;">
                         <i class="fas fa-save"></i> Сохранить
@@ -641,22 +732,17 @@ const CONFIG = {
     <script>
         // ===================== КОНФИГУРАЦИЯ =====================
         const CONFIG = {
-            // Ключи localStorage - изменены для лучшей совместимости
             LOCAL_KEYS: {
                 OFFERS: 'admin_offers',
-                SETTINGS: 'admin_settings',
-                BACKUP: 'admin_backup_',
-                API_KEY: 'admin_api_key'
+                SETTINGS: 'admin_settings'
             }
         };
         
         // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
         let offers = [];
-        let settings = { 
-            // Используем тот же ключ, что и в лендингах для совместимости
-            api_key: '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'
-        };
+        let settings = {};
         let currentEditOffer = null;
+        let currentLanding = 'landing1';
         let syncInProgress = false;
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
@@ -672,24 +758,24 @@ const CONFIG = {
             // Обновление интерфейса
             updateUI();
             
-            // Обновляем статистику localStorage
-            updateLocalStorageInfo();
-            
             console.log('Админ-панель: Готово');
         });
         
         // ===================== ИНИЦИАЛИЗАЦИЯ UI =====================
         function initUI() {
-            // Навигация
-            document.querySelectorAll('[data-section]').forEach(btn => {
+            // Навигация между лендингами
+            document.querySelectorAll('.landing-tab').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const section = this.getAttribute('data-section');
-                    showSection(section);
+                    showLandingSection(section);
                 });
             });
             
-            // Кнопки офферов
-            document.getElementById('add-offer').addEventListener('click', () => showOfferModal());
+            // Кнопки добавления офферов
+            document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
+            document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
+            
+            // Кнопка сохранения
             document.getElementById('sync-now').addEventListener('click', () => syncWithBackend());
             
             // Модальное окно
@@ -697,20 +783,74 @@ const CONFIG = {
             document.getElementById('cancel-modal').addEventListener('click', closeModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
-            // API ключ
-            document.getElementById('copy-api-key').addEventListener('click', copyApiKey);
-            document.getElementById('generate-api-key').addEventListener('click', generateApiKey);
+            // Кнопки удаления всех офферов
+            document.getElementById('delete-all-landing1').addEventListener('click', () => deleteAllOffers('landing1'));
+            document.getElementById('delete-all-landing2').addEventListener('click', () => deleteAllOffers('landing2'));
             
-            // Бэкап
-            document.getElementById('export-data').addEventListener('click', exportData);
-            document.getElementById('import-data').addEventListener('click', importData);
-            document.getElementById('import-file').addEventListener('change', handleFileSelect);
-            document.getElementById('clear-cache').addEventListener('click', clearCache);
-            document.getElementById('load-demo').addEventListener('click', loadDemoData);
-            document.getElementById('reset-all').addEventListener('click', resetAllData);
+            // Импорт/экспорт Excel для лендинга 1
+            const excelUpload1 = document.getElementById('excel-upload-landing1');
+            const excelFile1 = document.getElementById('excel-file-landing1');
+            const excelTemplate1 = document.getElementById('download-template-landing1');
+            const exportExcel1 = document.getElementById('export-excel-landing1');
             
-            // Показываем секцию офферов по умолчанию
-            showSection('offers');
+            excelUpload1.addEventListener('click', () => excelFile1.click());
+            excelUpload1.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                excelUpload1.classList.add('dragover');
+            });
+            excelUpload1.addEventListener('dragleave', () => {
+                excelUpload1.classList.remove('dragover');
+            });
+            excelUpload1.addEventListener('drop', (e) => {
+                e.preventDefault();
+                excelUpload1.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    handleExcelUpload(e.dataTransfer.files[0], 'landing1');
+                }
+            });
+            
+            excelFile1.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleExcelUpload(e.target.files[0], 'landing1');
+                }
+            });
+            
+            excelTemplate1.addEventListener('click', () => downloadExcelTemplate('landing1'));
+            exportExcel1.addEventListener('click', () => exportToExcel('landing1'));
+            
+            // Импорт/экспорт Excel для лендинга 2
+            const excelUpload2 = document.getElementById('excel-upload-landing2');
+            const excelFile2 = document.getElementById('excel-file-landing2');
+            const excelTemplate2 = document.getElementById('download-template-landing2');
+            const exportExcel2 = document.getElementById('export-excel-landing2');
+            
+            excelUpload2.addEventListener('click', () => excelFile2.click());
+            excelUpload2.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                excelUpload2.classList.add('dragover');
+            });
+            excelUpload2.addEventListener('dragleave', () => {
+                excelUpload2.classList.remove('dragover');
+            });
+            excelUpload2.addEventListener('drop', (e) => {
+                e.preventDefault();
+                excelUpload2.classList.remove('dragover');
+                if (e.dataTransfer.files.length) {
+                    handleExcelUpload(e.dataTransfer.files[0], 'landing2');
+                }
+            });
+            
+            excelFile2.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleExcelUpload(e.target.files[0], 'landing2');
+                }
+            });
+            
+            excelTemplate2.addEventListener('click', () => downloadExcelTemplate('landing2'));
+            exportExcel2.addEventListener('click', () => exportToExcel('landing2'));
+            
+            // Показываем лендинг 1 по умолчанию
+            showLandingSection('landing1');
         }
         
         // ===================== РАБОТА С ДАННЫМИ =====================
@@ -721,7 +861,6 @@ const CONFIG = {
                 // Пробуем загрузить из localStorage
                 const localOffers = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
                 const localSettings = localStorage.getItem(CONFIG.LOCAL_KEYS.SETTINGS);
-                const localApiKey = localStorage.getItem(CONFIG.LOCAL_KEYS.API_KEY);
                 
                 console.log('Загружаем данные из localStorage...');
                 
@@ -750,15 +889,6 @@ const CONFIG = {
                     console.log('Настройки загружены:', settings);
                 }
                 
-                if (localApiKey) {
-                    settings.api_key = localApiKey;
-                    console.log('API ключ загружен из localStorage');
-                }
-                
-                // Обновляем поле API ключа
-                document.getElementById('api-key').value = settings.api_key || 'ВАШ_API_КЛЮЧ';
-                console.log('API ключ в поле:', document.getElementById('api-key').value);
-                
                 updateSyncStatus('Данные загружены', 'success');
                 
             } catch (error) {
@@ -775,34 +905,21 @@ const CONFIG = {
         function saveToLocalStorage() {
             try {
                 console.log('Сохраняем данные в localStorage...');
-                console.log('Офферы для сохранения:', offers);
                 
                 // Сохраняем в формате, который понимают лендинги
                 const dataToSave = {
                     offers: offers,
                     last_updated: new Date().toISOString(),
-                    version: '2.0',
-                    api_key: settings.api_key
+                    version: '2.0'
                 };
                 
                 localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(dataToSave));
                 localStorage.setItem(CONFIG.LOCAL_KEYS.SETTINGS, JSON.stringify(settings));
-                localStorage.setItem(CONFIG.LOCAL_KEYS.API_KEY, settings.api_key);
                 
                 console.log('Данные успешно сохранены в localStorage');
                 
-                // Создаем бэкап
-                const timestamp = new Date().toISOString().slice(0, 10);
-                localStorage.setItem(
-                    CONFIG.LOCAL_KEYS.BACKUP + timestamp,
-                    JSON.stringify({ offers, settings, timestamp })
-                );
-                
-                // Очищаем кэш лендингов для принудительного обновления
-                clearLandingCache();
-                
                 // Обновляем статистику
-                updateLocalStorageInfo();
+                updateSidebarStats();
                 
                 return true;
             } catch (error) {
@@ -811,20 +928,17 @@ const CONFIG = {
             }
         }
         
-        // Очистка кэша лендингов
-        function clearLandingCache() {
-            try {
-                localStorage.removeItem('landing1_offers_cache');
-                localStorage.removeItem('landing1_last_sync');
-                localStorage.removeItem('landing2_offers_cache');
-                localStorage.removeItem('landing2_last_sync');
-                console.log('Кэш лендингов очищен');
-            } catch (error) {
-                console.error('Ошибка очистки кэша:', error);
+        // Получение офферов для конкретного лендинга
+        function getOffersForLanding(landing) {
+            if (landing === 'landing1') {
+                return offers.filter(o => o.landing1 !== false);
+            } else if (landing === 'landing2') {
+                return offers.filter(o => o.landing2 !== false);
             }
+            return [];
         }
         
-        // ===================== СИНХРОНИЗАЦИЯ С БЭКЕНДОМ =====================
+        // ===================== СИНХРОНИЗАЦИЯ =====================
         async function syncWithBackend() {
             if (syncInProgress) {
                 showNotification('Синхронизация уже выполняется', 'warning');
@@ -840,9 +954,6 @@ const CONFIG = {
                 if (success) {
                     updateSyncStatus('Данные сохранены в localStorage', 'success');
                     showNotification('Данные сохранены. Лендинги обновятся при следующей загрузке.', 'success');
-                    
-                    // Обновляем информацию о localStorage
-                    updateLocalStorageInfo();
                 } else {
                     throw new Error('Ошибка сохранения');
                 }
@@ -859,46 +970,58 @@ const CONFIG = {
         // ===================== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====================
         function updateUI() {
             console.log('Обновляем UI...');
-            console.log('Текущие офферы:', offers);
             
-            // Статистика
-            const totalOffers = offers.length;
-            const activeOffers = offers.filter(o => o.status === 'active').length;
-            const landing1Offers = offers.filter(o => o.landing1 && o.status === 'active').length;
-            const landing2Offers = offers.filter(o => o.landing2 && o.status === 'active').length;
+            // Обновляем оба лендинга
+            updateLandingSection('landing1');
+            updateLandingSection('landing2');
             
-            console.log(`Статистика: всего ${totalOffers}, активных ${activeOffers}, лендинг1 ${landing1Offers}, лендинг2 ${landing2Offers}`);
-            
-            document.getElementById('total-offers').textContent = totalOffers;
-            document.getElementById('active-offers').textContent = activeOffers;
-            document.getElementById('landing1-count').textContent = landing1Offers;
-            document.getElementById('landing2-count').textContent = landing2Offers;
-            document.getElementById('sidebar-total').textContent = totalOffers;
-            
-            // Таблица
-            updateOffersTable();
+            // Обновляем сайдбар
+            updateSidebarStats();
         }
         
-        // Обновление таблицы офферов
-        function updateOffersTable() {
-            const tbody = document.getElementById('offers-table');
+        function updateLandingSection(landing) {
+            const landingOffers = getOffersForLanding(landing);
+            const totalOffers = landingOffers.length;
+            const activeOffers = landingOffers.filter(o => o.status === 'active').length;
+            
+            // Обновляем статистику
+            document.getElementById(`total-offers-${landing}`).textContent = totalOffers;
+            document.getElementById(`active-offers-${landing}`).textContent = activeOffers;
+            
+            if (totalOffers > 0) {
+                const minAmount = Math.min(...landingOffers.map(o => o.amount_min || 0));
+                const maxAmount = Math.max(...landingOffers.map(o => o.amount_max || 0));
+                document.getElementById(`min-amount-${landing}`).textContent = formatNumber(minAmount) + ' ₽';
+                document.getElementById(`max-amount-${landing}`).textContent = formatNumber(maxAmount) + ' ₽';
+            } else {
+                document.getElementById(`min-amount-${landing}`).textContent = '0 ₽';
+                document.getElementById(`max-amount-${landing}`).textContent = '0 ₽';
+            }
+            
+            // Обновляем таблицу
+            updateOffersTable(landing);
+        }
+        
+        function updateOffersTable(landing) {
+            const tbody = document.getElementById(`offers-table-${landing}`);
+            const landingOffers = getOffersForLanding(landing);
             
             if (!tbody) {
-                console.error('Элемент offers-table не найден!');
+                console.error(`Элемент offers-table-${landing} не найден!`);
                 return;
             }
             
             tbody.innerHTML = '';
             
-            console.log(`Обновляем таблицу. Всего офферов: ${offers.length}`);
+            console.log(`Обновляем таблицу для ${landing}. Всего офферов: ${landingOffers.length}`);
             
-            if (offers.length === 0) {
+            if (landingOffers.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
                             <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                            <div>Нет офферов</div>
-                            <button onclick="showOfferModal()" class="btn btn-primary" style="margin-top: 15px;">
+                            <div>Нет офферов для этого лендинга</div>
+                            <button onclick="showOfferModal('${landing}')" class="btn ${landing === 'landing1' ? 'btn-landing1' : 'btn-landing2'}" style="margin-top: 15px;">
                                 <i class="fas fa-plus"></i> Добавить первый оффер
                             </button>
                         </td>
@@ -908,18 +1031,15 @@ const CONFIG = {
             }
             
             // Сортируем: активные первые, затем по дате обновления
-            const sortedOffers = [...offers].sort((a, b) => {
+            const sortedOffers = [...landingOffers].sort((a, b) => {
                 if (a.status === 'active' && b.status !== 'active') return -1;
                 if (a.status !== 'active' && b.status === 'active') return 1;
                 return new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at);
             });
             
-            console.log('Отсортированные офферы:', sortedOffers);
-            
             sortedOffers.forEach(offer => {
                 const tr = document.createElement('tr');
                 
-                // Проверяем, что все поля существуют
                 const offerName = offer.name || 'Без названия';
                 const description = offer.description || '';
                 const amountMin = offer.amount_min || 0;
@@ -929,8 +1049,6 @@ const CONFIG = {
                 const rateMin = offer.rate_min || 0;
                 const rateMax = offer.rate_max || 0;
                 const status = offer.status || 'inactive';
-                const landing1 = offer.landing1 !== false; // по умолчанию true
-                const landing2 = offer.landing2 !== false; // по умолчанию true
                 
                 tr.innerHTML = `
                     <td>
@@ -953,16 +1071,10 @@ const CONFIG = {
                     </td>
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            ${landing1 ? '<span class="badge badge-info">Л1</span>' : ''}
-                            ${landing2 ? '<span class="badge badge-info">Л2</span>' : ''}
-                        </div>
-                    </td>
-                    <td>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="editOffer('${offer.id}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
+                            <button onclick="editOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="deleteOffer('${offer.id}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
+                            <button onclick="deleteOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -971,42 +1083,16 @@ const CONFIG = {
                 
                 tbody.appendChild(tr);
             });
-            
-            console.log('Таблица обновлена');
         }
         
-        function updateLocalStorageInfo() {
-            try {
-                // Текущий API ключ
-                document.getElementById('current-api-key').textContent = 
-                    settings.api_key ? settings.api_key.substring(0, 20) + '...' : 'нет';
-                
-                // Количество офферов в localStorage
-                const storedData = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
-                let offerCount = 0;
-                if (storedData) {
-                    const data = JSON.parse(storedData);
-                    if (data && data.offers) {
-                        offerCount = data.offers.length;
-                    } else if (Array.isArray(data)) {
-                        offerCount = data.length;
-                    }
-                }
-                document.getElementById('localstorage-count').textContent = offerCount;
-                
-                // Размер localStorage
-                let totalSize = 0;
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key.startsWith('admin_')) {
-                        totalSize += (localStorage.getItem(key).length * 2) / 1024; // в КБ
-                    }
-                }
-                document.getElementById('localstorage-size').textContent = totalSize.toFixed(2) + ' КБ';
-                
-            } catch (error) {
-                console.error('Ошибка обновления информации:', error);
-            }
+        function updateSidebarStats() {
+            const landing1Offers = getOffersForLanding('landing1').length;
+            const landing2Offers = getOffersForLanding('landing2').length;
+            const totalOffers = offers.length;
+            
+            document.getElementById('sidebar-landing1').textContent = landing1Offers;
+            document.getElementById('sidebar-landing2').textContent = landing2Offers;
+            document.getElementById('sidebar-total').textContent = totalOffers;
         }
         
         // Форматирование чисел
@@ -1015,27 +1101,29 @@ const CONFIG = {
         }
         
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
-        function showOfferModal(offer = null) {
-            console.log('Открываем модальное окно оффера:', offer);
+        function showOfferModal(landing, offer = null) {
+            console.log('Открываем модальное окно оффера:', offer, 'для лендинга:', landing);
             currentEditOffer = offer;
+            currentLanding = landing;
             const modal = document.getElementById('offer-modal');
             const title = document.getElementById('modal-title');
             
             if (offer) {
                 title.textContent = 'Редактировать оффер';
-                populateForm(offer);
+                populateForm(offer, landing);
             } else {
-                title.textContent = 'Новый оффер';
-                resetForm();
+                title.textContent = 'Новый оффер для ' + (landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу');
+                resetForm(landing);
             }
             
             modal.classList.add('active');
         }
         
-        function populateForm(offer) {
+        function populateForm(offer, landing) {
             console.log('Заполняем форму данными оффера:', offer);
             
             document.getElementById('offer-id').value = offer.id || '';
+            document.getElementById('offer-landing').value = landing;
             document.getElementById('offer-name').value = offer.name || '';
             document.getElementById('offer-description').value = offer.description || '';
             document.getElementById('offer-status').value = offer.status || 'active';
@@ -1046,11 +1134,8 @@ const CONFIG = {
             document.getElementById('rate-min').value = offer.rate_min || 0;
             document.getElementById('rate-max').value = offer.rate_max || 0.8;
             document.getElementById('approval').value = offer.approval || 95;
-            document.getElementById('link-landing1').value = offer.link_landing1 || '#';
-            document.getElementById('link-landing2').value = offer.link_landing2 || '#';
+            document.getElementById('offer-link').value = landing === 'landing1' ? (offer.link_landing1 || '#') : (offer.link_landing2 || '#');
             document.getElementById('offer-icon').value = offer.icon || 'bolt';
-            document.getElementById('landing1-check').checked = offer.landing1 !== false;
-            document.getElementById('landing2-check').checked = offer.landing2 !== false;
             
             // Типы дохода
             const incomeTypes = offer.incomeTypes || [];
@@ -1067,9 +1152,10 @@ const CONFIG = {
             document.getElementById('history-bad').checked = historyTypes.includes('bad');
         }
         
-        function resetForm() {
+        function resetForm(landing) {
             document.getElementById('offer-form').reset();
             document.getElementById('offer-id').value = '';
+            document.getElementById('offer-landing').value = landing;
             document.getElementById('offer-status').value = 'active';
             document.getElementById('amount-min').value = 1000;
             document.getElementById('amount-max').value = 50000;
@@ -1078,11 +1164,8 @@ const CONFIG = {
             document.getElementById('rate-min').value = 0;
             document.getElementById('rate-max').value = 0.8;
             document.getElementById('approval').value = 95;
-            document.getElementById('link-landing1').value = '#';
-            document.getElementById('link-landing2').value = '#';
+            document.getElementById('offer-link').value = '#';
             document.getElementById('offer-icon').value = 'bolt';
-            document.getElementById('landing1-check').checked = true;
-            document.getElementById('landing2-check').checked = true;
             
             // Все чекбоксы по умолчанию включены
             document.getElementById('income-official').checked = true;
@@ -1100,6 +1183,7 @@ const CONFIG = {
             console.log('Закрываем модальное окно');
             document.getElementById('offer-modal').classList.remove('active');
             currentEditOffer = null;
+            currentLanding = 'landing1';
         }
         
         function saveOffer(e) {
@@ -1107,6 +1191,7 @@ const CONFIG = {
             console.log('Сохраняем оффер...');
             
             const id = document.getElementById('offer-id').value;
+            const landing = document.getElementById('offer-landing').value;
             const name = document.getElementById('offer-name').value.trim();
             
             if (!name) {
@@ -1140,16 +1225,23 @@ const CONFIG = {
                 rate_min: parseFloat(document.getElementById('rate-min').value) || 0,
                 rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
                 approval: parseInt(document.getElementById('approval').value) || 95,
-                link_landing1: document.getElementById('link-landing1').value.trim(),
-                link_landing2: document.getElementById('link-landing2').value.trim(),
-                landing1: document.getElementById('landing1-check').checked,
-                landing2: document.getElementById('landing2-check').checked,
                 icon: document.getElementById('offer-icon').value,
                 incomeTypes: incomeTypes,
                 historyTypes: historyTypes,
                 updated_at: new Date().toISOString(),
                 created_at: id ? offers.find(o => o.id === id)?.created_at || new Date().toISOString() : new Date().toISOString()
             };
+            
+            // Добавляем ссылку для соответствующего лендинга
+            if (landing === 'landing1') {
+                offerData.link_landing1 = document.getElementById('offer-link').value.trim();
+                offerData.landing1 = true;
+                offerData.landing2 = false;
+            } else {
+                offerData.link_landing2 = document.getElementById('offer-link').value.trim();
+                offerData.landing1 = false;
+                offerData.landing2 = true;
+            }
             
             console.log('Данные оффера для сохранения:', offerData);
             
@@ -1173,7 +1265,7 @@ const CONFIG = {
             
             const success = saveToLocalStorage();
             if (success) {
-                // ВАЖНО: Обновляем UI после сохранения
+                // Обновляем UI после сохранения
                 updateUI();
                 closeModal();
                 showNotification('Оффер сохранен', 'success');
@@ -1183,19 +1275,19 @@ const CONFIG = {
         }
         
         // Глобальные функции для таблицы
-        window.editOffer = function(id) {
-            console.log('Редактируем оффер с ID:', id);
+        window.editOffer = function(id, landing) {
+            console.log('Редактируем оффер с ID:', id, 'для лендинга:', landing);
             const offer = offers.find(o => o.id === id);
             if (offer) {
-                showOfferModal(offer);
+                showOfferModal(landing, offer);
             } else {
                 console.error('Оффер с ID', id, 'не найден');
                 showNotification('Оффер не найден', 'error');
             }
         };
         
-        window.deleteOffer = function(id) {
-            console.log('Удаляем оффер с ID:', id);
+        window.deleteOffer = function(id, landing) {
+            console.log('Удаляем оффер с ID:', id, 'с лендинга:', landing);
             Swal.fire({
                 title: 'Удалить оффер?',
                 text: 'Это действие нельзя отменить',
@@ -1212,7 +1304,6 @@ const CONFIG = {
                         console.log(`Оффер с ID ${id} удален. Осталось ${offers.length} офферов`);
                         const success = saveToLocalStorage();
                         if (success) {
-                            // ВАЖНО: Обновляем UI после удаления
                             updateUI();
                             showNotification('Оффер удален', 'success');
                         }
@@ -1224,286 +1315,231 @@ const CONFIG = {
             });
         };
         
-        // ===================== API КЛЮЧ =====================
-        function copyApiKey() {
-            const apiKeyField = document.getElementById('api-key');
-            apiKeyField.select();
-            document.execCommand('copy');
-            showNotification('API ключ скопирован в буфер обмена', 'success');
-        }
-        
-        function generateApiKey() {
+        function deleteAllOffers(landing) {
             Swal.fire({
-                title: 'Сгенерировать новый API ключ?',
-                text: 'Старый ключ перестанет работать. Нужно будет обновить ключ во всех лендингах.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Да, сгенерировать',
-                cancelButtonText: 'Отмена'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const newKey = 'loan_system_' + Math.random().toString(36).substr(2, 12);
-                    settings.api_key = newKey;
-                    document.getElementById('api-key').value = newKey;
-                    const success = saveToLocalStorage();
-                    if (success) {
-                        showNotification('Новый API ключ сгенерирован', 'success');
-                        updateLocalStorageInfo();
-                    }
-                }
-            });
-        }
-        
-        // ===================== БЭКАП И ИМПОРТ =====================
-        function exportData() {
-            const data = {
-                offers: offers,
-                settings: settings,
-                exported_at: new Date().toISOString(),
-                version: '2.0'
-            };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `offers-backup-${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification('Данные экспортированы', 'success');
-        }
-        
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    Swal.fire({
-                        title: 'Импортировать данные?',
-                        html: `Будет импортировано:<br>
-                              <strong>${data.offers?.length || 0}</strong> офферов<br>
-                              Версия: ${data.version || 'неизвестно'}<br>
-                              <br>
-                              <span style="color: #dc2626;">Внимание: текущие данные будут заменены!</span>`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Да, импортировать',
-                        cancelButtonText: 'Отмена'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            offers = data.offers || data;
-                            if (data.settings) settings = data.settings;
-                            if (data.api_key) settings.api_key = data.api_key;
-                            
-                            const success = saveToLocalStorage();
-                            if (success) {
-                                // ВАЖНО: Обновляем UI после импорта
-                                updateUI();
-                                updateLocalStorageInfo();
-                                document.getElementById('api-key').value = settings.api_key;
-                                showNotification('Данные импортированы', 'success');
-                            }
-                        }
-                    });
-                } catch (error) {
-                    showNotification('Ошибка чтения файла: ' + error.message, 'error');
-                }
-            };
-            reader.readAsText(file);
-        }
-        
-        function importData() {
-            document.getElementById('import-file').click();
-        }
-        
-        function clearCache() {
-            Swal.fire({
-                title: 'Очистить кэш?',
-                text: 'Удалить все локальные данные',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Да, очистить',
-                cancelButtonText: 'Отмена'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    localStorage.clear();
-                    showNotification('Кэш очищен', 'success');
-                    setTimeout(() => location.reload(), 1000);
-                }
-            });
-        }
-        
-        function loadDemoData() {
-            console.log('Загружаем демо-данные...');
-            offers = [
-                {
-                    id: 'offer_1',
-                    name: 'МоментальныеДеньги',
-                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
-                    amount_min: 1000,
-                    amount_max: 50000,
-                    term_min: 7,
-                    term_max: 30,
-                    rate_min: 0,
-                    rate_max: 0.8,
-                    approval: 96,
-                    link_landing1: 'https://mfo1.com/?ref=landing1',
-                    link_landing2: 'https://mfo1.com/?ref=landing2',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'bolt',
-                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
-                    status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 'offer_2',
-                    name: 'ДеньгиОнлайн',
-                    description: 'Самый высокий шанс одобрения при плохой кредитной истории',
-                    amount_min: 2000,
-                    amount_max: 30000,
-                    term_min: 1,
-                    term_max: 60,
-                    rate_min: 0.5,
-                    rate_max: 1,
-                    approval: 94,
-                    link_landing1: 'https://mfo2.com/?ref=landing1',
-                    link_landing2: 'https://mfo2.com/?ref=landing2',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'shield-alt',
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['small', 'current', 'bad'],
-                    status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 'offer_3',
-                    name: 'ЗаймЭкспресс',
-                    description: 'Лучшие условия для новых клиентов. Первый займ под 0% до 30 000 ₽',
-                    amount_min: 3000,
-                    amount_max: 100000,
-                    term_min: 15,
-                    term_max: 90,
-                    rate_min: 0,
-                    rate_max: 0.5,
-                    approval: 92,
-                    link_landing1: 'https://mfo3.com/?ref=landing1',
-                    link_landing2: 'https://mfo3.com/?ref=landing2',
-                    landing1: true,
-                    landing2: true,
-                    icon: 'star',
-                    incomeTypes: ['official', 'unofficial'],
-                    historyTypes: ['none', 'small'],
-                    status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 'offer_4',
-                    name: 'СрочноДеньги',
-                    description: 'Для срочных нужд. Минимальные требования к документам',
-                    amount_min: 500,
-                    amount_max: 15000,
-                    term_min: 5,
-                    term_max: 20,
-                    rate_min: 0.8,
-                    rate_max: 1.5,
-                    approval: 98,
-                    link_landing1: 'https://mfo4.com/?ref=landing1',
-                    link_landing2: 'https://mfo4.com/?ref=landing2',
-                    landing1: true,
-                    landing2: false,
-                    icon: 'rocket',
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
-                    status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                }
-            ];
-            
-            // Используем тот же ключ, что и в лендингах
-            if (!settings.api_key) {
-                settings.api_key = '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';
-            }
-            
-            const success = saveToLocalStorage();
-            if (success) {
-                // ВАЖНО: Обновляем UI после загрузки демо-данных
-                updateUI();
-                updateLocalStorageInfo();
-                document.getElementById('api-key').value = settings.api_key;
-                showNotification('Демо-данные загружены', 'success');
-            }
-        }
-        
-        function resetAllData() {
-            Swal.fire({
-                title: 'Сбросить ВСЁ?',
-                html: `<div style="text-align: left;">
-                       <p>Будут удалены:</p>
-                       <ul style="text-align: left; padding-left: 20px;">
-                         <li>Все офферы</li>
-                         <li>Настройки API ключа</li>
-                         <li>Все бэкапы</li>
-                       </ul>
-                       <p style="color: #dc2626; font-weight: bold;">Это действие нельзя отменить!</p>
-                       </div>`,
+                title: 'Удалить ВСЕ офферы?',
+                html: `Будут удалены все офферы для лендинга <strong>${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}</strong><br>
+                      <span style="color: #dc2626; font-weight: bold;">Это действие нельзя отменить!</span>`,
                 icon: 'error',
                 showCancelButton: true,
-                confirmButtonText: 'Да, сбросить всё',
+                confirmButtonText: 'Да, удалить всё',
                 cancelButtonText: 'Отмена',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    localStorage.clear();
-                    offers = [];
-                    settings = { 
-                        api_key: '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'
-                    };
-                    document.getElementById('api-key').value = settings.api_key;
+                    // Для лендинга 1 удаляем офферы с landing1 = true
+                    // Для лендинга 2 удаляем офферы с landing2 = true
+                    offers = offers.filter(offer => {
+                        if (landing === 'landing1') {
+                            return offer.landing1 === false;
+                        } else {
+                            return offer.landing2 === false;
+                        }
+                    });
+                    
                     const success = saveToLocalStorage();
                     if (success) {
-                        // ВАЖНО: Обновляем UI после сброса
                         updateUI();
-                        updateLocalStorageInfo();
-                        showNotification('Все данные сброшены', 'success');
+                        showNotification(`Все офферы для лендинга удалены`, 'success');
                     }
                 }
             });
         }
         
+        // ===================== EXCEL ИМПОРТ/ЭКСПОРТ =====================
+        async function handleExcelUpload(file, landing) {
+            console.log('Загружаем Excel файл:', file.name, 'для лендинга:', landing);
+            
+            try {
+                const data = await readExcelFile(file);
+                console.log('Данные из Excel:', data);
+                
+                if (!data || data.length === 0) {
+                    throw new Error('Файл пуст или не содержит данных');
+                }
+                
+                // Преобразуем данные Excel в офферы
+                const newOffers = data.map((row, index) => {
+                    return {
+                        id: 'excel_' + landing + '_' + Date.now() + '_' + index,
+                        name: row['Название'] || `Оффер ${index + 1}`,
+                        description: row['Описание'] || '',
+                        status: 'active',
+                        amount_min: parseInt(row['СуммаМин']) || 1000,
+                        amount_max: parseInt(row['СуммаМакс']) || 50000,
+                        term_min: parseInt(row['СрокМин']) || 7,
+                        term_max: parseInt(row['СрокМакс']) || 30,
+                        rate_min: parseFloat(row['СтавкаМин']) || 0,
+                        rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
+                        approval: parseInt(row['ШансОдобрения']) || 95,
+                        link_landing1: landing === 'landing1' ? (row['Ссылка'] || '#') : '#',
+                        link_landing2: landing === 'landing2' ? (row['Ссылка'] || '#') : '#',
+                        landing1: landing === 'landing1',
+                        landing2: landing === 'landing2',
+                        icon: row['Иконка'] || 'bolt',
+                        incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                        historyTypes: ['none', 'small', 'current', 'bad'],
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
+                        source: 'excel_import'
+                    };
+                });
+                
+                Swal.fire({
+                    title: 'Подтвердите импорт',
+                    html: `Найдено <strong>${newOffers.length}</strong> офферов в файле.<br>
+                          Добавить их в лендинг <strong>${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}</strong>?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Да, добавить',
+                    cancelButtonText: 'Отмена'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Добавляем новые офферы
+                        offers.push(...newOffers);
+                        const success = saveToLocalStorage();
+                        
+                        if (success) {
+                            updateUI();
+                            showNotification(`Добавлено ${newOffers.length} офферов из Excel`, 'success');
+                        }
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Ошибка загрузки Excel:', error);
+                showNotification('Ошибка загрузки файла: ' + error.message, 'error');
+            }
+        }
+        
+        function readExcelFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const data = e.target.result;
+                        const workbook = XLSX.read(data, { type: 'binary' });
+                        const firstSheet = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheet];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        resolve(jsonData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('Ошибка чтения файла'));
+                };
+                
+                if (file.name.endsWith('.csv')) {
+                    reader.readAsText(file);
+                } else {
+                    reader.readAsBinaryString(file);
+                }
+            });
+        }
+        
+        function downloadExcelTemplate(landing) {
+            // Создаем шаблон данных
+            const templateData = [
+                {
+                    'Название': 'МоментальныеДеньги',
+                    'Описание': 'Лидер по скорости выдачи',
+                    'СуммаМин': 1000,
+                    'СуммаМакс': 50000,
+                    'СрокМин': 7,
+                    'СрокМакс': 30,
+                    'СтавкаМин': 0,
+                    'СтавкаМакс': 0.8,
+                    'ШансОдобрения': 95,
+                    'Ссылка': '#',
+                    'Иконка': 'bolt'
+                },
+                {
+                    'Название': 'ДеньгиОнлайн',
+                    'Описание': 'Высокий шанс одобрения',
+                    'СуммаМин': 2000,
+                    'СуммаМакс': 30000,
+                    'СрокМин': 1,
+                    'СрокМакс': 60,
+                    'СтавкаМин': 0.5,
+                    'СтавкаМакс': 1,
+                    'ШансОдобрения': 94,
+                    'Ссылка': '#',
+                    'Иконка': 'shield-alt'
+                }
+            ];
+            
+            // Создаем новую рабочую книгу
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            
+            // Добавляем лист в книгу
+            XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
+            
+            // Генерируем файл и скачиваем
+            XLSX.writeFile(wb, `шаблон_офферов_${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.xlsx`);
+            
+            showNotification('Шаблон скачан', 'success');
+        }
+        
+        function exportToExcel(landing) {
+            const landingOffers = getOffersForLanding(landing);
+            
+            if (landingOffers.length === 0) {
+                showNotification('Нет офферов для экспорта', 'warning');
+                return;
+            }
+            
+            // Преобразуем офферы в формат Excel
+            const excelData = landingOffers.map(offer => ({
+                'Название': offer.name,
+                'Описание': offer.description,
+                'СуммаМин': offer.amount_min,
+                'СуммаМакс': offer.amount_max,
+                'СрокМин': offer.term_min,
+                'СрокМакс': offer.term_max,
+                'СтавкаМин': offer.rate_min,
+                'СтавкаМакс': offer.rate_max,
+                'ШансОдобрения': offer.approval,
+                'Ссылка': landing === 'landing1' ? offer.link_landing1 : offer.link_landing2,
+                'Иконка': offer.icon,
+                'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
+            }));
+            
+            // Создаем новую рабочую книгу
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(excelData);
+            
+            // Добавляем лист в книгу
+            XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
+            
+            // Генерируем файл и скачиваем
+            const fileName = `офферы_${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}_${new Date().toISOString().slice(0,10)}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+            
+            showNotification(`Экспортировано ${landingOffers.length} офферов`, 'success');
+        }
+        
         // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
-        function showSection(section) {
+        function showLandingSection(section) {
             // Скрываем все секции
-            document.getElementById('offers-section').style.display = 'none';
-            document.getElementById('api-section').style.display = 'none';
-            document.getElementById('backup-section').style.display = 'none';
+            document.getElementById('landing1-section').style.display = 'none';
+            document.getElementById('landing2-section').style.display = 'none';
             
             // Показываем выбранную
             document.getElementById(section + '-section').style.display = 'block';
             
-            // Обновляем активную кнопку
-            document.querySelectorAll('[data-section]').forEach(btn => {
-                btn.style.background = 'rgba(255,255,255,0.1)';
+            // Обновляем активные табы
+            document.querySelectorAll('.landing-tab').forEach(tab => {
+                tab.classList.remove('active');
             });
-            document.querySelector(`[data-section="${section}"]`).style.background = 'rgba(255,255,255,0.2)';
+            document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
             
-            // Если показываем секцию бэкапа, обновляем информацию
-            if (section === 'backup') {
-                updateLocalStorageInfo();
-            }
+            // Обновляем сайдбар
+            updateSidebarStats();
         }
         
         function updateSyncStatus(message, type) {
@@ -1531,6 +1567,106 @@ const CONFIG = {
                 icon: type,
                 title: message
             });
+        }
+        
+        function loadDemoData() {
+            console.log('Загружаем демо-данные...');
+            offers = [
+                {
+                    id: 'offer_1',
+                    name: 'МоментальныеДеньги',
+                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
+                    amount_min: 1000,
+                    amount_max: 50000,
+                    term_min: 7,
+                    term_max: 30,
+                    rate_min: 0,
+                    rate_max: 0.8,
+                    approval: 96,
+                    link_landing1: 'https://mfo1.com/?ref=landing1',
+                    link_landing2: 'https://mfo1.com/?ref=landing2',
+                    landing1: true,
+                    landing2: false,
+                    icon: 'bolt',
+                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad'],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                },
+                {
+                    id: 'offer_2',
+                    name: 'ДеньгиОнлайн',
+                    description: 'Самый высокий шанс одобрения при плохой кредитной истории',
+                    amount_min: 2000,
+                    amount_max: 30000,
+                    term_min: 1,
+                    term_max: 60,
+                    rate_min: 0.5,
+                    rate_max: 1,
+                    approval: 94,
+                    link_landing1: 'https://mfo2.com/?ref=landing1',
+                    link_landing2: '#',
+                    landing1: true,
+                    landing2: false,
+                    icon: 'shield-alt',
+                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['small', 'current', 'bad'],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                },
+                {
+                    id: 'offer_3',
+                    name: 'ЗаймЭкспресс',
+                    description: 'Лучшие условия для новых клиентов. Первый займ под 0% до 30 000 ₽',
+                    amount_min: 3000,
+                    amount_max: 100000,
+                    term_min: 15,
+                    term_max: 90,
+                    rate_min: 0,
+                    rate_max: 0.5,
+                    approval: 92,
+                    link_landing1: '#',
+                    link_landing2: 'https://mfo3.com/?ref=landing2',
+                    landing1: false,
+                    landing2: true,
+                    icon: 'star',
+                    incomeTypes: ['official', 'unofficial'],
+                    historyTypes: ['none', 'small'],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                },
+                {
+                    id: 'offer_4',
+                    name: 'СрочноДеньги',
+                    description: 'Для срочных нужд. Минимальные требования к документам',
+                    amount_min: 500,
+                    amount_max: 15000,
+                    term_min: 5,
+                    term_max: 20,
+                    rate_min: 0.8,
+                    rate_max: 1.5,
+                    approval: 98,
+                    link_landing1: '#',
+                    link_landing2: 'https://mfo4.com/?ref=landing2',
+                    landing1: false,
+                    landing2: true,
+                    icon: 'rocket',
+                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad'],
+                    status: 'active',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                }
+            ];
+            
+            const success = saveToLocalStorage();
+            if (success) {
+                updateUI();
+                showNotification('Демо-данные загружены', 'success');
+            }
         }
     </script>
 </body>
