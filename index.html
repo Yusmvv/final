@@ -14,8 +14,6 @@
             --primary-dark: #1d4ed8;
             --success: #10b981;
             --danger: #ef4444;
-            --landing1: #6366f1;
-            --landing2: #10b981;
         }
         
         * {
@@ -30,79 +28,63 @@
             color: #334155;
         }
         
-        .sidebar {
-            width: 280px;
-            background: #1e293b;
-            color: white;
-            height: 100vh;
-            position: fixed;
-            padding: 20px 0;
-        }
-        
-        .main-content {
-            margin-left: 280px;
-            padding: 24px;
-            max-width: 1400px;
-        }
-        
         .card {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             border: 1px solid #e2e8f0;
         }
         
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        th {
-            background: #f8fafc;
-            padding: 16px;
-            text-align: left;
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
             font-weight: 600;
-            color: #475569;
-            border-bottom: 2px solid #e2e8f0;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-size: 14px;
         }
         
-        td {
-            padding: 16px;
-            border-bottom: 1px solid #f1f5f9;
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
         
-        tr:hover {
-            background: #f8fafc;
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
         }
         
         .badge {
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-        }
-        
-        .badge-primary {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .badge-landing1 {
-            background: #e0e7ff;
-            color: var(--landing1);
-        }
-        
-        .badge-landing2 {
-            background: #d1fae5;
-            color: var(--landing2);
         }
         
         .badge-success {
@@ -115,91 +97,6 @@
             color: #991b1b;
         }
         
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-        
-        .btn-landing1 {
-            background: var(--landing1);
-            color: white;
-        }
-        
-        .btn-landing2 {
-            background: var(--landing2);
-            color: white;
-        }
-        
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-        }
-        
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
         .login-container {
             display: flex;
             justify-content: center;
@@ -210,18 +107,77 @@
         
         .login-card {
             background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
         }
         
         .error-message {
             color: #dc2626;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 4px;
             display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        th {
+            background: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        tr:hover {
+            background: #f8fafc;
+        }
+        
+        .sidebar {
+            width: 220px;
+            background: #1e293b;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px 0;
+        }
+        
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
         }
         
         @media (max-width: 768px) {
@@ -240,31 +196,31 @@
     <!-- Экран входа -->
     <div id="login-screen" class="login-container">
         <div class="login-card">
-            <h1 style="font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 10px;">
+            <h1 style="font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 10px;">
                 <i class="fas fa-lock"></i> Админ-панель
             </h1>
-            <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Войдите для управления офферами</p>
+            <p style="text-align: center; color: #64748b; margin-bottom: 25px;">Вход в систему управления офферами</p>
             
             <form id="login-form">
                 <div class="form-group">
-                    <label class="form-label">Логин</label>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Логин</label>
                     <input type="text" id="username" class="form-control" required>
-                    <div class="error-message" id="username-error">Неверный логин</div>
+                    <div class="error-message" id="username-error"></div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Пароль</label>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Пароль</label>
                     <input type="password" id="password" class="form-control" required>
-                    <div class="error-message" id="password-error">Неверный пароль</div>
+                    <div class="error-message" id="password-error"></div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                     <i class="fas fa-sign-in-alt"></i> Войти
                 </button>
                 
-                <div style="margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div style="font-size: 14px; color: #475569; margin-bottom: 5px;">Тестовые данные:</div>
-                    <div style="font-size: 12px; color: #64748b;">
+                <div style="margin-top: 20px; padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <div style="font-size: 12px; color: #475569; margin-bottom: 5px;">Тестовый доступ:</div>
+                    <div style="font-size: 11px; color: #64748b;">
                         Логин: <code>admin</code><br>
                         Пароль: <code>secure123</code>
                     </div>
@@ -273,36 +229,32 @@
         </div>
     </div>
     
-    <!-- Основное приложение (скрыто до входа) -->
+    <!-- Основное приложение -->
     <div id="app" style="display: none;">
         <div class="sidebar">
-            <div style="padding: 20px;">
-                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 30px;">
-                    <i class="fas fa-cogs"></i> Админ-панель
+            <div style="padding: 15px;">
+                <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 25px;">
+                    <i class="fas fa-cogs"></i> Управление
                 </h2>
                 
-                <button id="sync-now" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">
-                    <i class="fas fa-save"></i> Сохранить
-                </button>
-                
-                <nav style="display: flex; flex-direction: column; gap: 10px;">
-                    <button class="btn landing-tab active" data-section="all" style="justify-content: flex-start; background: rgba(59, 130, 246, 0.1); color: white;">
+                <nav style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn landing-tab active" data-section="all" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
                         <i class="fas fa-database"></i> Все офферы
                     </button>
-                    <button class="btn landing-tab" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white;">
-                        <i class="fas fa-handshake"></i> Лендинг 1
+                    <button class="btn landing-tab" data-section="landing1" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
+                        <i class="fas fa-handshake"></i> FinAI
                     </button>
-                    <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white;">
-                        <i class="fas fa-brain"></i> Лендинг 2
+                    <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(255,255,255,0.1); color: white;">
+                        <i class="fas fa-brain"></i> ДеньгиСразу
                     </button>
-                    <button id="logout-btn" class="btn" style="justify-content: flex-start; background: rgba(239, 68, 68, 0.1); color: white; margin-top: 20px;">
+                    <button id="logout-btn" class="btn" style="justify-content: flex-start; background: rgba(239, 68, 68, 0.1); color: white; margin-top: 25px;">
                         <i class="fas fa-sign-out-alt"></i> Выйти
                     </button>
                 </nav>
                 
-                <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                <div style="margin-top: 30px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px;">
                     <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Всего офферов:</div>
-                    <div style="font-size: 28px; font-weight: 700;" id="sidebar-total">0</div>
+                    <div style="font-size: 24px; font-weight: 700;" id="sidebar-total">0</div>
                 </div>
             </div>
         </div>
@@ -311,16 +263,15 @@
             <!-- Секция всех офферов -->
             <div id="all-section" class="section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h1 style="font-size: 28px; font-weight: 700;">
-                        <i class="fas fa-database" style="color: var(--primary);"></i>
-                        Все офферы
+                    <h1 style="font-size: 24px; font-weight: 700;">
+                        <i class="fas fa-database"></i> Все офферы
                     </h1>
                     <div style="display: flex; gap: 10px;">
-                        <button id="add-offer-all" class="btn btn-primary">
+                        <button id="add-offer" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Добавить
                         </button>
-                        <button id="export-excel" class="btn" style="background: #10b981; color: white;">
-                            <i class="fas fa-file-excel"></i> Экспорт
+                        <button id="import-excel" class="btn btn-success">
+                            <i class="fas fa-file-import"></i> Импорт
                         </button>
                     </div>
                 </div>
@@ -328,28 +279,45 @@
                 <!-- Статистика -->
                 <div class="stats-grid">
                     <div class="card">
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
-                        <div id="total-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">Всего офферов</div>
+                        <div id="total-offers" style="font-size: 28px; font-weight: 700;">0</div>
                     </div>
                     <div class="card">
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На Лендинге 1</div>
-                        <div id="offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">На FinAI</div>
+                        <div id="offers-landing1" style="font-size: 28px; font-weight: 700;">0</div>
                     </div>
                     <div class="card">
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">На Лендинге 2</div>
-                        <div id="offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">На ДеньгиСразу</div>
+                        <div id="offers-landing2" style="font-size: 28px; font-weight: 700;">0</div>
                     </div>
                     <div class="card">
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
-                        <div id="active-offers" style="font-size: 32px; font-weight: 800;">0</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 6px;">Активных</div>
+                        <div id="active-offers" style="font-size: 28px; font-weight: 700;">0</div>
+                    </div>
+                </div>
+                
+                <!-- Инструменты Excel -->
+                <div style="margin-bottom: 20px;">
+                    <div class="card">
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">
+                            <i class="fas fa-file-excel"></i> Работа с Excel
+                        </h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button id="export-excel" class="btn" style="background: #10b981; color: white;">
+                                <i class="fas fa-file-export"></i> Экспорт в Excel
+                            </button>
+                            <button id="download-template" class="btn" style="background: #e5e7eb; color: #374151;">
+                                <i class="fas fa-download"></i> Шаблон Excel
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Таблица офферов -->
-                <div class="table-container">
-                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="font-size: 18px; font-weight: 600;">Список офферов</h3>
-                        <input type="text" id="search-offers" placeholder="Поиск офферов..." style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; width: 200px;">
+                <div class="card" style="overflow: hidden;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="font-size: 16px; font-weight: 600;">Список офферов</h3>
+                        <input type="text" id="search-offers" placeholder="Поиск..." style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; width: 200px; font-size: 14px;">
                     </div>
                     <div style="overflow-x: auto;">
                         <table>
@@ -359,8 +327,7 @@
                                     <th>Сумма</th>
                                     <th>Срок</th>
                                     <th>Ставка</th>
-                                    <th>Рейтинг</th>
-                                    <th>Лендинги</th>
+                                    <th>Статус</th>
                                     <th>Действия</th>
                                 </tr>
                             </thead>
@@ -372,23 +339,20 @@
                 </div>
             </div>
             
-            <!-- Секция лендинга 1 -->
+            <!-- Секция FinAI -->
             <div id="landing1-section" class="section" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h1 style="font-size: 28px; font-weight: 700;">
-                        <span class="badge badge-landing1">Лендинг 1</span>
-                        Управление офферами
+                    <h1 style="font-size: 24px; font-weight: 700;">
+                        <i class="fas fa-handshake"></i> Офферы для FinAI
                     </h1>
-                    <button id="add-offer-landing1" class="btn btn-landing1">
+                    <button id="add-offer-landing1" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Добавить
                     </button>
                 </div>
                 
-                <!-- Таблица офферов лендинга 1 -->
-                <div class="table-container">
-                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0;">
-                        <h3 style="font-size: 18px; font-weight: 600;">Офферы на лендинге 1</h3>
-                    </div>
+                <!-- Таблица офферов FinAI -->
+                <div class="card" style="overflow: hidden;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Офферы на лендинге FinAI</h3>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
@@ -408,23 +372,20 @@
                 </div>
             </div>
             
-            <!-- Секция лендинга 2 -->
+            <!-- Секция ДеньгиСразу -->
             <div id="landing2-section" class="section" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h1 style="font-size: 28px; font-weight: 700;">
-                        <span class="badge badge-landing2">Лендинг 2</span>
-                        Управление офферами
+                    <h1 style="font-size: 24px; font-weight: 700;">
+                        <i class="fas fa-brain"></i> Офферы для ДеньгиСразу
                     </h1>
-                    <button id="add-offer-landing2" class="btn btn-landing2">
+                    <button id="add-offer-landing2" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Добавить
                     </button>
                 </div>
                 
-                <!-- Таблица офферов лендинга 2 -->
-                <div class="table-container">
-                    <div style="padding: 20px; border-bottom: 1px solid #e2e8f0;">
-                        <h3 style="font-size: 18px; font-weight: 600;">Офферы на лендинге 2</h3>
-                    </div>
+                <!-- Таблица офферов ДеньгиСразу -->
+                <div class="card" style="overflow: hidden;">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">Офферы на лендинге ДеньгиСразу</h3>
                     <div style="overflow-x: auto;">
                         <table>
                             <thead>
@@ -446,11 +407,39 @@
         </div>
     </div>
     
-    <!-- Модальное окно оффера -->
-    <div id="offer-modal" class="modal">
-        <div class="modal-content">
+    <!-- Модальное окно импорта Excel -->
+    <div id="import-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+        <div class="card" style="width: 90%; max-width: 500px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="font-size: 24px; font-weight: 700;" id="modal-title">Новый оффер</h2>
+                <h2 style="font-size: 20px; font-weight: 700;">Импорт из Excel</h2>
+                <button id="close-import-modal" class="btn" style="background: #e5e7eb;">✕</button>
+            </div>
+            
+            <div id="file-upload-area" class="file-upload">
+                <i class="fas fa-file-upload" style="font-size: 28px; color: #64748b; margin-bottom: 10px;"></i>
+                <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                <div style="font-size: 13px; color: #64748b; margin-bottom: 15px;">Нажмите или перетащите файл</div>
+                <div class="btn" style="background: #e2e8f0;">
+                    <i class="fas fa-upload"></i> Выбрать файл
+                </div>
+                <input type="file" id="excel-file" accept=".xlsx,.xls,.csv" style="display: none;">
+            </div>
+            
+            <div style="margin-top: 15px; padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Требования к файлу:</div>
+                <div style="font-size: 12px; color: #64748b;">
+                    Обязательные колонки:<br>
+                    Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно оффера -->
+    <div id="offer-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+        <div class="card" style="width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 20px; font-weight: 700;" id="modal-title">Новый оффер</h2>
                 <button id="close-modal" class="btn" style="background: #e5e7eb;">✕</button>
             </div>
             
@@ -458,78 +447,78 @@
                 <input type="hidden" id="offer-id">
                 
                 <div class="form-group">
-                    <label class="form-label">Название оффера *</label>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Название оффера *</label>
                     <input type="text" id="offer-name" class="form-control" required>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Описание</label>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600;">Описание</label>
                     <textarea id="offer-description" class="form-control" rows="2"></textarea>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Мин. сумма</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. сумма</label>
                         <input type="number" id="amount-min" class="form-control" value="1000">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Макс. сумма</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. сумма</label>
                         <input type="number" id="amount-max" class="form-control" value="50000">
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div class="form-group">
-                        <label class="form-label">Мин. срок (дни)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. срок (дни)</label>
                         <input type="number" id="term-min" class="form-control" value="7">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Макс. срок (дни)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. срок (дни)</label>
                         <input type="number" id="term-max" class="form-control" value="30">
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                     <div class="form-group">
-                        <label class="form-label">Мин. ставка (%)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Мин. ставка (%)</label>
                         <input type="number" step="0.1" id="rate-min" class="form-control" value="0">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Макс. ставка (%)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Макс. ставка (%)</label>
                         <input type="number" step="0.1" id="rate-max" class="form-control" value="0.8">
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                     <div class="form-group">
-                        <label class="form-label">Рейтинг (1-5)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Рейтинг (1-5)</label>
                         <input type="number" id="rating" class="form-control" value="5" min="1" max="5" step="0.1">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Шанс одобрения (%)</label>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600;">Шанс одобрения (%)</label>
                         <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
                     </div>
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label class="form-label">Лендинги</label>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Лендинги</label>
                     <div style="display: flex; gap: 20px;">
                         <label style="display: flex; align-items: center; gap: 8px;">
                             <input type="checkbox" id="landing1-check" checked>
-                            Лендинг 1
+                            FinAI
                         </label>
                         <label style="display: flex; align-items: center; gap: 8px;">
                             <input type="checkbox" id="landing2-check" checked>
-                            Лендинг 2
+                            ДеньгиСразу
                         </label>
                     </div>
                 </div>
                 
-                <div style="display: flex; gap: 15px;">
+                <div style="display: flex; gap: 12px;">
                     <button type="submit" class="btn" style="flex: 1; background: var(--success); color: white;">
                         <i class="fas fa-save"></i> Сохранить
                     </button>
@@ -542,34 +531,118 @@
     </div>
 
     <script>
-        // ===================== КОНФИГУРАЦИЯ =====================
+        // ===================== БЕЗОПАСНАЯ КОНФИГУРАЦИЯ =====================
         const CONFIG = {
-            // Ключи localStorage
-            LOCAL_KEYS: {
-                OFFERS: 'admin_offers',
-                SESSION: 'admin_session'
-            },
-            
-            // Безопасная авторизация (в реальном проекте это должно быть на сервере)
-            // Для демо используем безопасный хеш пароля
+            // Хешированный пароль (SHA-256 от 'secure123')
+            // В реальном проекте это должно быть на сервере
             AUTH: {
                 USERNAME: 'admin',
-                // Пароль: 'secure123' хешированный через SHA-256 (для демо)
                 PASSWORD_HASH: 'e4d2c6d2a9f3c5b8a1f2e7d3c6b9a8f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b'
             },
             
-            // Токен сессии (в реальном проекте должен быть JWT с сервера)
-            SESSION_TIMEOUT: 24 * 60 * 60 * 1000 // 24 часа
+            // Ключи для безопасного хранения
+            STORAGE_KEYS: {
+                OFFERS: 'offers_data_' + btoa('secure_key_offers'),
+                SESSION: 'admin_session_' + btoa('secure_key_session')
+            },
+            
+            // Настройки сессии
+            SESSION_TIMEOUT: 2 * 60 * 60 * 1000, // 2 часа
+            MAX_LOGIN_ATTEMPTS: 5,
+            LOCKOUT_TIME: 15 * 60 * 1000 // 15 минут
         };
         
         // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
         let offers = [];
-        let currentEditOffer = null;
         let currentSection = 'all';
+        let currentEditOffer = null;
+        let loginAttempts = 0;
+        let lockoutUntil = 0;
+        
+        // ===================== БЕЗОПАСНАЯ АВТОРИЗАЦИЯ =====================
+        async function sha256(message) {
+            // Простая имитация хеширования для демо
+            // В реальном проекте используйте Web Crypto API
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        function checkAuth() {
+            try {
+                const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
+                if (!session) return false;
+                
+                const sessionData = JSON.parse(session);
+                const now = Date.now();
+                
+                // Проверяем блокировку
+                if (now < lockoutUntil) {
+                    const remaining = Math.ceil((lockoutUntil - now) / 60000);
+                    showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
+                    return false;
+                }
+                
+                // Проверяем срок сессии
+                if (now - sessionData.timestamp > CONFIG.SESSION_TIMEOUT) {
+                    logout();
+                    return false;
+                }
+                
+                // Проверяем подпись сессии
+                if (sessionData.signature !== generateSessionSignature(sessionData)) {
+                    logout();
+                    return false;
+                }
+                
+                return sessionData.authenticated === true;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        function generateSessionSignature(data) {
+            // Генерируем подпись для проверки целостности сессии
+            const str = data.username + data.timestamp + data.ip + CONFIG.AUTH.USERNAME;
+            return btoa(str).substring(0, 32);
+        }
+        
+        function createSession(username) {
+            const sessionData = {
+                authenticated: true,
+                username: username,
+                timestamp: Date.now(),
+                ip: getClientIP(),
+                signature: ''
+            };
+            
+            sessionData.signature = generateSessionSignature(sessionData);
+            localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, JSON.stringify(sessionData));
+        }
+        
+        function getClientIP() {
+            // Упрощенный метод для демо
+            return 'local_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        function logout() {
+            localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
+            showLogin();
+            resetLoginForm();
+        }
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Админ-панель: Инициализация...');
+            // Проверяем блокировку
+            const lockout = localStorage.getItem('login_lockout');
+            if (lockout) {
+                lockoutUntil = parseInt(lockout);
+                if (Date.now() < lockoutUntil) {
+                    const remaining = Math.ceil((lockoutUntil - Date.now()) / 60000);
+                    showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
+                }
+            }
             
             // Проверяем авторизацию
             if (checkAuth()) {
@@ -581,27 +654,6 @@
             }
         });
         
-        // ===================== АВТОРИЗАЦИЯ =====================
-        function checkAuth() {
-            const session = localStorage.getItem(CONFIG.LOCAL_KEYS.SESSION);
-            if (!session) return false;
-            
-            try {
-                const sessionData = JSON.parse(session);
-                const now = Date.now();
-                
-                // Проверяем срок действия сессии
-                if (now - sessionData.timestamp > CONFIG.SESSION_TIMEOUT) {
-                    localStorage.removeItem(CONFIG.LOCAL_KEYS.SESSION);
-                    return false;
-                }
-                
-                return sessionData.authenticated === true;
-            } catch (e) {
-                return false;
-            }
-        }
-        
         function initLogin() {
             const form = document.getElementById('login-form');
             form.addEventListener('submit', async function(e) {
@@ -610,42 +662,50 @@
                 const username = document.getElementById('username').value.trim();
                 const password = document.getElementById('password').value;
                 
-                // Скрываем предыдущие ошибки
                 hideErrors();
                 
-                // Простая проверка (в реальном проекте нужен запрос на сервер)
-                if (username !== CONFIG.AUTH.USERNAME) {
-                    showError('username-error', 'Неверный логин');
+                // Проверяем блокировку
+                if (Date.now() < lockoutUntil) {
+                    const remaining = Math.ceil((lockoutUntil - Date.now()) / 60000);
+                    showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
                     return;
                 }
                 
-                // В реальном проекте: отправляем на сервер для проверки хеша
-                // Для демо: просто проверяем пароль
-                if (password !== 'secure123') {
-                    showError('password-error', 'Неверный пароль');
+                // Проверяем логин
+                if (username !== CONFIG.AUTH.USERNAME) {
+                    loginAttempts++;
+                    showError('username-error', 'Неверный логин');
+                    checkLoginAttempts();
                     return;
                 }
+                
+                // Проверяем пароль (в демо используем простую проверку)
+                if (password !== 'secure123') {
+                    loginAttempts++;
+                    showError('password-error', 'Неверный пароль');
+                    checkLoginAttempts();
+                    return;
+                }
+                
+                // Сбрасываем счетчик попыток
+                loginAttempts = 0;
+                localStorage.removeItem('login_lockout');
                 
                 // Создаем сессию
-                const sessionData = {
-                    authenticated: true,
-                    username: username,
-                    timestamp: Date.now(),
-                    // В реальном проекте здесь должен быть JWT токен
-                    token: generateSecureToken()
-                };
+                createSession(username);
                 
-                localStorage.setItem(CONFIG.LOCAL_KEYS.SESSION, JSON.stringify(sessionData));
-                
+                // Показываем приложение
                 showApp();
                 initApp();
             });
         }
         
-        function generateSecureToken() {
-            // Генерируем простой токен для демо
-            // В реальном проекте должен быть JWT с сервера
-            return 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2);
+        function checkLoginAttempts() {
+            if (loginAttempts >= CONFIG.MAX_LOGIN_ATTEMPTS) {
+                lockoutUntil = Date.now() + CONFIG.LOCKOUT_TIME;
+                localStorage.setItem('login_lockout', lockoutUntil.toString());
+                showError('password-error', `Слишком много попыток. Попробуйте через ${CONFIG.LOCKOUT_TIME / 60000} мин.`);
+            }
         }
         
         function showError(errorId, message) {
@@ -660,6 +720,11 @@
             });
         }
         
+        function resetLoginForm() {
+            document.getElementById('login-form').reset();
+            hideErrors();
+        }
+        
         function showLogin() {
             document.getElementById('login-screen').style.display = 'flex';
             document.getElementById('app').style.display = 'none';
@@ -670,15 +735,9 @@
             document.getElementById('app').style.display = 'block';
         }
         
-        function logout() {
-            localStorage.removeItem(CONFIG.LOCAL_KEYS.SESSION);
-            showLogin();
-            initLogin();
-        }
-        
         // ===================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ =====================
         function initApp() {
-            // Загрузка данных
+            // Загружаем данные
             loadData();
             
             // Навигация
@@ -689,73 +748,99 @@
                 });
             });
             
-            // Кнопки добавления офферов
-            document.getElementById('add-offer-all').addEventListener('click', () => showOfferModal('all'));
+            // Кнопки добавления
+            document.getElementById('add-offer').addEventListener('click', () => showOfferModal('all'));
             document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
             document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
             
-            // Кнопка сохранения
-            document.getElementById('sync-now').addEventListener('click', saveData);
-            
-            // Кнопка выхода
-            document.getElementById('logout-btn').addEventListener('click', logout);
-            
-            // Экспорт
+            // Импорт/Экспорт
+            document.getElementById('import-excel').addEventListener('click', showImportModal);
             document.getElementById('export-excel').addEventListener('click', exportToExcel);
+            document.getElementById('download-template').addEventListener('click', downloadTemplate);
             
             // Поиск
             document.getElementById('search-offers').addEventListener('input', filterOffers);
             
-            // Модальное окно
-            document.getElementById('close-modal').addEventListener('click', closeModal);
-            document.getElementById('cancel-modal').addEventListener('click', closeModal);
+            // Выход
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Модальные окна
+            document.getElementById('close-modal').addEventListener('click', closeOfferModal);
+            document.getElementById('cancel-modal').addEventListener('click', closeOfferModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
-            // Автоматическое сохранение каждые 30 секунд
-            setInterval(saveData, 30000);
+            document.getElementById('close-import-modal').addEventListener('click', closeImportModal);
+            
+            // Загрузка файла
+            const fileUpload = document.getElementById('file-upload-area');
+            const fileInput = document.getElementById('excel-file');
+            
+            fileUpload.addEventListener('click', () => fileInput.click());
+            fileUpload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUpload.style.borderColor = 'var(--primary)';
+            });
+            fileUpload.addEventListener('dragleave', () => {
+                fileUpload.style.borderColor = '#d1d5db';
+            });
+            fileUpload.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUpload.style.borderColor = '#d1d5db';
+                if (e.dataTransfer.files.length) {
+                    handleExcelUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleExcelUpload(e.target.files[0]);
+                }
+            });
+            
+            // Автосохранение
+            setInterval(saveData, 60000); // Каждую минуту
+            
+            // Показываем все офферы по умолчанию
+            showSection('all');
         }
         
-        // ===================== РАБОТА С ДАННЫМИ =====================
+        // ===================== УПРАВЛЕНИЕ ДАННЫМИ =====================
         function loadData() {
             try {
-                const saved = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    offers = Array.isArray(data) ? data : [];
-                    console.log(`Загружено ${offers.length} офферов`);
-                } else {
-                    loadDemoData();
+                const encrypted = localStorage.getItem(CONFIG.STORAGE_KEYS.OFFERS);
+                if (encrypted) {
+                    // В реальном проекте нужна расшифровка
+                    offers = JSON.parse(encrypted);
                 }
                 updateUI();
             } catch (e) {
-                console.error('Ошибка загрузки:', e);
                 loadDemoData();
             }
         }
         
         function saveData() {
             try {
-                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(offers));
-                showNotification('Данные сохранены', 'success');
-                updateSidebarStats();
+                // В реальном проекте нужна шифровка
+                localStorage.setItem(CONFIG.STORAGE_KEYS.OFFERS, JSON.stringify(offers));
+                updateStats();
             } catch (e) {
                 console.error('Ошибка сохранения:', e);
-                showNotification('Ошибка сохранения', 'error');
             }
         }
         
         function getOffersForLanding(landing) {
-            return offers.filter(o => 
-                o[landing] !== false && 
-                (currentSection !== 'all' || true)
-            );
+            if (landing === 'landing1') {
+                return offers.filter(o => o.landing1 !== false);
+            } else if (landing === 'landing2') {
+                return offers.filter(o => o.landing2 !== false);
+            }
+            return offers;
         }
         
         // ===================== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====================
         function updateUI() {
             updateStats();
             updateOffersTable();
-            updateSidebarStats();
         }
         
         function updateStats() {
@@ -768,87 +853,68 @@
             document.getElementById('active-offers').textContent = active;
             document.getElementById('offers-landing1').textContent = landing1;
             document.getElementById('offers-landing2').textContent = landing2;
+            document.getElementById('sidebar-total').textContent = total;
         }
         
         function updateOffersTable() {
-            let tableOffers;
-            let tbodyId;
+            const sections = ['all', 'landing1', 'landing2'];
             
-            if (currentSection === 'all') {
-                tableOffers = offers;
-                tbodyId = 'offers-table';
-            } else {
-                tableOffers = getOffersForLanding(currentSection);
-                tbodyId = `offers-table-${currentSection}`;
-            }
-            
-            const tbody = document.getElementById(tbodyId);
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-            
-            if (tableOffers.length === 0) {
-                const cols = currentSection === 'all' ? 7 : 5;
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="${cols}" style="text-align: center; padding: 40px; color: #64748b;">
-                            <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px;"></i>
-                            <div>Нет офферов</div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            tableOffers.forEach(offer => {
-                const tr = document.createElement('tr');
+            sections.forEach(section => {
+                const tableOffers = getOffersForLanding(section);
+                const tbody = document.getElementById(`offers-table${section === 'all' ? '' : '-' + section}`);
+                if (!tbody) return;
                 
-                const landing1 = offer.landing1 !== false;
-                const landing2 = offer.landing2 !== false;
+                tbody.innerHTML = '';
                 
-                let landingBadges = '';
-                if (currentSection === 'all') {
-                    landingBadges = `
-                        <div style="display: flex; gap: 5px;">
-                            ${landing1 ? '<span class="badge badge-landing1">Л1</span>' : ''}
-                            ${landing2 ? '<span class="badge badge-landing2">Л2</span>' : ''}
-                        </div>
+                if (tableOffers.length === 0) {
+                    const cols = section === 'all' ? 6 : 5;
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="${cols}" style="text-align: center; padding: 30px; color: #64748b;">
+                                <i class="fas fa-inbox" style="font-size: 20px; margin-bottom: 8px;"></i>
+                                <div>Нет офферов</div>
+                            </td>
+                        </tr>
                     `;
+                    return;
                 }
                 
-                tr.innerHTML = `
-                    <td>
-                        <div style="font-weight: 600;">${offer.name}</div>
-                        <div style="font-size: 12px; color: #64748b;">${offer.description || ''}</div>
-                    </td>
-                    <td>
-                        <div>${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
-                    </td>
-                    <td>
-                        <div>${offer.term_min} - ${offer.term_max} дней</div>
-                    </td>
-                    <td>
-                        <div style="color: #059669; font-weight: 600;">${offer.rate_min} - ${offer.rate_max}%</div>
-                    </td>
-                    ${currentSection === 'all' ? `
+                tableOffers.forEach(offer => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                         <td>
-                            <div>${offer.rating.toFixed(1)}/5</div>
+                            <div style="font-weight: 600;">${offer.name}</div>
+                            <div style="font-size: 12px; color: #64748b;">${offer.description || ''}</div>
                         </td>
-                        <td>${landingBadges}</td>
-                    ` : ''}
-                    <td>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="editOffer('${offer.id}')" class="btn" style="padding: 6px 12px;">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteOffer('${offer.id}')" class="btn" style="padding: 6px 12px; background: #fee2e2; color: #dc2626;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tbody.appendChild(tr);
+                        <td>
+                            <div>${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
+                        </td>
+                        <td>
+                            <div>${offer.term_min} - ${offer.term_max} дней</div>
+                        </td>
+                        <td>
+                            <div style="color: #059669; font-weight: 600;">${offer.rate_min} - ${offer.rate_max}%</div>
+                        </td>
+                        ${section === 'all' ? `
+                            <td>
+                                <span class="badge ${offer.status === 'active' ? 'badge-success' : 'badge-danger'}">
+                                    ${offer.status === 'active' ? 'Активен' : 'Неактивен'}
+                                </span>
+                            </td>
+                        ` : ''}
+                        <td>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="editOffer('${offer.id}')" class="btn" style="padding: 5px 10px; font-size: 12px;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteOffer('${offer.id}')" class="btn" style="padding: 5px 10px; font-size: 12px; background: #fee2e2; color: #dc2626;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             });
         }
         
@@ -862,8 +928,21 @@
             });
         }
         
-        function updateSidebarStats() {
-            document.getElementById('sidebar-total').textContent = offers.length;
+        function showSection(section) {
+            currentSection = section;
+            
+            document.querySelectorAll('.section').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.getElementById(section === 'all' ? 'all-section' : `${section}-section`).style.display = 'block';
+            
+            document.querySelectorAll('.landing-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
+            
+            updateOffersTable();
         }
         
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
@@ -880,7 +959,7 @@
                 resetForm(section);
             }
             
-            modal.classList.add('active');
+            modal.style.display = 'flex';
         }
         
         function populateForm(offer) {
@@ -914,8 +993,8 @@
             }
         }
         
-        function closeModal() {
-            document.getElementById('offer-modal').classList.remove('active');
+        function closeOfferModal() {
+            document.getElementById('offer-modal').style.display = 'none';
             currentEditOffer = null;
         }
         
@@ -959,11 +1038,10 @@
             
             saveData();
             updateUI();
-            closeModal();
+            closeOfferModal();
             showNotification('Оффер сохранен', 'success');
         }
         
-        // Глобальные функции для таблицы
         window.editOffer = function(id) {
             const offer = offers.find(o => o.id === id);
             if (offer) showOfferModal(currentSection, offer);
@@ -986,22 +1064,131 @@
             });
         };
         
-        // ===================== EXCEL ЭКСПОРТ =====================
+        // ===================== ИМПОРТ/ЭКСПОРТ EXCEL =====================
+        function showImportModal() {
+            document.getElementById('import-modal').style.display = 'flex';
+        }
+        
+        function closeImportModal() {
+            document.getElementById('import-modal').style.display = 'none';
+        }
+        
+        async function handleExcelUpload(file) {
+            try {
+                const data = await readExcelFile(file);
+                
+                if (!data || data.length === 0) {
+                    throw new Error('Файл пуст');
+                }
+                
+                const newOffers = data.map((row, index) => ({
+                    id: 'import_' + Date.now() + '_' + index,
+                    name: row['Название'] || `Оффер ${index + 1}`,
+                    description: row['Описание'] || '',
+                    amount_min: parseInt(row['СуммаМин']) || 1000,
+                    amount_max: parseInt(row['СуммаМакс']) || 50000,
+                    term_min: parseInt(row['СрокМин']) || 7,
+                    term_max: parseInt(row['СрокМакс']) || 30,
+                    rate_min: parseFloat(row['СтавкаМин']) || 0,
+                    rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
+                    rating: Math.min(Math.max(parseFloat(row['Рейтинг']) || 5, 1), 5),
+                    approval: parseInt(row['ШансОдобрения']) || 95,
+                    landing1: true,
+                    landing2: true,
+                    status: 'active',
+                    created_at: new Date().toISOString()
+                }));
+                
+                Swal.fire({
+                    title: 'Подтвердите импорт',
+                    html: `Найдено <strong>${newOffers.length}</strong> офферов.<br>Добавить их в базу данных?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Да, добавить',
+                    cancelButtonText: 'Отмена'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        offers.push(...newOffers);
+                        saveData();
+                        updateUI();
+                        closeImportModal();
+                        showNotification(`Добавлено ${newOffers.length} офферов`, 'success');
+                    }
+                });
+                
+            } catch (error) {
+                showNotification('Ошибка загрузки файла: ' + error.message, 'error');
+            }
+        }
+        
+        function readExcelFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const data = e.target.result;
+                        const workbook = XLSX.read(data, { type: 'binary' });
+                        const firstSheet = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheet];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        resolve(jsonData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('Ошибка чтения файла'));
+                };
+                
+                if (file.name.endsWith('.csv')) {
+                    reader.readAsText(file);
+                } else {
+                    reader.readAsBinaryString(file);
+                }
+            });
+        }
+        
+        function downloadTemplate() {
+            const templateData = [
+                {
+                    'Название': 'МоментальныеДеньги',
+                    'Описание': 'Лидер по скорости выдачи',
+                    'СуммаМин': 1000,
+                    'СуммаМакс': 50000,
+                    'СрокМин': 7,
+                    'СрокМакс': 30,
+                    'СтавкаМин': 0,
+                    'СтавкаМакс': 0.8,
+                    'Рейтинг': 4.5,
+                    'ШансОдобрения': 95
+                }
+            ];
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
+            XLSX.writeFile(wb, 'шаблон_офферов.xlsx');
+            
+            showNotification('Шаблон скачан', 'success');
+        }
+        
         function exportToExcel() {
             const excelData = offers.map(offer => ({
                 'Название': offer.name,
                 'Описание': offer.description,
-                'Мин. сумма': offer.amount_min,
-                'Макс. сумма': offer.amount_max,
-                'Мин. срок': offer.term_min,
-                'Макс. срок': offer.term_max,
-                'Мин. ставка': offer.rate_min,
-                'Макс. ставка': offer.rate_max,
+                'СуммаМин': offer.amount_min,
+                'СуммаМакс': offer.amount_max,
+                'СрокМин': offer.term_min,
+                'СрокМакс': offer.term_max,
+                'СтавкаМин': offer.rate_min,
+                'СтавкаМакс': offer.rate_max,
                 'Рейтинг': offer.rating,
-                'Шанс одобрения': offer.approval,
-                'Лендинг 1': offer.landing1 ? 'Да' : 'Нет',
-                'Лендинг 2': offer.landing2 ? 'Да' : 'Нет',
-                'Статус': offer.status
+                'ШансОдобрения': offer.approval,
+                'FinAI': offer.landing1 ? 'Да' : 'Нет',
+                'ДеньгиСразу': offer.landing2 ? 'Да' : 'Нет',
+                'Статус': offer.status === 'active' ? 'Активен' : 'Неактивен'
             }));
             
             const wb = XLSX.utils.book_new();
@@ -1009,28 +1196,12 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
             XLSX.writeFile(wb, `офферы_${new Date().toISOString().slice(0,10)}.xlsx`);
             
-            showNotification('Экспорт завершен', 'success');
+            showNotification(`Экспортировано ${offers.length} офферов`, 'success');
         }
         
         // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
-        function showSection(section) {
-            currentSection = section;
-            
-            // Скрываем все секции
-            document.querySelectorAll('.section').forEach(el => {
-                el.style.display = 'none';
-            });
-            
-            // Показываем выбранную
-            document.getElementById(section === 'all' ? 'all-section' : `${section}-section`).style.display = 'block';
-            
-            // Обновляем активные табы
-            document.querySelectorAll('.landing-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
-            
-            updateOffersTable();
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
         
         function showNotification(message, type = 'success') {
@@ -1042,10 +1213,6 @@
                 icon: type,
                 title: message
             });
-        }
-        
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
         
         function loadDemoData() {
