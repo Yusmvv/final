@@ -31,6 +31,15 @@
             color: #334155;
         }
         
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
         .sidebar {
             width: 280px;
             background: #1e293b;
@@ -38,12 +47,14 @@
             height: 100vh;
             position: fixed;
             padding: 20px 0;
+            display: none;
         }
         
         .main-content {
             margin-left: 280px;
             padding: 24px;
             max-width: 1400px;
+            display: none;
         }
         
         .stat-card {
@@ -69,7 +80,7 @@
         
         th {
             background: #f8fafc;
-            padding: 16px;
+            padding: 12px;
             text-align: left;
             font-weight: 600;
             color: #475569;
@@ -77,7 +88,7 @@
         }
         
         td {
-            padding: 16px;
+            padding: 12px;
             border-bottom: 1px solid #f1f5f9;
         }
         
@@ -95,13 +106,11 @@
         .badge-landing1 {
             background: #e0e7ff;
             color: var(--landing1);
-            border: 1px solid var(--landing1);
         }
         
         .badge-landing2 {
             background: #d1fae5;
             color: var(--landing2);
-            border: 1px solid var(--landing2);
         }
         
         .badge-success {
@@ -112,16 +121,6 @@
         .badge-danger {
             background: #fee2e2;
             color: #991b1b;
-        }
-        
-        .badge-info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .badge-warning {
-            background: #fef3c7;
-            color: #92400e;
         }
         
         .btn {
@@ -150,17 +149,9 @@
             color: white;
         }
         
-        .btn-landing1:hover {
-            background: #4f46e5;
-        }
-        
         .btn-landing2 {
             background: var(--landing2);
             color: white;
-        }
-        
-        .btn-landing2:hover {
-            background: #059669;
         }
         
         .btn-success {
@@ -195,88 +186,42 @@
             border-radius: 12px;
             padding: 30px;
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
         }
         
         .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border-radius: 6px;
         }
         
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
-        }
-        
-        .sync-status {
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .sync-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .sync-error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .sync-loading {
-            background: #fef3c7;
-            color: #92400e;
         }
         
         .excel-upload {
             border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            padding: 40px 20px;
+            border-radius: 8px;
+            padding: 30px 15px;
             text-align: center;
             background: #f8fafc;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .excel-upload:hover {
-            border-color: var(--primary);
-            background: #f0f9ff;
-        }
-        
-        .excel-upload.dragover {
-            border-color: var(--success);
-            background: #f0fdf4;
-        }
-        
-        .excel-template {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid #e2e8f0;
+            margin-bottom: 15px;
         }
         
         .rating-stars {
@@ -290,71 +235,26 @@
             font-size: 14px;
         }
         
-        .landing-distribution {
+        .tabs {
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .landing-distribution-item {
-            flex: 1;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #e2e8f0;
-        }
-        
-        .landing-toggle {
-            display: flex;
-            align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
         }
         
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
+        .tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
+            background: transparent;
+            border: none;
         }
         
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: var(--primary);
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
+        .tab.active {
+            background: var(--primary);
+            color: white;
         }
         
         @media (max-width: 768px) {
@@ -366,274 +266,140 @@
             .main-content {
                 margin-left: 0;
             }
-            .grid-2, .grid-4 {
+            .grid-2 {
                 grid-template-columns: 1fr;
-            }
-            .landing-distribution {
-                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Форма входа -->
+    <div id="login-section" class="login-container">
+        <h2 style="text-align: center; font-size: 24px; font-weight: 700; margin-bottom: 30px;">
+            <i class="fas fa-lock"></i> Вход в админ-панель
+        </h2>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label">Логин</label>
+                <input type="text" id="username" class="form-control" placeholder="Введите логин" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Пароль</label>
+                <input type="password" id="password" class="form-control" placeholder="Введите пароль" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-sign-in-alt"></i> Войти
+            </button>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 6px; font-size: 14px; color: #0369a1;">
+                <strong>Тестовые данные:</strong><br>
+                Логин: admin<br>
+                Пароль: admin123
+            </div>
+        </form>
+    </div>
+    
+    <!-- Основной интерфейс -->
     <div class="sidebar">
         <div style="padding: 20px;">
-            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 30px;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 30px;">
                 <i class="fas fa-cogs"></i> Админ-панель
             </h2>
             
-            <!-- Статус синхронизации -->
-            <div id="sync-status" class="sync-status sync-loading">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-sync-alt fa-spin"></i>
-                    <span>Загрузка данных...</span>
-                </div>
-            </div>
-            
-            <button id="sync-now" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;">
-                <i class="fas fa-sync-alt"></i> Сохранить все
+            <button id="logout-btn" class="btn" style="width: 100%; margin-bottom: 20px; background: rgba(255,255,255,0.1); color: white;">
+                <i class="fas fa-sign-out-alt"></i> Выйти
             </button>
             
-            <!-- Навигация -->
             <nav style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn landing-tab active" data-section="all-offers" style="justify-content: flex-start; background: rgba(59, 130, 246, 0.1); color: white; border-left: 4px solid var(--primary);">
-                    <i class="fas fa-database"></i> Все офферы
+                <button class="btn landing-tab active" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white;">
+                    <i class="fas fa-handshake"></i> Лендинг 1
                 </button>
-                <button class="btn landing-tab" data-section="landing1" style="justify-content: flex-start; background: rgba(99, 102, 241, 0.1); color: white; border-left: 4px solid var(--landing1);">
-                    <i class="fas fa-handshake"></i> Лендинг 1 (FinAI)
-                </button>
-                <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white; border-left: 4px solid var(--landing2);">
-                    <i class="fas fa-brain"></i> Лендинг 2 (ДеньгиСразу)
+                <button class="btn landing-tab" data-section="landing2" style="justify-content: flex-start; background: rgba(16, 185, 129, 0.1); color: white;">
+                    <i class="fas fa-brain"></i> Лендинг 2
                 </button>
             </nav>
             
-            <!-- Статистика в сайдбаре -->
             <div style="margin-top: 40px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Лендинг 1:</div>
-                        <div style="font-size: 20px; font-weight: 700;" id="sidebar-landing1">0</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Лендинг 2:</div>
-                        <div style="font-size: 20px; font-weight: 700;" id="sidebar-landing2">0</div>
-                    </div>
-                </div>
-                <div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 10px;">Всего офферов:</div>
-                <div style="font-size: 28px; font-weight: 700;" id="sidebar-total">0</div>
+                <div style="font-size: 12px; color: rgba(255,255,255,0.7);">Офферов всего:</div>
+                <div style="font-size: 24px; font-weight: 700;" id="sidebar-total">0</div>
             </div>
         </div>
     </div>
     
     <div class="main-content">
-        <!-- Секция всех офферов -->
-        <div id="all-offers-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div>
-                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-database" style="color: var(--primary);"></i>
-                        <span>Все офферы - Общая база данных</span>
-                    </h1>
-                    <p style="color: #64748b; margin-top: 5px;">Единая база данных для обоих лендингов. Здесь можно загружать офферы из Excel и распределять их по лендингам</p>
-                </div>
-                <button id="add-offer-all" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Добавить оффер
-                </button>
-            </div>
-            
-            <!-- Инструменты Excel -->
-            <div class="grid-2" style="margin-bottom: 30px;">
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-excel text-green-600"></i>
-                        Импорт из Excel
-                    </h3>
-                    <div id="excel-upload-all" class="excel-upload">
-                        <i class="fas fa-file-upload" style="font-size: 32px; color: #64748b; margin-bottom: 10px;"></i>
-                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Перетащите файл или кликните для выбора</div>
-                        <div class="btn" style="background: #e2e8f0;">
-                            <i class="fas fa-upload"></i> Выбрать файл
-                        </div>
-                        <input type="file" id="excel-file-all" accept=".xlsx,.xls,.csv" style="display: none;">
-                    </div>
-                    <div class="excel-template">
-                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
-                            Обязательные колонки:<br>
-                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, СсылкаЛендинг1, СсылкаЛендинг2, ШансОдобрения
-                        </div>
-                        <button id="download-template-all" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
-                            <i class="fas fa-download"></i> Скачать шаблон
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-file-export text-blue-600"></i>
-                        Экспорт в Excel
-                    </h3>
-                    <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы из базы данных в Excel файл для редактирования или бэкапа.</p>
-                    <button id="export-excel-all" class="btn btn-primary">
-                        <i class="fas fa-file-excel"></i> Экспортировать в Excel
-                    </button>
-                    <div style="margin-top: 15px; padding: 10px; background: #f0f9ff; border-radius: 6px; border: 1px solid #bae6fd;">
-                        <div style="font-size: 14px; font-weight: 600; color: #0369a1;">Важно:</div>
-                        <div style="font-size: 12px; color: #0c4a6e; margin-top: 5px;">Экспортируются ВСЕ офферы из базы данных</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Статистика -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
-                    <div id="total-offers-all" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
-                    <div id="active-offers-all" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
-                    <div id="avg-rating-all" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
-                    <div id="avg-approval-all" style="font-size: 32px; font-weight: 800;">0%</div>
-                </div>
-            </div>
-            
-            <!-- Таблица всех офферов -->
-            <div class="table-container">
-                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 18px; font-weight: 600;">Все офферы в базе данных</h3>
-                    <div style="display: flex; gap: 10px;">
-                        <button id="mass-assign-landing1" class="btn" style="background: #e0e7ff; color: var(--landing1);">
-                            <i class="fas fa-handshake"></i> Назначить Л1
-                        </button>
-                        <button id="mass-assign-landing2" class="btn" style="background: #d1fae5; color: var(--landing2);">
-                            <i class="fas fa-brain"></i> Назначить Л2
-                        </button>
-                        <button id="delete-all-offers" class="btn" style="background: #fee2e2; color: #dc2626;">
-                            <i class="fas fa-trash"></i> Удалить все
-                        </button>
-                    </div>
-                </div>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox" id="select-all-offers">
-                                </th>
-                                <th>Оффер</th>
-                                <th>Сумма</th>
-                                <th>Срок</th>
-                                <th>Ставка</th>
-                                <th>Рейтинг</th>
-                                <th>Лендинги</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody id="offers-table-all">
-                            <!-- Все офферы будут здесь -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
         <!-- Секция лендинга 1 -->
-        <div id="landing1-section" style="display: none;">
+        <div id="landing1-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div>
-                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <span class="badge badge-landing1">FinAI</span>
-                        <span>Лендинг 1 - Управление офферами</span>
-                    </h1>
-                    <p style="color: #64748b; margin-top: 5px;">Здесь вы управляете офферами для лендинга FinAI</p>
-                </div>
+                <h1 style="font-size: 24px; font-weight: 700;">
+                    <span class="badge badge-landing1">Лендинг 1</span>
+                    Управление офферами
+                </h1>
                 <button id="add-offer-landing1" class="btn btn-landing1">
                     <i class="fas fa-plus"></i> Добавить оффер
                 </button>
             </div>
             
-            <!-- Инструменты Excel для лендинга 1 -->
-            <div class="stat-card" style="margin-bottom: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-file-export text-blue-600"></i>
-                    Экспорт офферов лендинга 1
-                </h3>
-                <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга 1 в Excel файл.</p>
-                <button id="export-excel-landing1" class="btn btn-landing1">
-                    <i class="fas fa-file-excel"></i> Экспортировать в Excel
-                </button>
+            <!-- Инструменты Excel -->
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
+                        <i class="fas fa-file-excel text-green-600"></i> Импорт из Excel
+                    </h3>
+                    <div id="excel-upload-landing1" class="excel-upload">
+                        <i class="fas fa-file-upload" style="font-size: 24px; color: #64748b; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                        <div style="font-size: 14px; color: #64748b;">Кликните для выбора</div>
+                        <input type="file" id="excel-file-landing1" accept=".xlsx,.xls,.csv" style="display: none;">
+                    </div>
+                    <button id="download-template-landing1" class="btn" style="width: 100%; background: #e2e8f0;">
+                        <i class="fas fa-download"></i> Скачать шаблон
+                    </button>
+                </div>
+                
+                <div class="stat-card">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
+                        <i class="fas fa-file-export text-blue-600"></i> Экспорт в Excel
+                    </h3>
+                    <p style="color: #64748b; margin-bottom: 15px;">Скачайте все офферы лендинга</p>
+                    <button id="export-excel-landing1" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-file-excel"></i> Экспортировать
+                    </button>
+                </div>
             </div>
             
             <!-- Статистика -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
-                    <div id="total-offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div style="font-size: 12px; color: #64748b;">Всего офферов</div>
+                    <div id="total-offers-landing1" style="font-size: 24px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
-                    <div id="active-offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
-                    <div id="avg-rating-landing1" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
-                    <div id="avg-approval-landing1" style="font-size: 32px; font-weight: 800;">0%</div>
+                    <div style="font-size: 12px; color: #64748b;">Активных</div>
+                    <div id="active-offers-landing1" style="font-size: 24px; font-weight: 800;">0</div>
                 </div>
             </div>
             
-            <!-- Таблица офферов лендинга 1 -->
+            <!-- Таблица офферов -->
             <div class="table-container">
-                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 1</h3>
-                    <div style="display: flex; gap: 10px;">
-                        <button id="remove-from-landing1" class="btn" style="background: #fee2e2; color: #dc2626;">
-                            <i class="fas fa-times"></i> Убрать с лендинга
-                        </button>
-                        <button id="delete-all-landing1" class="btn" style="background: #fee2e2; color: #dc2626;">
-                            <i class="fas fa-trash"></i> Удалить все
-                        </button>
-                    </div>
-                </div>
                 <div style="overflow-x: auto;">
                     <table>
                         <thead>
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox" id="select-all-landing1">
-                                </th>
                                 <th>Оффер</th>
                                 <th>Сумма</th>
                                 <th>Срок</th>
-                                <th>Ставка</th>
                                 <th>Рейтинг</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody id="offers-table-landing1">
-                            <!-- Офферы лендинга 1 будут здесь -->
+                            <!-- Офферы лендинга 1 -->
                         </tbody>
                     </table>
-                </div>
-            </div>
-            
-            <!-- Карточки офферов -->
-            <div style="margin-top: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга 1</h3>
-                <div id="offer-cards-landing1" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                    <!-- Карточки будут здесь -->
                 </div>
             </div>
         </div>
@@ -641,91 +407,73 @@
         <!-- Секция лендинга 2 -->
         <div id="landing2-section" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div>
-                    <h1 style="font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <span class="badge badge-landing2">ДеньгиСразу</span>
-                        <span>Лендинг 2 - Управление офферами</span>
-                    </h1>
-                    <p style="color: #64748b; margin-top: 5px;">Здесь вы управляете офферами для лендинга ДеньгиСразу</p>
-                </div>
+                <h1 style="font-size: 24px; font-weight: 700;">
+                    <span class="badge badge-landing2">Лендинг 2</span>
+                    Управление офферами
+                </h1>
                 <button id="add-offer-landing2" class="btn btn-landing2">
                     <i class="fas fa-plus"></i> Добавить оффер
                 </button>
             </div>
             
-            <!-- Инструменты Excel для лендинга 2 -->
-            <div class="stat-card" style="margin-bottom: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-file-export text-blue-600"></i>
-                    Экспорт офферов лендинга 2
-                </h3>
-                <p style="color: #64748b; margin-bottom: 20px;">Скачайте все офферы лендинга 2 в Excel файл.</p>
-                <button id="export-excel-landing2" class="btn btn-landing2">
-                    <i class="fas fa-file-excel"></i> Экспортировать в Excel
-                </button>
+            <!-- Инструменты Excel -->
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
+                        <i class="fas fa-file-excel text-green-600"></i> Импорт из Excel
+                    </h3>
+                    <div id="excel-upload-landing2" class="excel-upload">
+                        <i class="fas fa-file-upload" style="font-size: 24px; color: #64748b; margin-bottom: 10px;"></i>
+                        <div style="font-weight: 600; margin-bottom: 5px;">Загрузите Excel файл</div>
+                        <div style="font-size: 14px; color: #64748b;">Кликните для выбора</div>
+                        <input type="file" id="excel-file-landing2" accept=".xlsx,.xls,.csv" style="display: none;">
+                    </div>
+                    <button id="download-template-landing2" class="btn" style="width: 100%; background: #e2e8f0;">
+                        <i class="fas fa-download"></i> Скачать шаблон
+                    </button>
+                </div>
+                
+                <div class="stat-card">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 15px;">
+                        <i class="fas fa-file-export text-blue-600"></i> Экспорт в Excel
+                    </h3>
+                    <p style="color: #64748b; margin-bottom: 15px;">Скачайте все офферы лендинга</p>
+                    <button id="export-excel-landing2" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-file-excel"></i> Экспортировать
+                    </button>
+                </div>
             </div>
             
             <!-- Статистика -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Всего офферов</div>
-                    <div id="total-offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
+                    <div style="font-size: 12px; color: #64748b;">Всего офферов</div>
+                    <div id="total-offers-landing2" style="font-size: 24px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Активных</div>
-                    <div id="active-offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
-                    <div id="avg-rating-landing2" style="font-size: 32px; font-weight: 800;">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
-                    <div id="avg-approval-landing2" style="font-size: 32px; font-weight: 800;">0%</div>
+                    <div style="font-size: 12px; color: #64748b;">Активных</div>
+                    <div id="active-offers-landing2" style="font-size: 24px; font-weight: 800;">0</div>
                 </div>
             </div>
             
-            <!-- Таблица офферов лендинга 2 -->
+            <!-- Таблица офферов -->
             <div class="table-container">
-                <div style="padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 18px; font-weight: 600;">Офферы лендинга 2</h3>
-                    <div style="display: flex; gap: 10px;">
-                        <button id="remove-from-landing2" class="btn" style="background: #fee2e2; color: #dc2626;">
-                            <i class="fas fa-times"></i> Убрать с лендинга
-                        </button>
-                        <button id="delete-all-landing2" class="btn" style="background: #fee2e2; color: #dc2626;">
-                            <i class="fas fa-trash"></i> Удалить все
-                        </button>
-                    </div>
-                </div>
                 <div style="overflow-x: auto;">
                     <table>
                         <thead>
                             <tr>
-                                <th style="width: 40px;">
-                                    <input type="checkbox" id="select-all-landing2">
-                                </th>
                                 <th>Оффер</th>
                                 <th>Сумма</th>
                                 <th>Срок</th>
-                                <th>Ставка</th>
                                 <th>Рейтинг</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody id="offers-table-landing2">
-                            <!-- Офферы лендинга 2 будут здесь -->
+                            <!-- Офферы лендинга 2 -->
                         </tbody>
                     </table>
-                </div>
-            </div>
-            
-            <!-- Карточки офферов -->
-            <div style="margin-top: 30px;">
-                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">Превью карточек для лендинга 2</h3>
-                <div id="offer-cards-landing2" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
-                    <!-- Карточки будут здесь -->
                 </div>
             </div>
         </div>
@@ -734,8 +482,8 @@
     <!-- Модальное окно оффера -->
     <div id="offer-modal" class="modal">
         <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                <h2 style="font-size: 24px; font-weight: 700;" id="modal-title">Новый оффер</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 20px; font-weight: 700;" id="modal-title">Новый оффер</h2>
                 <button id="close-modal" class="btn" style="background: #e5e7eb;">✕</button>
             </div>
             
@@ -743,19 +491,9 @@
                 <input type="hidden" id="offer-id">
                 <input type="hidden" id="offer-landing">
                 
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Название оффера *</label>
-                        <input type="text" id="offer-name" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Статус</label>
-                        <select id="offer-status" class="form-control">
-                            <option value="active">Активный</option>
-                            <option value="inactive">Неактивный</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label class="form-label">Название оффера *</label>
+                    <input type="text" id="offer-name" class="form-control" required>
                 </div>
                 
                 <div class="form-group">
@@ -763,7 +501,7 @@
                     <textarea id="offer-description" class="form-control" rows="2"></textarea>
                 </div>
                 
-                <div class="grid-4">
+                <div class="grid-2">
                     <div class="form-group">
                         <label class="form-label">Мин. сумма</label>
                         <input type="number" id="amount-min" class="form-control" value="1000">
@@ -773,7 +511,9 @@
                         <label class="form-label">Макс. сумма</label>
                         <input type="number" id="amount-max" class="form-control" value="50000">
                     </div>
-                    
+                </div>
+                
+                <div class="grid-2">
                     <div class="form-group">
                         <label class="form-label">Мин. срок</label>
                         <input type="number" id="term-min" class="form-control" value="7">
@@ -787,123 +527,37 @@
                 
                 <div class="grid-2">
                     <div class="form-group">
-                        <label class="form-label">Мин. ставка (%)</label>
-                        <input type="number" step="0.1" id="rate-min" class="form-control" value="0">
+                        <label class="form-label">Ставка, %</label>
+                        <input type="number" step="0.1" id="rate" class="form-control" value="0.8">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Макс. ставка (%)</label>
-                        <input type="number" step="0.1" id="rate-max" class="form-control" value="0.8">
+                        <label class="form-label">Шанс одобрения, %</label>
+                        <input type="number" id="approval" class="form-control" value="95">
                     </div>
                 </div>
                 
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Шанс одобрения (%)</label>
-                        <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
-                    </div>
-                    
                     <div class="form-group">
                         <label class="form-label">Рейтинг (1-5)</label>
                         <input type="number" id="rating" class="form-control" value="5" min="1" max="5" step="0.1">
                     </div>
-                </div>
-                
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Ссылка для лендинга 1</label>
-                        <input type="url" id="link-landing1" class="form-control" value="#">
-                    </div>
                     
                     <div class="form-group">
-                        <label class="form-label">Ссылка для лендинга 2</label>
-                        <input type="url" id="link-landing2" class="form-control" value="#">
-                    </div>
-                </div>
-                
-                <!-- Распределение по лендингам -->
-                <div class="form-group">
-                    <label class="form-label">Лендинги</label>
-                    <div class="landing-distribution">
-                        <div class="landing-distribution-item">
-                            <div class="landing-toggle">
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="landing1-check" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                                <div>
-                                    <div style="font-weight: 600; color: var(--landing1);">Лендинг 1 (FinAI)</div>
-                                    <div style="font-size: 12px; color: #64748b;">Отображать на лендинге 1</div>
-                                </div>
-                            </div>
-                            <div style="font-size: 12px; color: #64748b;">
-                                Этот оффер будет доступен на лендинге FinAI
-                            </div>
-                        </div>
-                        
-                        <div class="landing-distribution-item">
-                            <div class="landing-toggle">
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="landing2-check" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
-                                <div>
-                                    <div style="font-weight: 600; color: var(--landing2);">Лендинг 2 (ДеньгиСразу)</div>
-                                    <div style="font-size: 12px; color: #64748b;">Отображать на лендинге 2</div>
-                                </div>
-                            </div>
-                            <div style="font-size: 12px; color: #64748b;">
-                                Этот оффер будет доступен на лендинге ДеньгиСразу
-                            </div>
-                        </div>
+                        <label class="form-label">Ссылка *</label>
+                        <input type="url" id="offer-link" class="form-control" value="#" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Типы дохода</label>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="income-official" checked>
-                            Официальный
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="income-unofficial" checked>
-                            Неофициальный
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="income-benefits" checked>
-                            Пособие/пенсия
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="income-noincome" checked>
-                            Без дохода
-                        </label>
-                    </div>
+                    <label class="form-label">Статус</label>
+                    <select id="offer-status" class="form-control">
+                        <option value="active">Активный</option>
+                        <option value="inactive">Неактивный</option>
+                    </select>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Типы кредитной истории</label>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="history-none" checked>
-                            Нет просрочек
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="history-small" checked>
-                            Были небольшие
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="history-current" checked>
-                            Есть текущие
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="history-bad" checked>
-                            Плохая история
-                        </label>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
                     <button type="submit" class="btn btn-success" style="flex: 1;">
                         <i class="fas fa-save"></i> Сохранить
                     </button>
@@ -916,40 +570,77 @@
     </div>
 
     <script>
-        // ===================== КОНФИГУРАЦИЯ =====================
+        // ===================== КОНСТАНТЫ =====================
         const CONFIG = {
             LOCAL_KEYS: {
                 OFFERS: 'admin_offers',
-                SETTINGS: 'admin_settings'
+                AUTH: 'admin_auth'
+            },
+            // Тестовый пользователь
+            ADMIN_USER: {
+                username: 'admin',
+                password: 'admin123'
             }
         };
         
         // ===================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====================
         let offers = [];
-        let settings = {};
-        let currentEditOffer = null;
-        let currentLanding = 'all';
-        let syncInProgress = false;
-        let selectedOffers = new Set();
+        let currentLanding = 'landing1';
         
         // ===================== ИНИЦИАЛИЗАЦИЯ =====================
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Админ-панель: Инициализация...');
-            
-            // Инициализация UI
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
             initUI();
-            
-            // Загрузка данных
-            await loadData();
-            
-            // Обновление интерфейса
-            updateUI();
-            
-            console.log('Админ-панель: Готово');
         });
+        
+        // ===================== АВТОРИЗАЦИЯ =====================
+        function checkAuth() {
+            const auth = localStorage.getItem(CONFIG.LOCAL_KEYS.AUTH);
+            if (auth === 'true') {
+                showAdminPanel();
+            } else {
+                showLogin();
+            }
+        }
+        
+        function showLogin() {
+            document.getElementById('login-section').style.display = 'block';
+            document.querySelector('.sidebar').style.display = 'none';
+            document.querySelector('.main-content').style.display = 'none';
+        }
+        
+        function showAdminPanel() {
+            document.getElementById('login-section').style.display = 'none';
+            document.querySelector('.sidebar').style.display = 'block';
+            document.querySelector('.main-content').style.display = 'block';
+            
+            // Загружаем данные
+            loadData();
+            updateUI();
+        }
         
         // ===================== ИНИЦИАЛИЗАЦИЯ UI =====================
         function initUI() {
+            // Форма входа
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username === CONFIG.ADMIN_USER.username && password === CONFIG.ADMIN_USER.password) {
+                    localStorage.setItem(CONFIG.LOCAL_KEYS.AUTH, 'true');
+                    showAdminPanel();
+                } else {
+                    showNotification('Неверный логин или пароль', 'error');
+                }
+            });
+            
+            // Кнопка выхода
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                localStorage.removeItem(CONFIG.LOCAL_KEYS.AUTH);
+                showLogin();
+            });
+            
             // Навигация
             document.querySelectorAll('.landing-tab').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -959,376 +650,137 @@
             });
             
             // Кнопки добавления офферов
-            document.getElementById('add-offer-all').addEventListener('click', () => showOfferModal('all'));
             document.getElementById('add-offer-landing1').addEventListener('click', () => showOfferModal('landing1'));
             document.getElementById('add-offer-landing2').addEventListener('click', () => showOfferModal('landing2'));
-            
-            // Кнопка сохранения
-            document.getElementById('sync-now').addEventListener('click', () => syncWithBackend());
             
             // Модальное окно
             document.getElementById('close-modal').addEventListener('click', closeModal);
             document.getElementById('cancel-modal').addEventListener('click', closeModal);
             document.getElementById('offer-form').addEventListener('submit', saveOffer);
             
-            // Кнопки массовых действий для всех офферов
-            document.getElementById('select-all-offers').addEventListener('change', toggleSelectAllOffers);
-            document.getElementById('mass-assign-landing1').addEventListener('click', () => massAssignLanding('landing1'));
-            document.getElementById('mass-assign-landing2').addEventListener('click', () => massAssignLanding('landing2'));
-            document.getElementById('delete-all-offers').addEventListener('click', () => deleteAllOffers('all'));
+            // Импорт Excel для лендинга 1
+            const excelUpload1 = document.getElementById('excel-upload-landing1');
+            const excelFile1 = document.getElementById('excel-file-landing1');
             
-            // Кнопки для лендинга 1
-            document.getElementById('select-all-landing1').addEventListener('change', () => toggleSelectAllForLanding('landing1'));
-            document.getElementById('remove-from-landing1').addEventListener('click', () => massRemoveFromLanding('landing1'));
-            document.getElementById('delete-all-landing1').addEventListener('click', () => deleteAllOffers('landing1'));
-            
-            // Кнопки для лендинга 2
-            document.getElementById('select-all-landing2').addEventListener('change', () => toggleSelectAllForLanding('landing2'));
-            document.getElementById('remove-from-landing2').addEventListener('click', () => massRemoveFromLanding('landing2'));
-            document.getElementById('delete-all-landing2').addEventListener('click', () => deleteAllOffers('landing2'));
-            
-            // Импорт/экспорт Excel для общей базы
-            const excelUploadAll = document.getElementById('excel-upload-all');
-            const excelFileAll = document.getElementById('excel-file-all');
-            const excelTemplateAll = document.getElementById('download-template-all');
-            const exportExcelAll = document.getElementById('export-excel-all');
-            
-            excelUploadAll.addEventListener('click', () => excelFileAll.click());
-            excelUploadAll.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                excelUploadAll.classList.add('dragover');
-            });
-            excelUploadAll.addEventListener('dragleave', () => {
-                excelUploadAll.classList.remove('dragover');
-            });
-            excelUploadAll.addEventListener('drop', (e) => {
-                e.preventDefault();
-                excelUploadAll.classList.remove('dragover');
-                if (e.dataTransfer.files.length) {
-                    handleExcelUpload(e.dataTransfer.files[0], 'all');
-                }
-            });
-            
-            excelFileAll.addEventListener('change', (e) => {
+            excelUpload1.addEventListener('click', () => excelFile1.click());
+            excelFile1.addEventListener('change', (e) => {
                 if (e.target.files.length) {
-                    handleExcelUpload(e.target.files[0], 'all');
+                    handleExcelUpload(e.target.files[0], 'landing1');
                 }
             });
             
-            excelTemplateAll.addEventListener('click', () => downloadExcelTemplate('all'));
-            exportExcelAll.addEventListener('click', () => exportToExcel('all'));
-            
-            // Экспорт для лендингов
+            document.getElementById('download-template-landing1').addEventListener('click', () => downloadExcelTemplate('landing1'));
             document.getElementById('export-excel-landing1').addEventListener('click', () => exportToExcel('landing1'));
-            document.getElementById('export-excel-landing2').addEventListener('click', () => exportToExcel('landing2'));
             
-            // Показываем все офферы по умолчанию
-            showSection('all-offers');
+            // Импорт Excel для лендинга 2
+            const excelUpload2 = document.getElementById('excel-upload-landing2');
+            const excelFile2 = document.getElementById('excel-file-landing2');
+            
+            excelUpload2.addEventListener('click', () => excelFile2.click());
+            excelFile2.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleExcelUpload(e.target.files[0], 'landing2');
+                }
+            });
+            
+            document.getElementById('download-template-landing2').addEventListener('click', () => downloadExcelTemplate('landing2'));
+            document.getElementById('export-excel-landing2').addEventListener('click', () => exportToExcel('landing2'));
         }
         
         // ===================== РАБОТА С ДАННЫМИ =====================
-        async function loadData() {
-            updateSyncStatus('Загрузка данных...', 'loading');
-            
+        function loadData() {
             try {
-                // Пробуем загрузить из localStorage
                 const localOffers = localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS);
-                const localSettings = localStorage.getItem(CONFIG.LOCAL_KEYS.SETTINGS);
-                
-                console.log('Загружаем данные из localStorage...');
-                
                 if (localOffers) {
-                    const data = JSON.parse(localOffers);
-                    console.log('Данные из localStorage:', data);
-                    
-                    // Поддержка старого формата {offers: []} и нового []
-                    if (data && data.offers) {
-                        offers = data.offers;
-                        console.log(`Загружено ${offers.length} офферов из поля "offers"`);
-                    } else if (Array.isArray(data)) {
-                        offers = data;
-                        console.log(`Загружено ${offers.length} офферов как массив`);
-                    } else {
-                        offers = [];
-                        console.log('Данные не найдены, создаем пустой массив');
-                    }
-                } else {
-                    console.log('В localStorage нет данных об офферах');
-                    offers = [];
+                    offers = JSON.parse(localOffers);
                 }
-                
-                if (localSettings) {
-                    settings = { ...settings, ...JSON.parse(localSettings) };
-                    console.log('Настройки загружены:', settings);
-                }
-                
-                updateSyncStatus('Данные загружены', 'success');
-                
             } catch (error) {
                 console.error('Ошибка загрузки:', error);
-                updateSyncStatus('Ошибка загрузки данных', 'error');
-                
-                // Загружаем демо-данные
-                loadDemoData();
-                updateSyncStatus('Загружены демо-данные', 'warning');
+                offers = [];
             }
         }
         
-        // Сохранение в localStorage
-        function saveToLocalStorage() {
+        function saveData() {
             try {
-                console.log('Сохраняем данные в localStorage...');
-                
-                // Сохраняем в формате, который понимают лендинги
-                const dataToSave = {
-                    offers: offers,
-                    last_updated: new Date().toISOString(),
-                    version: '2.0'
-                };
-                
-                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(dataToSave));
-                localStorage.setItem(CONFIG.LOCAL_KEYS.SETTINGS, JSON.stringify(settings));
-                
-                console.log('Данные успешно сохранены в localStorage');
-                
-                // Обновляем статистику
-                updateSidebarStats();
-                
+                localStorage.setItem(CONFIG.LOCAL_KEYS.OFFERS, JSON.stringify(offers));
+                updateUI();
+                showNotification('Данные сохранены', 'success');
                 return true;
             } catch (error) {
-                console.error('Ошибка сохранения:', error);
+                showNotification('Ошибка сохранения', 'error');
                 return false;
-            }
-        }
-        
-        // Получение офферов для конкретного лендинга
-        function getOffersForLanding(landing) {
-            if (landing === 'landing1') {
-                return offers.filter(o => o.landing1 !== false);
-            } else if (landing === 'landing2') {
-                return offers.filter(o => o.landing2 !== false);
-            }
-            return offers;
-        }
-        
-        // ===================== СИНХРОНИЗАЦИЯ =====================
-        async function syncWithBackend() {
-            if (syncInProgress) {
-                showNotification('Синхронизация уже выполняется', 'warning');
-                return;
-            }
-            
-            syncInProgress = true;
-            updateSyncStatus('Сохранение данных...', 'loading');
-            
-            try {
-                const success = saveToLocalStorage();
-                
-                if (success) {
-                    updateSyncStatus('Данные сохранены в localStorage', 'success');
-                    showNotification('Данные сохранены. Лендинги обновятся при следующей загрузке.', 'success');
-                } else {
-                    throw new Error('Ошибка сохранения');
-                }
-                
-            } catch (error) {
-                console.error('Ошибка синхронизации:', error);
-                updateSyncStatus('Ошибка сохранения', 'error');
-                showNotification('Ошибка сохранения: ' + error.message, 'error');
-            } finally {
-                syncInProgress = false;
             }
         }
         
         // ===================== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====================
         function updateUI() {
-            console.log('Обновляем UI...');
-            
-            // Обновляем все секции
-            updateAllOffersSection();
             updateLandingSection('landing1');
             updateLandingSection('landing2');
-            
-            // Обновляем сайдбар
             updateSidebarStats();
-            
-            // Сбрасываем выбранные офферы
-            selectedOffers.clear();
-        }
-        
-        function updateAllOffersSection() {
-            const totalOffers = offers.length;
-            const activeOffers = offers.filter(o => o.status === 'active').length;
-            
-            // Обновляем статистику
-            document.getElementById('total-offers-all').textContent = totalOffers;
-            document.getElementById('active-offers-all').textContent = activeOffers;
-            
-            if (totalOffers > 0) {
-                // Средний рейтинг
-                const avgRating = offers.reduce((sum, o) => sum + (o.rating || 0), 0) / totalOffers;
-                document.getElementById('avg-rating-all').textContent = avgRating.toFixed(1);
-                
-                // Средний шанс одобрения
-                const avgApproval = offers.reduce((sum, o) => sum + (o.approval || 0), 0) / totalOffers;
-                document.getElementById('avg-approval-all').textContent = avgApproval.toFixed(0) + '%';
-            } else {
-                document.getElementById('avg-rating-all').textContent = '0';
-                document.getElementById('avg-approval-all').textContent = '0%';
-            }
-            
-            // Обновляем таблицу
-            updateOffersTable('all');
         }
         
         function updateLandingSection(landing) {
-            const landingOffers = getOffersForLanding(landing);
+            const landingOffers = offers.filter(o => o.landing === landing);
             const totalOffers = landingOffers.length;
             const activeOffers = landingOffers.filter(o => o.status === 'active').length;
             
-            // Обновляем статистику
             document.getElementById(`total-offers-${landing}`).textContent = totalOffers;
             document.getElementById(`active-offers-${landing}`).textContent = activeOffers;
             
-            if (totalOffers > 0) {
-                // Средний рейтинг
-                const avgRating = landingOffers.reduce((sum, o) => sum + (o.rating || 0), 0) / totalOffers;
-                document.getElementById(`avg-rating-${landing}`).textContent = avgRating.toFixed(1);
-                
-                // Средний шанс одобрения
-                const avgApproval = landingOffers.reduce((sum, o) => sum + (o.approval || 0), 0) / totalOffers;
-                document.getElementById(`avg-approval-${landing}`).textContent = avgApproval.toFixed(0) + '%';
-            } else {
-                document.getElementById(`avg-rating-${landing}`).textContent = '0';
-                document.getElementById(`avg-approval-${landing}`).textContent = '0%';
-            }
-            
-            // Обновляем таблицу
             updateOffersTable(landing);
-            
-            // Обновляем карточки
-            updateOfferCards(landing);
         }
         
-        function updateOffersTable(section) {
-            const tbody = document.getElementById(`offers-table-${section}`);
-            let tableOffers;
-            
-            if (section === 'all') {
-                tableOffers = offers;
-            } else {
-                tableOffers = getOffersForLanding(section);
-            }
-            
-            if (!tbody) {
-                console.error(`Элемент offers-table-${section} не найден!`);
-                return;
-            }
+        function updateOffersTable(landing) {
+            const tbody = document.getElementById(`offers-table-${landing}`);
+            const landingOffers = offers.filter(o => o.landing === landing);
             
             tbody.innerHTML = '';
             
-            console.log(`Обновляем таблицу для ${section}. Всего офферов: ${tableOffers.length}`);
-            
-            if (tableOffers.length === 0) {
-                const emptyMessage = section === 'all' 
-                    ? 'Нет офферов в базе данных'
-                    : `Нет офферов для лендинга ${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`;
-                
+            if (landingOffers.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="${section === 'all' ? '9' : '8'}" style="text-align: center; padding: 40px; color: #64748b;">
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
                             <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                            <div>${emptyMessage}</div>
-                            <button onclick="showOfferModal('${section === 'all' ? 'all' : section}')" class="btn ${section === 'all' ? 'btn-primary' : section === 'landing1' ? 'btn-landing1' : 'btn-landing2'}" style="margin-top: 15px;">
-                                <i class="fas fa-plus"></i> Добавить оффер
-                            </button>
+                            <div>Нет офферов</div>
                         </td>
                     </tr>
                 `;
                 return;
             }
             
-            // Сортируем: активные первые, затем по дате обновления
-            const sortedOffers = [...tableOffers].sort((a, b) => {
-                if (a.status === 'active' && b.status !== 'active') return -1;
-                if (a.status !== 'active' && b.status === 'active') return 1;
-                return new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at);
-            });
-            
-            sortedOffers.forEach(offer => {
+            landingOffers.forEach(offer => {
                 const tr = document.createElement('tr');
                 
-                const offerName = offer.name || 'Без названия';
-                const description = offer.description || '';
-                const amountMin = offer.amount_min || 0;
-                const amountMax = offer.amount_max || 0;
-                const termMin = offer.term_min || 0;
-                const termMax = offer.term_max || 0;
-                const rateMin = offer.rate_min || 0;
-                const rateMax = offer.rate_max || 0;
-                const rating = offer.rating || 5;
-                const status = offer.status || 'inactive';
-                const landing1 = offer.landing1 !== false;
-                const landing2 = offer.landing2 !== false;
-                
-                // Генерируем звезды рейтинга
-                const stars = generateRatingStars(rating);
-                
-                let landingBadges = '';
-                if (section === 'all') {
-                    if (landing1 && landing2) {
-                        landingBadges = `
-                            <div style="display: flex; gap: 5px;">
-                                <span class="badge badge-landing1">Л1</span>
-                                <span class="badge badge-landing2">Л2</span>
-                            </div>
-                        `;
-                    } else if (landing1) {
-                        landingBadges = '<span class="badge badge-landing1">Лендинг 1</span>';
-                    } else if (landing2) {
-                        landingBadges = '<span class="badge badge-landing2">Лендинг 2</span>';
-                    } else {
-                        landingBadges = '<span class="badge badge-warning">Не назначен</span>';
-                    }
-                }
-                
-                const isSelected = selectedOffers.has(offer.id);
+                const stars = generateRatingStars(offer.rating || 5);
                 
                 tr.innerHTML = `
                     <td>
-                        <input type="checkbox" class="offer-checkbox" data-id="${offer.id}" ${isSelected ? 'checked' : ''}>
+                        <div style="font-weight: 600; color: #1e293b;">${offer.name}</div>
+                        <div style="font-size: 12px; color: #64748b;">${offer.description}</div>
                     </td>
                     <td>
-                        <div style="font-weight: 600; color: #1e293b;">${offerName}</div>
-                        <div style="font-size: 12px; color: #64748b; margin-top: 4px;">${description}</div>
+                        <div style="font-weight: 600;">${formatNumber(offer.amount_min)} - ${formatNumber(offer.amount_max)} ₽</div>
                     </td>
                     <td>
-                        <div style="font-weight: 600;">${formatNumber(amountMin)} - ${formatNumber(amountMax)} ₽</div>
-                    </td>
-                    <td>
-                        <div>${termMin} - ${termMax} дней</div>
-                    </td>
-                    <td>
-                        <div style="color: #059669; font-weight: 600;">${rateMin} - ${rateMax}%</div>
+                        <div>${offer.term_min} - ${offer.term_max} дней</div>
                     </td>
                     <td>
                         <div class="rating-stars">
                             ${stars}
-                            <span style="margin-left: 5px; font-size: 12px; color: #64748b;">(${rating.toFixed(1)})</span>
+                            <span style="margin-left: 5px; font-size: 12px; color: #64748b;">${(offer.rating || 5).toFixed(1)}</span>
                         </div>
                     </td>
-                    ${section === 'all' ? `<td>${landingBadges}</td>` : ''}
                     <td>
-                        <span class="badge ${status === 'active' ? 'badge-success' : 'badge-danger'}">
-                            ${status === 'active' ? 'Активный' : 'Неактивный'}
+                        <span class="badge ${offer.status === 'active' ? 'badge-success' : 'badge-danger'}">
+                            ${offer.status === 'active' ? 'Активный' : 'Неактивный'}
                         </span>
                     </td>
                     <td>
                         <div style="display: flex; gap: 8px;">
-                            <button onclick="editOffer('${offer.id}', '${section === 'all' ? 'all' : section}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
+                            <button onclick="editOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px;">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="deleteOffer('${offer.id}', '${section === 'all' ? 'all' : section}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
+                            <button onclick="deleteOffer('${offer.id}', '${landing}')" class="btn" style="padding: 6px 12px; font-size: 12px; background: #fee2e2; color: #dc2626;">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1337,122 +789,10 @@
                 
                 tbody.appendChild(tr);
             });
-            
-            // Добавляем обработчики для чекбоксов
-            tbody.querySelectorAll('.offer-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const offerId = this.getAttribute('data-id');
-                    if (this.checked) {
-                        selectedOffers.add(offerId);
-                    } else {
-                        selectedOffers.delete(offerId);
-                        document.getElementById(`select-all-${section === 'all' ? 'offers' : section}`).checked = false;
-                    }
-                    console.log('Выбранные офферы:', Array.from(selectedOffers));
-                });
-            });
         }
         
-        function updateOfferCards(landing) {
-            const container = document.getElementById(`offer-cards-${landing}`);
-            const landingOffers = getOffersForLanding(landing);
-            
-            if (!container) {
-                console.error(`Элемент offer-cards-${landing} не найден!`);
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            console.log(`Обновляем карточки для ${landing}. Всего офферов: ${landingOffers.length}`);
-            
-            if (landingOffers.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #64748b; grid-column: 1 / -1;">
-                        <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                        <div>Нет офферов для отображения в карточках</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Сортируем: активные первые, затем по рейтингу (по убыванию)
-            const sortedOffers = [...landingOffers]
-                .filter(o => o.status === 'active')
-                .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-                .slice(0, 6); // Показываем только 6 лучших карточек
-            
-            sortedOffers.forEach(offer => {
-                const card = document.createElement('div');
-                card.className = 'stat-card';
-                card.style.padding = '15px';
-                
-                const offerName = offer.name || 'Без названия';
-                const description = offer.description || '';
-                const amountMin = offer.amount_min || 0;
-                const amountMax = offer.amount_max || 0;
-                const termMin = offer.term_min || 0;
-                const termMax = offer.term_max || 0;
-                const rateMin = offer.rate_min || 0;
-                const rateMax = offer.rate_max || 0;
-                const rating = offer.rating || 5;
-                const approval = offer.approval || 95;
-                
-                // Генерируем звезды рейтинга
-                const stars = generateRatingStars(rating);
-                
-                card.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                        <div>
-                            <div style="font-weight: 700; font-size: 16px; color: #1e293b; margin-bottom: 5px;">${offerName}</div>
-                            <div class="rating-stars">
-                                ${stars}
-                                <span style="margin-left: 5px; font-size: 12px; color: #64748b;">${rating.toFixed(1)}</span>
-                            </div>
-                        </div>
-                        <div style="background: #f0f9ff; color: #0369a1; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
-                            ${approval}% одобрения
-                        </div>
-                    </div>
-                    
-                    <div style="font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4; min-height: 40px;">
-                        ${description}
-                    </div>
-                    
-                    <div style="background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div>
-                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Сумма</div>
-                                <div style="font-weight: 700; font-size: 14px;">${formatNumber(amountMin)} - ${formatNumber(amountMax)} ₽</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Срок</div>
-                                <div style="font-weight: 700; font-size: 14px;">${termMin} - ${termMax} дней</div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div>
-                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Ставка</div>
-                                <div style="font-weight: 700; font-size: 14px; color: #059669;">${rateMin} - ${rateMax}%</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 11px; color: #64748b; margin-bottom: 3px;">Рейтинг</div>
-                                <div style="font-weight: 700; font-size: 14px; color: #f59e0b;">${rating.toFixed(1)}/5</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button style="width: 100%; background: ${landing === 'landing1' ? 'var(--landing1)' : 'var(--landing2)'}; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">
-                        Получить деньги
-                    </button>
-                    
-                    <div style="margin-top: 10px; font-size: 10px; color: #94a3b8; text-align: center;">
-                        Рейтинг ${rating.toFixed(1)} из 5 звёзд
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
+        function updateSidebarStats() {
+            document.getElementById('sidebar-total').textContent = offers.length;
         }
         
         function generateRatingStars(rating) {
@@ -1462,162 +802,71 @@
             
             let stars = '';
             
-            // Полные звезды
-            for (let i = 0; i < fullStars; i++) {
-                stars += '<i class="fas fa-star"></i>';
-            }
-            
-            // Половина звезды
-            if (halfStar) {
-                stars += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            // Пустые звезды
-            for (let i = 0; i < emptyStars; i++) {
-                stars += '<i class="far fa-star"></i>';
-            }
+            for (let i = 0; i < fullStars; i++) stars += '<i class="fas fa-star"></i>';
+            if (halfStar) stars += '<i class="fas fa-star-half-alt"></i>';
+            for (let i = 0; i < emptyStars; i++) stars += '<i class="far fa-star"></i>';
             
             return stars;
         }
         
-        function updateSidebarStats() {
-            const landing1Offers = getOffersForLanding('landing1').length;
-            const landing2Offers = getOffersForLanding('landing2').length;
-            const totalOffers = offers.length;
-            
-            document.getElementById('sidebar-landing1').textContent = landing1Offers;
-            document.getElementById('sidebar-landing2').textContent = landing2Offers;
-            document.getElementById('sidebar-total').textContent = totalOffers;
-        }
-        
-        // Форматирование чисел
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
         
         // ===================== УПРАВЛЕНИЕ ОФФЕРАМИ =====================
-        function showOfferModal(section, offer = null) {
-            console.log('Открываем модальное окно оффера:', offer, 'для секции:', section);
-            currentEditOffer = offer;
-            currentLanding = section;
+        function showOfferModal(landing, offer = null) {
+            currentLanding = landing;
             const modal = document.getElementById('offer-modal');
             const title = document.getElementById('modal-title');
             
             if (offer) {
                 title.textContent = 'Редактировать оффер';
-                populateForm(offer, section);
+                populateForm(offer);
             } else {
-                if (section === 'all') {
-                    title.textContent = 'Новый оффер';
-                } else if (section === 'landing1') {
-                    title.textContent = 'Новый оффер для лендинга FinAI';
-                } else {
-                    title.textContent = 'Новый оффер для лендинга ДеньгиСразу';
-                }
-                resetForm(section);
+                title.textContent = 'Новый оффер';
+                resetForm();
             }
             
             modal.classList.add('active');
         }
         
-        function populateForm(offer, section) {
-            console.log('Заполняем форму данными оффера:', offer);
-            
-            document.getElementById('offer-id').value = offer.id || '';
-            document.getElementById('offer-landing').value = section;
-            document.getElementById('offer-name').value = offer.name || '';
-            document.getElementById('offer-description').value = offer.description || '';
-            document.getElementById('offer-status').value = offer.status || 'active';
-            document.getElementById('amount-min').value = offer.amount_min || 1000;
-            document.getElementById('amount-max').value = offer.amount_max || 50000;
-            document.getElementById('term-min').value = offer.term_min || 7;
-            document.getElementById('term-max').value = offer.term_max || 30;
-            document.getElementById('rate-min').value = offer.rate_min || 0;
-            document.getElementById('rate-max').value = offer.rate_max || 0.8;
-            document.getElementById('approval').value = offer.approval || 95;
-            document.getElementById('rating').value = offer.rating || 5;
-            document.getElementById('link-landing1').value = offer.link_landing1 || '#';
-            document.getElementById('link-landing2').value = offer.link_landing2 || '#';
-            document.getElementById('landing1-check').checked = offer.landing1 !== false;
-            document.getElementById('landing2-check').checked = offer.landing2 !== false;
-            
-            // Если создаем оффер для конкретного лендинга, включаем только его
-            if (section === 'landing1') {
-                document.getElementById('landing1-check').checked = true;
-                document.getElementById('landing2-check').checked = false;
-            } else if (section === 'landing2') {
-                document.getElementById('landing1-check').checked = false;
-                document.getElementById('landing2-check').checked = true;
-            }
-            
-            // Типы дохода
-            const incomeTypes = offer.incomeTypes || [];
-            document.getElementById('income-official').checked = incomeTypes.includes('official');
-            document.getElementById('income-unofficial').checked = incomeTypes.includes('unofficial');
-            document.getElementById('income-benefits').checked = incomeTypes.includes('benefits');
-            document.getElementById('income-noincome').checked = incomeTypes.includes('noincome');
-            
-            // Типы кредитной истории
-            const historyTypes = offer.historyTypes || [];
-            document.getElementById('history-none').checked = historyTypes.includes('none');
-            document.getElementById('history-small').checked = historyTypes.includes('small');
-            document.getElementById('history-current').checked = historyTypes.includes('current');
-            document.getElementById('history-bad').checked = historyTypes.includes('bad');
+        function populateForm(offer) {
+            document.getElementById('offer-id').value = offer.id;
+            document.getElementById('offer-name').value = offer.name;
+            document.getElementById('offer-description').value = offer.description;
+            document.getElementById('amount-min').value = offer.amount_min;
+            document.getElementById('amount-max').value = offer.amount_max;
+            document.getElementById('term-min').value = offer.term_min;
+            document.getElementById('term-max').value = offer.term_max;
+            document.getElementById('rate').value = offer.rate;
+            document.getElementById('approval').value = offer.approval;
+            document.getElementById('rating').value = offer.rating;
+            document.getElementById('offer-link').value = offer.link;
+            document.getElementById('offer-status').value = offer.status;
         }
         
-        function resetForm(section) {
+        function resetForm() {
             document.getElementById('offer-form').reset();
             document.getElementById('offer-id').value = '';
-            document.getElementById('offer-landing').value = section;
-            document.getElementById('offer-status').value = 'active';
             document.getElementById('amount-min').value = 1000;
             document.getElementById('amount-max').value = 50000;
             document.getElementById('term-min').value = 7;
             document.getElementById('term-max').value = 30;
-            document.getElementById('rate-min').value = 0;
-            document.getElementById('rate-max').value = 0.8;
+            document.getElementById('rate').value = 0.8;
             document.getElementById('approval').value = 95;
             document.getElementById('rating').value = 5;
-            document.getElementById('link-landing1').value = '#';
-            document.getElementById('link-landing2').value = '#';
-            
-            // Настройка лендингов в зависимости от секции
-            if (section === 'all') {
-                document.getElementById('landing1-check').checked = true;
-                document.getElementById('landing2-check').checked = true;
-            } else if (section === 'landing1') {
-                document.getElementById('landing1-check').checked = true;
-                document.getElementById('landing2-check').checked = false;
-            } else if (section === 'landing2') {
-                document.getElementById('landing1-check').checked = false;
-                document.getElementById('landing2-check').checked = true;
-            }
-            
-            // Все чекбоксы по умолчанию включены
-            document.getElementById('income-official').checked = true;
-            document.getElementById('income-unofficial').checked = true;
-            document.getElementById('income-benefits').checked = true;
-            document.getElementById('income-noincome').checked = true;
-            
-            document.getElementById('history-none').checked = true;
-            document.getElementById('history-small').checked = true;
-            document.getElementById('history-current').checked = true;
-            document.getElementById('history-bad').checked = true;
+            document.getElementById('offer-link').value = '#';
+            document.getElementById('offer-status').value = 'active';
         }
         
         function closeModal() {
-            console.log('Закрываем модальное окно');
             document.getElementById('offer-modal').classList.remove('active');
-            currentEditOffer = null;
-            currentLanding = 'all';
         }
         
         function saveOffer(e) {
             e.preventDefault();
-            console.log('Сохраняем оффер...');
             
             const id = document.getElementById('offer-id').value;
-            const section = document.getElementById('offer-landing').value;
             const name = document.getElementById('offer-name').value.trim();
             
             if (!name) {
@@ -1625,88 +874,48 @@
                 return;
             }
             
-            // Собираем типы дохода
-            const incomeTypes = [];
-            if (document.getElementById('income-official').checked) incomeTypes.push('official');
-            if (document.getElementById('income-unofficial').checked) incomeTypes.push('unofficial');
-            if (document.getElementById('income-benefits').checked) incomeTypes.push('benefits');
-            if (document.getElementById('income-noincome').checked) incomeTypes.push('noincome');
-            
-            // Собираем типы кредитной истории
-            const historyTypes = [];
-            if (document.getElementById('history-none').checked) historyTypes.push('none');
-            if (document.getElementById('history-small').checked) historyTypes.push('small');
-            if (document.getElementById('history-current').checked) historyTypes.push('current');
-            if (document.getElementById('history-bad').checked) historyTypes.push('bad');
-            
             const offerData = {
-                id: id || 'offer_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                id: id || 'offer_' + Date.now(),
                 name: name,
-                description: document.getElementById('offer-description').value.trim(),
-                status: document.getElementById('offer-status').value,
+                description: document.getElementById('offer-description').value,
                 amount_min: parseInt(document.getElementById('amount-min').value) || 1000,
                 amount_max: parseInt(document.getElementById('amount-max').value) || 50000,
                 term_min: parseInt(document.getElementById('term-min').value) || 7,
                 term_max: parseInt(document.getElementById('term-max').value) || 30,
-                rate_min: parseFloat(document.getElementById('rate-min').value) || 0,
-                rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
+                rate: parseFloat(document.getElementById('rate').value) || 0.8,
                 approval: parseInt(document.getElementById('approval').value) || 95,
                 rating: parseFloat(document.getElementById('rating').value) || 5,
-                link_landing1: document.getElementById('link-landing1').value.trim(),
-                link_landing2: document.getElementById('link-landing2').value.trim(),
-                landing1: document.getElementById('landing1-check').checked,
-                landing2: document.getElementById('landing2-check').checked,
-                incomeTypes: incomeTypes,
-                historyTypes: historyTypes,
-                updated_at: new Date().toISOString(),
-                created_at: id ? offers.find(o => o.id === id)?.created_at || new Date().toISOString() : new Date().toISOString()
+                link: document.getElementById('offer-link').value,
+                status: document.getElementById('offer-status').value,
+                landing: currentLanding,
+                updated_at: new Date().toISOString()
             };
             
-            console.log('Данные оффера для сохранения:', offerData);
+            if (!id) {
+                offerData.created_at = new Date().toISOString();
+            }
             
             if (id) {
-                // Редактирование
                 const index = offers.findIndex(o => o.id === id);
                 if (index !== -1) {
                     offers[index] = offerData;
-                    console.log(`Оффер с ID ${id} обновлен на позиции ${index}`);
-                } else {
-                    console.log(`Оффер с ID ${id} не найден, добавляем как новый`);
-                    offers.push(offerData);
                 }
             } else {
-                // Добавление нового оффера
                 offers.push(offerData);
-                console.log(`Добавлен новый оффер с ID ${offerData.id}`);
             }
             
-            console.log('Текущие офферы после сохранения:', offers);
-            
-            const success = saveToLocalStorage();
-            if (success) {
-                // Обновляем UI после сохранения
-                updateUI();
-                closeModal();
-                showNotification('Оффер сохранен', 'success');
-            } else {
-                showNotification('Ошибка сохранения', 'error');
-            }
+            saveData();
+            closeModal();
         }
         
-        // Глобальные функции для таблицы
-        window.editOffer = function(id, section) {
-            console.log('Редактируем оффер с ID:', id, 'для секции:', section);
-            const offer = offers.find(o => o.id === id);
+        window.editOffer = function(id, landing) {
+            const offer = offers.find(o => o.id === id && o.landing === landing);
             if (offer) {
-                showOfferModal(section, offer);
-            } else {
-                console.error('Оффер с ID', id, 'не найден');
-                showNotification('Оффер не найден', 'error');
+                showOfferModal(landing, offer);
             }
         };
         
-        window.deleteOffer = function(id, section) {
-            console.log('Удаляем оффер с ID:', id, 'из секции:', section);
+        window.deleteOffer = function(id, landing) {
             Swal.fire({
                 title: 'Удалить оффер?',
                 text: 'Это действие нельзя отменить',
@@ -1716,266 +925,61 @@
                 cancelButtonText: 'Отмена'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const initialLength = offers.length;
-                    offers = offers.filter(o => o.id !== id);
-                    
-                    if (offers.length < initialLength) {
-                        console.log(`Оффер с ID ${id} удален. Осталось ${offers.length} офферов`);
-                        const success = saveToLocalStorage();
-                        if (success) {
-                            updateUI();
-                            showNotification('Оффер удален', 'success');
-                        }
-                    } else {
-                        console.error('Оффер с ID', id, 'не найден для удаления');
-                        showNotification('Оффер не найден', 'error');
-                    }
+                    offers = offers.filter(o => !(o.id === id && o.landing === landing));
+                    saveData();
                 }
             });
         };
         
-        // ===================== МАССОВЫЕ ДЕЙСТВИЯ =====================
-        function toggleSelectAllOffers() {
-            const selectAll = document.getElementById('select-all-offers').checked;
-            const checkboxes = document.querySelectorAll('#offers-table-all .offer-checkbox');
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAll;
-                const offerId = checkbox.getAttribute('data-id');
-                if (selectAll) {
-                    selectedOffers.add(offerId);
-                } else {
-                    selectedOffers.delete(offerId);
-                }
-            });
-            
-            console.log('Выбраны все офферы:', selectAll);
-            console.log('Выбранные офферы:', Array.from(selectedOffers));
-        }
-        
-        function toggleSelectAllForLanding(landing) {
-            const selectAll = document.getElementById(`select-all-${landing}`).checked;
-            const checkboxes = document.querySelectorAll(`#offers-table-${landing} .offer-checkbox`);
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAll;
-                const offerId = checkbox.getAttribute('data-id');
-                if (selectAll) {
-                    selectedOffers.add(offerId);
-                } else {
-                    selectedOffers.delete(offerId);
-                }
-            });
-            
-            console.log(`Выбраны все офферы для лендинга ${landing}:`, selectAll);
-        }
-        
-        function massAssignLanding(landing) {
-            if (selectedOffers.size === 0) {
-                showNotification('Выберите офферы для назначения', 'warning');
-                return;
-            }
-            
-            Swal.fire({
-                title: `Назначить лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}?`,
-                html: `Вы собираетесь назначить <strong>${selectedOffers.size}</strong> офферов на лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.<br>
-                      Это действие добавит офферы на выбранный лендинг, не удаляя их с других.`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Да, назначить',
-                cancelButtonText: 'Отмена'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    selectedOffers.forEach(offerId => {
-                        const offer = offers.find(o => o.id === offerId);
-                        if (offer) {
-                            if (landing === 'landing1') {
-                                offer.landing1 = true;
-                            } else {
-                                offer.landing2 = true;
-                            }
-                            offer.updated_at = new Date().toISOString();
-                        }
-                    });
-                    
-                    const success = saveToLocalStorage();
-                    if (success) {
-                        updateUI();
-                        showNotification(`${selectedOffers.size} офферов назначено на лендинг ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`, 'success');
-                        selectedOffers.clear();
-                    }
-                }
-            });
-        }
-        
-        function massRemoveFromLanding(landing) {
-            if (selectedOffers.size === 0) {
-                showNotification('Выберите офферы для удаления с лендинга', 'warning');
-                return;
-            }
-            
-            Swal.fire({
-                title: `Убрать с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}?`,
-                html: `Вы собираетесь убрать <strong>${selectedOffers.size}</strong> офферов с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.<br>
-                      Офферы останутся в базе данных, но не будут отображаться на этом лендинге.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Да, убрать',
-                cancelButtonText: 'Отмена'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    selectedOffers.forEach(offerId => {
-                        const offer = offers.find(o => o.id === offerId);
-                        if (offer) {
-                            if (landing === 'landing1') {
-                                offer.landing1 = false;
-                            } else {
-                                offer.landing2 = false;
-                            }
-                            offer.updated_at = new Date().toISOString();
-                        }
-                    });
-                    
-                    const success = saveToLocalStorage();
-                    if (success) {
-                        updateUI();
-                        showNotification(`${selectedOffers.size} офферов убрано с лендинга ${landing === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}`, 'success');
-                        selectedOffers.clear();
-                    }
-                }
-            });
-        }
-        
-        function deleteAllOffers(section) {
-            let message, affectedOffers;
-            
-            if (section === 'all') {
-                message = 'Вы собираетесь удалить ВСЕ офферы из базы данных. Это действие нельзя отменить!';
-                affectedOffers = offers.length;
-            } else {
-                const landingName = section === 'landing1' ? 'FinAI' : 'ДеньгиСразу';
-                message = `Вы собираетесь удалить ВСЕ офферы с лендинга <strong>${landingName}</strong>. Это действие нельзя отменить!`;
-                affectedOffers = getOffersForLanding(section).length;
-            }
-            
-            Swal.fire({
-                title: 'Удалить ВСЕ?',
-                html: `${message}<br><br>Будет удалено: <strong>${affectedOffers}</strong> офферов`,
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Да, удалить всё',
-                cancelButtonText: 'Отмена',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (section === 'all') {
-                        offers = [];
-                    } else {
-                        // Для лендинга удаляем офферы только с этого лендинга
-                        offers.forEach(offer => {
-                            if (section === 'landing1') {
-                                offer.landing1 = false;
-                            } else {
-                                offer.landing2 = false;
-                            }
-                        });
-                    }
-                    
-                    const success = saveToLocalStorage();
-                    if (success) {
-                        updateUI();
-                        showNotification(`Все офферы ${section === 'all' ? 'удалены из базы данных' : 'убраны с лендинга'}`, 'success');
-                    }
-                }
-            });
-        }
-        
         // ===================== EXCEL ИМПОРТ/ЭКСПОРТ =====================
-        async function handleExcelUpload(file, section) {
-            console.log('Загружаем Excel файл:', file.name, 'для секции:', section);
-            
+        async function handleExcelUpload(file, landing) {
             try {
                 const data = await readExcelFile(file);
-                console.log('Данные из Excel:', data);
                 
                 if (!data || data.length === 0) {
-                    throw new Error('Файл пуст или не содержит данных');
+                    throw new Error('Файл пуст');
                 }
                 
-                // Проверяем наличие обязательных колонок
-                const requiredColumns = ['Название', 'Описание', 'СуммаМин', 'СуммаМакс', 'СрокМин', 'СрокМакс', 'СтавкаМин', 'СтавкаМакс', 'Рейтинг', 'СсылкаЛендинг1', 'СсылкаЛендинг2', 'ШансОдобрения'];
-                const firstRow = data[0];
-                const missingColumns = requiredColumns.filter(col => !(col in firstRow));
-                
-                if (missingColumns.length > 0) {
-                    throw new Error(`Отсутствуют обязательные колонки: ${missingColumns.join(', ')}`);
-                }
-                
-                // Преобразуем данные Excel в офферы
                 const newOffers = data.map((row, index) => {
-                    // Проверяем и ограничиваем рейтинг в диапазоне 1-5
                     let rating = parseFloat(row['Рейтинг']) || 5;
                     if (rating < 1) rating = 1;
                     if (rating > 5) rating = 5;
                     
                     return {
-                        id: 'excel_import_' + Date.now() + '_' + index,
+                        id: 'excel_' + Date.now() + '_' + index,
                         name: row['Название'] || `Оффер ${index + 1}`,
                         description: row['Описание'] || '',
-                        status: 'active',
                         amount_min: parseInt(row['СуммаМин']) || 1000,
                         amount_max: parseInt(row['СуммаМакс']) || 50000,
                         term_min: parseInt(row['СрокМин']) || 7,
                         term_max: parseInt(row['СрокМакс']) || 30,
-                        rate_min: parseFloat(row['СтавкаМин']) || 0,
-                        rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
+                        rate: parseFloat(row['Ставка']) || 0.8,
                         approval: parseInt(row['ШансОдобрения']) || 95,
                         rating: rating,
-                        link_landing1: row['СсылкаЛендинг1'] || '#',
-                        link_landing2: row['СсылкаЛендинг2'] || '#',
-                        landing1: true, // По умолчанию добавляем на оба лендинга
-                        landing2: true,
-                        incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
-                        historyTypes: ['none', 'small', 'current', 'bad'],
+                        link: row['Ссылка'] || '#',
+                        status: 'active',
+                        landing: landing,
                         created_at: new Date().toISOString(),
-                        updated_at: new Date().toISOString(),
-                        source: 'excel_import'
+                        updated_at: new Date().toISOString()
                     };
                 });
                 
                 Swal.fire({
-                    title: 'Подтвердите импорт',
-                    html: `Найдено <strong>${newOffers.length}</strong> офферов в файле.<br>
-                          <div style="text-align: left; margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 6px;">
-                          <strong>Пример оффера:</strong><br>
-                          Название: ${newOffers[0].name}<br>
-                          Рейтинг: ${newOffers[0].rating} звёзд<br>
-                          Шанс одобрения: ${newOffers[0].approval}%<br>
-                          Ссылка Л1: ${newOffers[0].link_landing1}<br>
-                          Ссылка Л2: ${newOffers[0].link_landing2}
-                          </div>
-                          Офферы будут добавлены в общую базу данных и назначены на ОБА лендинга.<br>
-                          Позже вы можете распределить их по лендингам индивидуально.`,
+                    title: 'Добавить офферы?',
+                    text: `Найдено ${newOffers.length} офферов`,
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'Да, импортировать',
+                    confirmButtonText: 'Да, добавить',
                     cancelButtonText: 'Отмена'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Добавляем новые офферы
                         offers.push(...newOffers);
-                        const success = saveToLocalStorage();
-                        
-                        if (success) {
-                            updateUI();
-                            showNotification(`Добавлено ${newOffers.length} офферов из Excel. Офферы добавлены на оба лендинга!`, 'success');
-                        }
+                        saveData();
                     }
                 });
                 
             } catch (error) {
-                console.error('Ошибка загрузки Excel:', error);
-                showNotification('Ошибка загрузки файла: ' + error.message, 'error');
+                showNotification('Ошибка: ' + error.message, 'error');
             }
         }
         
@@ -2000,16 +1004,11 @@
                     reject(new Error('Ошибка чтения файла'));
                 };
                 
-                if (file.name.endsWith('.csv')) {
-                    reader.readAsText(file);
-                } else {
-                    reader.readAsBinaryString(file);
-                }
+                reader.readAsBinaryString(file);
             });
         }
         
-        function downloadExcelTemplate(section) {
-            // Создаем шаблон данных с раздельными ссылками для лендингов
+        function downloadExcelTemplate(landing) {
             const templateData = [
                 {
                     'Название': 'МоментальныеДеньги',
@@ -2018,151 +1017,63 @@
                     'СуммаМакс': 50000,
                     'СрокМин': 7,
                     'СрокМакс': 30,
-                    'СтавкаМин': 0,
-                    'СтавкаМакс': 0.8,
+                    'Ставка': 0.8,
                     'Рейтинг': 4.5,
-                    'СсылкаЛендинг1': 'https://example.com/offer1-landing1',
-                    'СсылкаЛендинг2': 'https://example.com/offer1-landing2',
+                    'Ссылка': 'https://example.com/offer',
                     'ШансОдобрения': 95
-                },
-                {
-                    'Название': 'ДеньгиОнлайн',
-                    'Описание': 'Высокий шанс одобрения',
-                    'СуммаМин': 2000,
-                    'СуммаМакс': 30000,
-                    'СрокМин': 1,
-                    'СрокМакс': 60,
-                    'СтавкаМин': 0.5,
-                    'СтавкаМакс': 1,
-                    'Рейтинг': 4.2,
-                    'СсылкаЛендинг1': 'https://example.com/offer2-landing1',
-                    'СсылкаЛендинг2': 'https://example.com/offer2-landing2',
-                    'ШансОдобрения': 94
                 }
             ];
             
-            // Создаем новую рабочую книгу
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet(templateData);
-            
-            // Добавляем лист в книгу
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
-            
-            // Генерируем файл и скачиваем
-            let fileName;
-            if (section === 'all') {
-                fileName = 'шаблон_офферов_для_обоих_лендингов.xlsx';
-            } else {
-                fileName = `шаблон_офферов_${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}.xlsx`;
-            }
-            
-            XLSX.writeFile(wb, fileName);
+            XLSX.writeFile(wb, `шаблон_лендинг_${landing === 'landing1' ? '1' : '2'}.xlsx`);
             
             showNotification('Шаблон скачан', 'success');
         }
         
-        function exportToExcel(section) {
-            let exportData, fileName;
+        function exportToExcel(landing) {
+            const landingOffers = offers.filter(o => o.landing === landing);
             
-            if (section === 'all') {
-                exportData = offers;
-                fileName = `все_офферы_${new Date().toISOString().slice(0,10)}.xlsx`;
-            } else {
-                exportData = getOffersForLanding(section);
-                fileName = `офферы_${section === 'landing1' ? 'FinAI' : 'ДеньгиСразу'}_${new Date().toISOString().slice(0,10)}.xlsx`;
-            }
-            
-            if (exportData.length === 0) {
+            if (landingOffers.length === 0) {
                 showNotification('Нет офферов для экспорта', 'warning');
                 return;
             }
             
-            // Преобразуем офферы в формат Excel
-            const excelData = exportData.map(offer => {
-                const data = {
-                    'Название': offer.name,
-                    'Описание': offer.description,
-                    'СуммаМин': offer.amount_min,
-                    'СуммаМакс': offer.amount_max,
-                    'СрокМин': offer.term_min,
-                    'СрокМакс': offer.term_max,
-                    'СтавкаМин': offer.rate_min,
-                    'СтавкаМакс': offer.rate_max,
-                    'Рейтинг': offer.rating || 5,
-                    'ШансОдобрения': offer.approval,
-                    'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
-                };
-                
-                if (section === 'all') {
-                    data['СсылкаЛендинг1'] = offer.link_landing1;
-                    data['СсылкаЛендинг2'] = offer.link_landing2;
-                    data['Лендинг1'] = offer.landing1 ? 'Да' : 'Нет';
-                    data['Лендинг2'] = offer.landing2 ? 'Да' : 'Нет';
-                } else {
-                    data['Ссылка'] = section === 'landing1' ? offer.link_landing1 : offer.link_landing2;
-                }
-                
-                return data;
-            });
+            const excelData = landingOffers.map(offer => ({
+                'Название': offer.name,
+                'Описание': offer.description,
+                'СуммаМин': offer.amount_min,
+                'СуммаМакс': offer.amount_max,
+                'СрокМин': offer.term_min,
+                'СрокМакс': offer.term_max,
+                'Ставка': offer.rate,
+                'Рейтинг': offer.rating,
+                'Ссылка': offer.link,
+                'ШансОдобрения': offer.approval,
+                'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
+            }));
             
-            // Создаем новую рабочую книгу
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.json_to_sheet(excelData);
-            
-            // Добавляем лист в книгу
             XLSX.utils.book_append_sheet(wb, ws, 'Офферы');
             
-            // Генерируем файл и скачиваем
+            const fileName = `офферы_лендинг_${landing === 'landing1' ? '1' : '2'}.xlsx`;
             XLSX.writeFile(wb, fileName);
             
-            showNotification(`Экспортировано ${exportData.length} офферов`, 'success');
+            showNotification(`Экспортировано ${landingOffers.length} офферов`, 'success');
         }
         
         // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
         function showSection(section) {
-            // Скрываем все секции
-            document.getElementById('all-offers-section').style.display = 'none';
             document.getElementById('landing1-section').style.display = 'none';
             document.getElementById('landing2-section').style.display = 'none';
+            document.getElementById(section + '-section').style.display = 'block';
             
-            // Показываем выбранную
-            let sectionId = section;
-            if (section === 'all-offers') {
-                sectionId = 'all-offers-section';
-            } else if (section === 'landing1') {
-                sectionId = 'landing1-section';
-            } else if (section === 'landing2') {
-                sectionId = 'landing2-section';
-            }
-            
-            document.getElementById(sectionId).style.display = 'block';
-            
-            // Обновляем активные табы
             document.querySelectorAll('.landing-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelector(`.landing-tab[data-section="${section}"]`).classList.add('active');
-            
-            // Сбрасываем выбранные офферы
-            selectedOffers.clear();
-            
-            // Обновляем сайдбар
-            updateSidebarStats();
-        }
-        
-        function updateSyncStatus(message, type) {
-            const statusEl = document.getElementById('sync-status');
-            statusEl.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    ${type === 'loading' ? '<i class="fas fa-sync-alt fa-spin"></i>' : 
-                      type === 'success' ? '<i class="fas fa-check-circle"></i>' : 
-                      type === 'error' ? '<i class="fas fa-exclamation-circle"></i>' : 
-                      '<i class="fas fa-exclamation-triangle"></i>'}
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            statusEl.className = 'sync-status sync-' + type;
         }
         
         function showNotification(message, type = 'success') {
@@ -2177,104 +1088,45 @@
             });
         }
         
-        function loadDemoData() {
-            console.log('Загружаем демо-данные...');
+        // Загружаем демо-данные при первом запуске
+        if (!localStorage.getItem(CONFIG.LOCAL_KEYS.OFFERS)) {
             offers = [
                 {
                     id: 'offer_1',
                     name: 'МоментальныеДеньги',
-                    description: 'Лидер по скорости выдачи. Деньги приходят на карту за 3 минуты',
+                    description: 'Лидер по скорости выдачи',
                     amount_min: 1000,
                     amount_max: 50000,
                     term_min: 7,
                     term_max: 30,
-                    rate_min: 0,
-                    rate_max: 0.8,
+                    rate: 0.8,
                     approval: 96,
                     rating: 4.5,
-                    link_landing1: 'https://mfo1.com/?ref=landing1',
-                    link_landing2: 'https://mfo1.com/?ref=landing2',
-                    landing1: true,
-                    landing2: true,
-                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
+                    link: '#',
                     status: 'active',
+                    landing: 'landing1',
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                 },
                 {
                     id: 'offer_2',
                     name: 'ДеньгиОнлайн',
-                    description: 'Самый высокий шанс одобрения при плохой кредитной истории',
+                    description: 'Высокий шанс одобрения',
                     amount_min: 2000,
                     amount_max: 30000,
                     term_min: 1,
                     term_max: 60,
-                    rate_min: 0.5,
-                    rate_max: 1,
+                    rate: 1,
                     approval: 94,
                     rating: 4.2,
-                    link_landing1: 'https://mfo2.com/?ref=landing1',
-                    link_landing2: 'https://mfo2.com/?ref=landing2',
-                    landing1: true,
-                    landing2: false,
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['small', 'current', 'bad'],
+                    link: '#',
                     status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 'offer_3',
-                    name: 'ЗаймЭкспресс',
-                    description: 'Лучшие условия для новых клиентов. Первый займ под 0% до 30 000 ₽',
-                    amount_min: 3000,
-                    amount_max: 100000,
-                    term_min: 15,
-                    term_max: 90,
-                    rate_min: 0,
-                    rate_max: 0.5,
-                    approval: 92,
-                    rating: 4.8,
-                    link_landing1: 'https://mfo3.com/?ref=landing1',
-                    link_landing2: 'https://mfo3.com/?ref=landing2',
-                    landing1: false,
-                    landing2: true,
-                    incomeTypes: ['official', 'unofficial'],
-                    historyTypes: ['none', 'small'],
-                    status: 'active',
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                },
-                {
-                    id: 'offer_4',
-                    name: 'СрочноДеньги',
-                    description: 'Для срочных нужд. Минимальные требования к документам',
-                    amount_min: 500,
-                    amount_max: 15000,
-                    term_min: 5,
-                    term_max: 20,
-                    rate_min: 0.8,
-                    rate_max: 1.5,
-                    approval: 98,
-                    rating: 4.0,
-                    link_landing1: 'https://mfo4.com/?ref=landing1',
-                    link_landing2: 'https://mfo4.com/?ref=landing2',
-                    landing1: true,
-                    landing2: true,
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['none', 'small', 'current', 'bad'],
-                    status: 'active',
+                    landing: 'landing2',
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                 }
             ];
-            
-            const success = saveToLocalStorage();
-            if (success) {
-                updateUI();
-                showNotification('Демо-данные загружены', 'success');
-            }
+            saveData();
         }
     </script>
 </body>
