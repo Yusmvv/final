@@ -1259,14 +1259,22 @@
                     landing1: true,
                     landing2: true,
                     status: 'active',
-                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'], // По умолчанию все
-                    historyTypes: ['none', 'small', 'current', 'bad'], // По умолчанию все
+                    incomeTypes: [], // ПУСТОЙ МАССИВ - нет галочек по умолчанию!
+                    historyTypes: [], // ПУСТОЙ МАССИВ - нет галочек по умолчанию!
                     created_at: new Date().toISOString()
                 }));
                 
                 Swal.fire({
                     title: 'Подтвердите импорт',
-                    html: `Найдено <strong>${newOffers.length}</strong> офферов.<br>Добавить их в базу данных?`,
+                    html: `Найдено <strong>${newOffers.length}</strong> офферов.<br>
+                          <div style="text-align: left; margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 12px;">
+                          <strong>Внимание:</strong> У импортированных офферов не будут выбраны:<br>
+                          • Типы дохода<br>
+                          • Типы кредитной истории<br>
+                          <br>
+                          Вы сможете настроить эти параметры вручную после импорта.
+                          </div>
+                          Добавить их в базу данных?`,
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: 'Да, добавить',
@@ -1277,7 +1285,7 @@
                         saveData();
                         updateUI();
                         closeImportModal();
-                        showNotification(`Добавлено ${newOffers.length} офферов`, 'success');
+                        showNotification(`Добавлено ${newOffers.length} офферов. Настройте типы дохода и истории вручную.`, 'success');
                     }
                 });
                 
@@ -1420,8 +1428,8 @@
                     landing1: true,
                     landing2: true,
                     status: 'active',
-                    incomeTypes: ['official', 'unofficial'],
-                    historyTypes: ['none', 'small'],
+                    incomeTypes: ['official'], // Только один выбран
+                    historyTypes: ['none'], // Только один выбран
                     created_at: new Date().toISOString()
                 },
                 {
@@ -1440,8 +1448,28 @@
                     landing1: true,
                     landing2: false,
                     status: 'active',
-                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
-                    historyTypes: ['small', 'current', 'bad'],
+                    incomeTypes: ['unofficial', 'benefits'], // Два выбрано
+                    historyTypes: ['small', 'current'], // Два выбрано
+                    created_at: new Date().toISOString()
+                },
+                {
+                    id: 'offer_3',
+                    name: 'ЗаймЭкспресс',
+                    description: 'Для срочных нужд. Минимальные требования',
+                    amount_min: 500,
+                    amount_max: 15000,
+                    term_min: 5,
+                    term_max: 20,
+                    rate_min: 0.8,
+                    rate_max: 1.5,
+                    approval: 98,
+                    rating: 4.0,
+                    link: 'https://mfo3.com/?ref=landing1',
+                    landing1: false,
+                    landing2: true,
+                    status: 'active',
+                    incomeTypes: [], // Пусто - нет выбранных
+                    historyTypes: [], // Пусто - нет выбранных
                     created_at: new Date().toISOString()
                 }
             ];
