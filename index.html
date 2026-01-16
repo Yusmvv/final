@@ -114,11 +114,6 @@
             color: #991b1b;
         }
         
-        .badge-info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
         .btn {
             padding: 10px 20px;
             border-radius: 8px;
@@ -246,39 +241,6 @@
             color: #92400e;
         }
         
-        .landing-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 4px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            width: fit-content;
-        }
-        
-        .landing-tab {
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            transition: all 0.2s;
-        }
-        
-        .landing-tab.active {
-            background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .landing-tab.landing1.active {
-            color: var(--landing1);
-        }
-        
-        .landing-tab.landing2.active {
-            color: var(--landing2);
-        }
-        
         .excel-upload {
             border: 2px dashed #d1d5db;
             border-radius: 12px;
@@ -305,6 +267,17 @@
             padding: 15px;
             margin-top: 15px;
             border: 1px solid #e2e8f0;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+        
+        .rating-stars i {
+            color: #fbbf24;
+            font-size: 14px;
         }
         
         @media (max-width: 768px) {
@@ -403,7 +376,10 @@
                     </div>
                     <div class="excel-template">
                         <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">Файл должен содержать колонки: Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
+                            Обязательные колонки:<br>
+                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, Ссылка, ШансОдобрения
+                        </div>
                         <button id="download-template-landing1" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
                             <i class="fas fa-download"></i> Скачать шаблон
                         </button>
@@ -437,12 +413,12 @@
                     <div id="active-offers-landing1" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Минимальная сумма</div>
-                    <div id="min-amount-landing1" style="font-size: 32px; font-weight: 800;">0 ₽</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
+                    <div id="avg-rating-landing1" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Максимальная сумма</div>
-                    <div id="max-amount-landing1" style="font-size: 32px; font-weight: 800;">0 ₽</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
+                    <div id="avg-approval-landing1" style="font-size: 32px; font-weight: 800;">0%</div>
                 </div>
             </div>
             
@@ -464,6 +440,7 @@
                                 <th>Сумма</th>
                                 <th>Срок</th>
                                 <th>Ставка</th>
+                                <th>Рейтинг</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
@@ -509,7 +486,10 @@
                     </div>
                     <div class="excel-template">
                         <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Шаблон Excel:</div>
-                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">Файл должен содержать колонки: Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс</div>
+                        <div style="font-size: 12px; color: #64748b; margin-bottom: 10px;">
+                            Обязательные колонки:<br>
+                            Название, Описание, СуммаМин, СуммаМакс, СрокМин, СрокМакс, СтавкаМин, СтавкаМакс, Рейтинг, Ссылка, ШансОдобрения
+                        </div>
                         <button id="download-template-landing2" class="btn" style="padding: 8px 16px; font-size: 14px; background: #e2e8f0;">
                             <i class="fas fa-download"></i> Скачать шаблон
                         </button>
@@ -543,12 +523,12 @@
                     <div id="active-offers-landing2" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Минимальная сумма</div>
-                    <div id="min-amount-landing2" style="font-size: 32px; font-weight: 800;">0 ₽</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний рейтинг</div>
+                    <div id="avg-rating-landing2" style="font-size: 32px; font-weight: 800;">0</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Максимальная сумма</div>
-                    <div id="max-amount-landing2" style="font-size: 32px; font-weight: 800;">0 ₽</div>
+                    <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Средний шанс</div>
+                    <div id="avg-approval-landing2" style="font-size: 32px; font-weight: 800;">0%</div>
                 </div>
             </div>
             
@@ -570,6 +550,7 @@
                                 <th>Сумма</th>
                                 <th>Срок</th>
                                 <th>Ставка</th>
+                                <th>Рейтинг</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
@@ -649,9 +630,16 @@
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Шанс одобрения (%)</label>
-                    <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Шанс одобрения (%)</label>
+                        <input type="number" id="approval" class="form-control" value="95" min="0" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Рейтинг (1-5)</label>
+                        <input type="number" id="rating" class="form-control" value="5" min="1" max="5" step="0.1">
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -701,20 +689,6 @@
                             Плохая история
                         </label>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Иконка</label>
-                    <select id="offer-icon" class="form-control">
-                        <option value="bolt">bolt</option>
-                        <option value="shield-alt">shield-alt</option>
-                        <option value="star">star</option>
-                        <option value="rocket">rocket</option>
-                        <option value="gem">gem</option>
-                        <option value="money-bill-wave">money-bill-wave</option>
-                        <option value="hand-holding-usd">hand-holding-usd</option>
-                        <option value="piggy-bank">piggy-bank</option>
-                    </select>
                 </div>
                 
                 <div style="display: flex; gap: 15px; margin-top: 30px;">
@@ -989,13 +963,16 @@
             document.getElementById(`active-offers-${landing}`).textContent = activeOffers;
             
             if (totalOffers > 0) {
-                const minAmount = Math.min(...landingOffers.map(o => o.amount_min || 0));
-                const maxAmount = Math.max(...landingOffers.map(o => o.amount_max || 0));
-                document.getElementById(`min-amount-${landing}`).textContent = formatNumber(minAmount) + ' ₽';
-                document.getElementById(`max-amount-${landing}`).textContent = formatNumber(maxAmount) + ' ₽';
+                // Средний рейтинг
+                const avgRating = landingOffers.reduce((sum, o) => sum + (o.rating || 0), 0) / totalOffers;
+                document.getElementById(`avg-rating-${landing}`).textContent = avgRating.toFixed(1);
+                
+                // Средний шанс одобрения
+                const avgApproval = landingOffers.reduce((sum, o) => sum + (o.approval || 0), 0) / totalOffers;
+                document.getElementById(`avg-approval-${landing}`).textContent = avgApproval.toFixed(0) + '%';
             } else {
-                document.getElementById(`min-amount-${landing}`).textContent = '0 ₽';
-                document.getElementById(`max-amount-${landing}`).textContent = '0 ₽';
+                document.getElementById(`avg-rating-${landing}`).textContent = '0';
+                document.getElementById(`avg-approval-${landing}`).textContent = '0%';
             }
             
             // Обновляем таблицу
@@ -1018,7 +995,7 @@
             if (landingOffers.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
                             <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
                             <div>Нет офферов для этого лендинга</div>
                             <button onclick="showOfferModal('${landing}')" class="btn ${landing === 'landing1' ? 'btn-landing1' : 'btn-landing2'}" style="margin-top: 15px;">
@@ -1048,7 +1025,11 @@
                 const termMax = offer.term_max || 0;
                 const rateMin = offer.rate_min || 0;
                 const rateMax = offer.rate_max || 0;
+                const rating = offer.rating || 5;
                 const status = offer.status || 'inactive';
+                
+                // Генерируем звезды рейтинга
+                const stars = generateRatingStars(rating);
                 
                 tr.innerHTML = `
                     <td>
@@ -1063,6 +1044,12 @@
                     </td>
                     <td>
                         <div style="color: #059669; font-weight: 600;">${rateMin} - ${rateMax}%</div>
+                    </td>
+                    <td>
+                        <div class="rating-stars">
+                            ${stars}
+                            <span style="margin-left: 5px; font-size: 12px; color: #64748b;">(${rating.toFixed(1)})</span>
+                        </div>
                     </td>
                     <td>
                         <span class="badge ${status === 'active' ? 'badge-success' : 'badge-danger'}">
@@ -1083,6 +1070,31 @@
                 
                 tbody.appendChild(tr);
             });
+        }
+        
+        function generateRatingStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            
+            let stars = '';
+            
+            // Полные звезды
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            // Половина звезды
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            // Пустые звезды
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
         }
         
         function updateSidebarStats() {
@@ -1134,8 +1146,8 @@
             document.getElementById('rate-min').value = offer.rate_min || 0;
             document.getElementById('rate-max').value = offer.rate_max || 0.8;
             document.getElementById('approval').value = offer.approval || 95;
+            document.getElementById('rating').value = offer.rating || 5;
             document.getElementById('offer-link').value = landing === 'landing1' ? (offer.link_landing1 || '#') : (offer.link_landing2 || '#');
-            document.getElementById('offer-icon').value = offer.icon || 'bolt';
             
             // Типы дохода
             const incomeTypes = offer.incomeTypes || [];
@@ -1164,8 +1176,8 @@
             document.getElementById('rate-min').value = 0;
             document.getElementById('rate-max').value = 0.8;
             document.getElementById('approval').value = 95;
+            document.getElementById('rating').value = 5;
             document.getElementById('offer-link').value = '#';
-            document.getElementById('offer-icon').value = 'bolt';
             
             // Все чекбоксы по умолчанию включены
             document.getElementById('income-official').checked = true;
@@ -1225,7 +1237,7 @@
                 rate_min: parseFloat(document.getElementById('rate-min').value) || 0,
                 rate_max: parseFloat(document.getElementById('rate-max').value) || 0.8,
                 approval: parseInt(document.getElementById('approval').value) || 95,
-                icon: document.getElementById('offer-icon').value,
+                rating: parseFloat(document.getElementById('rating').value) || 5,
                 incomeTypes: incomeTypes,
                 historyTypes: historyTypes,
                 updated_at: new Date().toISOString(),
@@ -1358,8 +1370,22 @@
                     throw new Error('Файл пуст или не содержит данных');
                 }
                 
+                // Проверяем наличие обязательных колонок
+                const requiredColumns = ['Название', 'Описание', 'СуммаМин', 'СуммаМакс', 'СрокМин', 'СрокМакс', 'СтавкаМин', 'СтавкаМакс', 'Рейтинг', 'Ссылка', 'ШансОдобрения'];
+                const firstRow = data[0];
+                const missingColumns = requiredColumns.filter(col => !(col in firstRow));
+                
+                if (missingColumns.length > 0) {
+                    throw new Error(`Отсутствуют обязательные колонки: ${missingColumns.join(', ')}`);
+                }
+                
                 // Преобразуем данные Excel в офферы
                 const newOffers = data.map((row, index) => {
+                    // Проверяем и ограничиваем рейтинг в диапазоне 1-5
+                    let rating = parseFloat(row['Рейтинг']) || 5;
+                    if (rating < 1) rating = 1;
+                    if (rating > 5) rating = 5;
+                    
                     return {
                         id: 'excel_' + landing + '_' + Date.now() + '_' + index,
                         name: row['Название'] || `Оффер ${index + 1}`,
@@ -1372,11 +1398,11 @@
                         rate_min: parseFloat(row['СтавкаМин']) || 0,
                         rate_max: parseFloat(row['СтавкаМакс']) || 0.8,
                         approval: parseInt(row['ШансОдобрения']) || 95,
+                        rating: rating,
                         link_landing1: landing === 'landing1' ? (row['Ссылка'] || '#') : '#',
                         link_landing2: landing === 'landing2' ? (row['Ссылка'] || '#') : '#',
                         landing1: landing === 'landing1',
                         landing2: landing === 'landing2',
-                        icon: row['Иконка'] || 'bolt',
                         incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
                         historyTypes: ['none', 'small', 'current', 'bad'],
                         created_at: new Date().toISOString(),
@@ -1442,7 +1468,7 @@
         }
         
         function downloadExcelTemplate(landing) {
-            // Создаем шаблон данных
+            // Создаем шаблон данных с новыми колонками
             const templateData = [
                 {
                     'Название': 'МоментальныеДеньги',
@@ -1453,9 +1479,9 @@
                     'СрокМакс': 30,
                     'СтавкаМин': 0,
                     'СтавкаМакс': 0.8,
-                    'ШансОдобрения': 95,
-                    'Ссылка': '#',
-                    'Иконка': 'bolt'
+                    'Рейтинг': 4.5,
+                    'Ссылка': 'https://example.com/offer1',
+                    'ШансОдобрения': 95
                 },
                 {
                     'Название': 'ДеньгиОнлайн',
@@ -1466,9 +1492,9 @@
                     'СрокМакс': 60,
                     'СтавкаМин': 0.5,
                     'СтавкаМакс': 1,
-                    'ШансОдобрения': 94,
-                    'Ссылка': '#',
-                    'Иконка': 'shield-alt'
+                    'Рейтинг': 4.2,
+                    'Ссылка': 'https://example.com/offer2',
+                    'ШансОдобрения': 94
                 }
             ];
             
@@ -1493,7 +1519,7 @@
                 return;
             }
             
-            // Преобразуем офферы в формат Excel
+            // Преобразуем офферы в формат Excel с новыми колонками
             const excelData = landingOffers.map(offer => ({
                 'Название': offer.name,
                 'Описание': offer.description,
@@ -1503,9 +1529,9 @@
                 'СрокМакс': offer.term_max,
                 'СтавкаМин': offer.rate_min,
                 'СтавкаМакс': offer.rate_max,
-                'ШансОдобрения': offer.approval,
+                'Рейтинг': offer.rating || 5,
                 'Ссылка': landing === 'landing1' ? offer.link_landing1 : offer.link_landing2,
-                'Иконка': offer.icon,
+                'ШансОдобрения': offer.approval,
                 'Статус': offer.status === 'active' ? 'Активный' : 'Неактивный'
             }));
             
@@ -1583,11 +1609,11 @@
                     rate_min: 0,
                     rate_max: 0.8,
                     approval: 96,
+                    rating: 4.5,
                     link_landing1: 'https://mfo1.com/?ref=landing1',
                     link_landing2: 'https://mfo1.com/?ref=landing2',
                     landing1: true,
                     landing2: false,
-                    icon: 'bolt',
                     incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
                     historyTypes: ['none', 'small', 'current', 'bad'],
                     status: 'active',
@@ -1605,11 +1631,11 @@
                     rate_min: 0.5,
                     rate_max: 1,
                     approval: 94,
+                    rating: 4.2,
                     link_landing1: 'https://mfo2.com/?ref=landing1',
                     link_landing2: '#',
                     landing1: true,
                     landing2: false,
-                    icon: 'shield-alt',
                     incomeTypes: ['unofficial', 'benefits', 'noincome'],
                     historyTypes: ['small', 'current', 'bad'],
                     status: 'active',
@@ -1627,11 +1653,11 @@
                     rate_min: 0,
                     rate_max: 0.5,
                     approval: 92,
+                    rating: 4.8,
                     link_landing1: '#',
                     link_landing2: 'https://mfo3.com/?ref=landing2',
                     landing1: false,
                     landing2: true,
-                    icon: 'star',
                     incomeTypes: ['official', 'unofficial'],
                     historyTypes: ['none', 'small'],
                     status: 'active',
@@ -1649,11 +1675,11 @@
                     rate_min: 0.8,
                     rate_max: 1.5,
                     approval: 98,
+                    rating: 4.0,
                     link_landing1: '#',
                     link_landing2: 'https://mfo4.com/?ref=landing2',
                     landing1: false,
                     landing2: true,
-                    icon: 'rocket',
                     incomeTypes: ['unofficial', 'benefits', 'noincome'],
                     historyTypes: ['none', 'small', 'current', 'bad'],
                     status: 'active',
