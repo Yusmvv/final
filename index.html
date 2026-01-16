@@ -228,6 +228,23 @@
                 width: 100%;
             }
         }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .section {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -452,7 +469,7 @@
     </div>
     
     <!-- Модальное окно импорта Excel -->
-    <div id="import-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+    <div id="import-modal" class="modal">
         <div class="card" style="width: 90%; max-width: 500px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-size: 20px; font-weight: 700;">Импорт из Excel</h2>
@@ -480,7 +497,7 @@
     </div>
     
     <!-- Модальное окно оффера -->
-    <div id="offer-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;">
+    <div id="offer-modal" class="modal">
         <div class="card" style="width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="font-size: 20px; font-weight: 700;" id="modal-title">Новый оффер</h2>
@@ -640,19 +657,18 @@
     </div>
 
     <script>
-        // ===================== БЕЗОПАСНАЯ КОНФИГУРАЦИЯ =====================
+        // ===================== КОНФИГУРАЦИЯ =====================
         const CONFIG = {
             AUTH: {
                 USERNAME: 'admin',
-                PASSWORD_HASH: 'e4d2c6d2a9f3c5b8a1f2e7d3c6b9a8f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b'
+                PASSWORD: 'secure123'
             },
             
             STORAGE_KEYS: {
-                OFFERS: 'offers_data_' + btoa('secure_key_offers'),
-                SESSION: 'admin_session_' + btoa('secure_key_session')
+                OFFERS: 'offers_data',
+                SESSION: 'admin_session'
             },
             
-            SESSION_TIMEOUT: 2 * 60 * 60 * 1000,
             MAX_LOGIN_ATTEMPTS: 5,
             LOCKOUT_TIME: 15 * 60 * 1000
         };
@@ -676,11 +692,6 @@
                 if (now < lockoutUntil) {
                     const remaining = Math.ceil((lockoutUntil - now) / 60000);
                     showError('password-error', `Слишком много попыток. Попробуйте через ${remaining} мин.`);
-                    return false;
-                }
-                
-                if (now - sessionData.timestamp > CONFIG.SESSION_TIMEOUT) {
-                    logout();
                     return false;
                 }
                 
@@ -739,7 +750,7 @@
                     return;
                 }
                 
-                if (password !== 'secure123') {
+                if (password !== CONFIG.AUTH.PASSWORD) {
                     loginAttempts++;
                     showError('password-error', 'Неверный пароль');
                     checkLoginAttempts();
@@ -852,19 +863,21 @@
                 }
             });
             
-            setInterval(saveData, 60000);
             showSection('all');
         }
         
         // ===================== УПРАВЛЕНИЕ ДАННЫМИ =====================
         function loadData() {
             try {
-                const encrypted = localStorage.getItem(CONFIG.STORAGE_KEYS.OFFERS);
-                if (encrypted) {
-                    offers = JSON.parse(encrypted);
+                const savedOffers = localStorage.getItem(CONFIG.STORAGE_KEYS.OFFERS);
+                if (savedOffers) {
+                    offers = JSON.parse(savedOffers);
+                } else {
+                    loadDemoData();
                 }
                 updateUI();
             } catch (e) {
+                console.error('Ошибка загрузки данных:', e);
                 loadDemoData();
             }
         }
@@ -872,9 +885,26 @@
         function saveData() {
             try {
                 localStorage.setItem(CONFIG.STORAGE_KEYS.OFFERS, JSON.stringify(offers));
+                
+                // Сохраняем данные в формате для лендингов
+                const landingData = {
+                    offers: offers,
+                    last_updated: new Date().toISOString(),
+                    landing1_count: offers.filter(o => o.landing1 !== false).length,
+                    landing2_count: offers.filter(o => o.landing2 !== false).length,
+                    total_count: offers.length
+                };
+                
+                localStorage.setItem('admin_offers', JSON.stringify(landingData));
+                
                 updateStats();
+                
+                // Показываем уведомление о сохранении
+                showNotification('Данные сохранены', 'success');
+                
             } catch (e) {
                 console.error('Ошибка сохранения:', e);
+                showNotification('Ошибка сохранения данных', 'error');
             }
         }
         
@@ -1056,8 +1086,8 @@
             document.getElementById('term-max').value = offer.term_max;
             document.getElementById('rate-min').value = offer.rate_min;
             document.getElementById('rate-max').value = offer.rate_max;
-            document.getElementById('rating').value = offer.rating;
-            document.getElementById('approval').value = offer.approval;
+            document.getElementById('rating').value = offer.rating || 5;
+            document.getElementById('approval').value = offer.approval || 95;
             document.getElementById('offer-link').value = offer.link || '';
             document.getElementById('landing1-check').checked = offer.landing1 !== false;
             document.getElementById('landing2-check').checked = offer.landing2 !== false;
@@ -1158,8 +1188,10 @@
                 rating: parseFloat(document.getElementById('rating').value) || 5,
                 approval: parseInt(document.getElementById('approval').value) || 95,
                 link: link,
+                link_landing2: link, // Для совместимости со вторым лендингом
                 landing1: document.getElementById('landing1-check').checked,
                 landing2: document.getElementById('landing2-check').checked,
+                icon: 'hand-holding-usd', // Иконка по умолчанию
                 incomeTypes: incomeTypes,
                 historyTypes: historyTypes,
                 created_at: new Date().toISOString()
@@ -1256,24 +1288,19 @@
                     rating: Math.min(Math.max(parseFloat(row['Рейтинг']) || 5, 1), 5),
                     approval: parseInt(row['ШансОдобрения']) || 95,
                     link: row['Ссылка'] || '#',
+                    link_landing2: row['Ссылка'] || '#',
                     landing1: true,
                     landing2: true,
                     status: 'active',
-                    incomeTypes: [], // ПУСТОЙ МАССИВ - нет галочек по умолчанию!
-                    historyTypes: [], // ПУСТОЙ МАССИВ - нет галочек по умолчанию!
+                    icon: 'hand-holding-usd',
+                    incomeTypes: [],
+                    historyTypes: [],
                     created_at: new Date().toISOString()
                 }));
                 
                 Swal.fire({
                     title: 'Подтвердите импорт',
                     html: `Найдено <strong>${newOffers.length}</strong> офферов.<br>
-                          <div style="text-align: left; margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 12px;">
-                          <strong>Внимание:</strong> У импортированных офферов не будут выбраны:<br>
-                          • Типы дохода<br>
-                          • Типы кредитной истории<br>
-                          <br>
-                          Вы сможете настроить эти параметры вручную после импорта.
-                          </div>
                           Добавить их в базу данных?`,
                     icon: 'question',
                     showCancelButton: true,
@@ -1285,7 +1312,7 @@
                         saveData();
                         updateUI();
                         closeImportModal();
-                        showNotification(`Добавлено ${newOffers.length} офферов. Настройте типы дохода и истории вручную.`, 'success');
+                        showNotification(`Добавлено ${newOffers.length} офферов`, 'success');
                     }
                 });
                 
@@ -1376,7 +1403,7 @@
                 'СрокМакс': offer.term_max,
                 'СтавкаМин': offer.rate_min,
                 'СтавкаМакс': offer.rate_max,
-                'Рейтинг': offer.rating,
+                'Рейтинг': offer.rating || 5,
                 'Ссылка': offer.link,
                 'ШансОдобрения': offer.approval,
                 'Статус': offer.status === 'active' ? 'Активен' : 'Неактивен',
@@ -1424,12 +1451,14 @@
                     rate_max: 0.8,
                     approval: 96,
                     rating: 4.5,
-                    link: 'https://mfo1.com/?ref=landing1',
+                    link: 'https://mfo1.com/?ref=finai',
+                    link_landing2: 'https://mfo1.com/?ref=money',
                     landing1: true,
                     landing2: true,
                     status: 'active',
-                    incomeTypes: ['official'], // Только один выбран
-                    historyTypes: ['none'], // Только один выбран
+                    icon: 'bolt',
+                    incomeTypes: ['official', 'unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['none', 'small', 'current', 'bad'],
                     created_at: new Date().toISOString()
                 },
                 {
@@ -1444,32 +1473,36 @@
                     rate_max: 1,
                     approval: 94,
                     rating: 4.2,
-                    link: 'https://mfo2.com/?ref=landing2',
+                    link: 'https://mfo2.com/?ref=finai',
+                    link_landing2: 'https://mfo2.com/?ref=money',
                     landing1: true,
-                    landing2: false,
+                    landing2: true,
                     status: 'active',
-                    incomeTypes: ['unofficial', 'benefits'], // Два выбрано
-                    historyTypes: ['small', 'current'], // Два выбрано
+                    icon: 'shield-alt',
+                    incomeTypes: ['unofficial', 'benefits', 'noincome'],
+                    historyTypes: ['small', 'current', 'bad'],
                     created_at: new Date().toISOString()
                 },
                 {
                     id: 'offer_3',
                     name: 'ЗаймЭкспресс',
-                    description: 'Для срочных нужд. Минимальные требования',
-                    amount_min: 500,
-                    amount_max: 15000,
-                    term_min: 5,
-                    term_max: 20,
-                    rate_min: 0.8,
-                    rate_max: 1.5,
-                    approval: 98,
+                    description: 'Лучшие условия для новых клиентов. Первый займ под 0% до 30 000 ₽',
+                    amount_min: 3000,
+                    amount_max: 100000,
+                    term_min: 15,
+                    term_max: 90,
+                    rate_min: 0,
+                    rate_max: 0.5,
+                    approval: 92,
                     rating: 4.0,
-                    link: 'https://mfo3.com/?ref=landing1',
-                    landing1: false,
+                    link: 'https://mfo3.com/?ref=finai',
+                    link_landing2: 'https://mfo3.com/?ref=money',
+                    landing1: true,
                     landing2: true,
                     status: 'active',
-                    incomeTypes: [], // Пусто - нет выбранных
-                    historyTypes: [], // Пусто - нет выбранных
+                    icon: 'star',
+                    incomeTypes: ['official', 'unofficial'],
+                    historyTypes: ['none', 'small'],
                     created_at: new Date().toISOString()
                 }
             ];
